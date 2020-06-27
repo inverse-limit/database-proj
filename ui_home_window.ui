@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1176</width>
-    <height>688</height>
+    <width>1200</width>
+    <height>736</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -233,7 +233,7 @@
          <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>118</number>
+         <number>117</number>
         </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
          <bool>false</bool>
@@ -244,8 +244,11 @@
         <attribute name="verticalHeaderCascadingSectionResizes">
          <bool>false</bool>
         </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>25</number>
+        </attribute>
         <attribute name="verticalHeaderDefaultSectionSize">
-         <number>42</number>
+         <number>40</number>
         </attribute>
         <attribute name="verticalHeaderStretchLastSection">
          <bool>false</bool>
@@ -278,6 +281,11 @@
         <column>
          <property name="text">
           <string>单价</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>月销量</string>
          </property>
         </column>
         <column>
@@ -351,7 +359,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1176</width>
+     <width>1200</width>
      <height>23</height>
     </rect>
    </property>

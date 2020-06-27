@@ -5,7 +5,7 @@ from ui_login_window import *
 
 
 class login_window(QtWidgets.QMainWindow, Ui_login_window):
-    # switch_home = QtCore.pyqtSignal()  # 登录跳转到主页信号
+    switch_home = QtCore.pyqtSignal()  # 登录跳转到主页信号
     switch_register = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
@@ -13,6 +13,10 @@ class login_window(QtWidgets.QMainWindow, Ui_login_window):
         self.setupUi(self)
 
         self.pushButton_register.clicked.connect(self.register)  # 注册按钮连接打开注册窗口函数
+        self.pushButton_log.clicked.connect(self.login)  # 登录进入主页
 
     def register(self):
         self.switch_register.emit()
+
+    def login(self):
+        self.switch_home.emit()

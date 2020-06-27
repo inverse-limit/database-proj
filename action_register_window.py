@@ -25,6 +25,7 @@ class register_window(QDialog, Ui_register_window):
                                  邀请码是否在数据库中
                                  可能还有其他的
         '''
+        QtWidgets.QMessageBox.about(self, '提示', '注册成功!')
         self.done(1)  # 退出窗口
 
     def cancel(self):

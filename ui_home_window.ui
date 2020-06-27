@@ -323,14 +323,14 @@
         <item>
          <widget class="QLabel" name="label_current_page">
           <property name="text">
-           <string>第 x 页</string>
+           <string>第 1 页</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_all_page">
           <property name="text">
-           <string>共 x 页</string>
+           <string>共 1 页</string>
           </property>
          </widget>
         </item>

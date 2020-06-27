@@ -22,8 +22,10 @@ class Controller:
         self.register.show()
 
     def show_home_window(self):
+        self.user_data = self.login.user_data
         self.login.close()
         self.home = home_window()
+        self.home.user_data = self.user_data
         self.home.switch_detail_research.connect(self.show_detail_search)
         self.home.switch_contactus.connect(self.show_contactus)
         self.home.switch_user_profile.connect(self.show_user_profile)
@@ -31,6 +33,7 @@ class Controller:
 
     def show_detail_search(self):
         self.detail_search = detail_research()
+        self.detail_search.switch_home.connect(self.do_detail_search)
         self.detail_search.show()
 
     def show_user_profile(self):
@@ -40,6 +43,9 @@ class Controller:
     def show_contactus(self):
         pass
 
+    def do_detail_search(self):
+        self.home.detail_search(self.detail_search.search_option)
+        self.detail_search.close()
 
 
 if __name__ == '__main__':

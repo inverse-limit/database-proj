@@ -20,7 +20,6 @@ class user_profile(QtWidgets.QWidget, Ui_user_profile):
              如果某一项没有就是'未设置'
              将user_data里的这些内容填到窗口里，下面为示例
         """
-        self.u_nickname.setText(user_data)
         # self.u_account.setText('张三')  # 设置用户名
         # self.u_nickname.setText('安安')  # 昵称
         # self.u_name.setText('阿斯蒂')  # 真实姓名

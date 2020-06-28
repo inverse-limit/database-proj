@@ -36,9 +36,19 @@ class Controller:
         self.detail_search.switch_home.connect(self.do_detail_search)
         self.detail_search.show()
 
-    def show_user_profile(self):
+    def show_user_profile(self):  # user_profile类的个人信息由home的user_data传入
         self.user_profile = user_profile()
+        self.user_profile.put_in_user_data(self.home.user_data)
+        self.user_profile.switch_edit_profile.connect(self.show_edit_user_profile)
         self.user_profile.show()
+
+    def show_edit_user_profile(self):
+        self.edit_user_profile = edit_user_profile()
+        self.edit_user_profile.put_in_user_data(self.home.user_data)
+        self.edit_user_profile.switch_user_profile_accept.connect(self.edit_user_profile_accept)
+        self.edit_user_profile.switch_user_profile_cancel.connect(self.edit_user_profile_cancel)
+        self.user_profile.close()
+        self.edit_user_profile.show()
 
     def show_contactus(self):
         pass
@@ -47,6 +57,14 @@ class Controller:
         self.home.detail_search(self.detail_search.search_option)
         self.detail_search.close()
 
+    def edit_user_profile_accept(self):  # 修改个人信息保存 更新home类的个人信息 重新初始化user_profile类并打开
+        self.home.user_data = self.edit_user_profile.user_data
+        self.edit_user_profile.close()
+        self.show_user_profile()
+
+    def edit_user_profile_cancel(self):
+        self.edit_user_profile.close()
+        self.show_user_profile()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

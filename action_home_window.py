@@ -26,7 +26,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         self.pushButton_page_jump.clicked.connect(self.page_jump)
         self.comboBox_class1.activated[str].connect(self.get_class2)
         self.comboBox_class2.addItem('...')
-        self.user_data = None  # 用户信息
+        self.user_data = 1  # 用户信息，这里改没有用处，它是从login和edit_user_profile传过来的
         self.simple_research_option = None # 简单查询条件
         self.detail_research_option = None # 复杂查询条件
 
@@ -92,8 +92,6 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
              传入这个函数并调用，利用它进行检索并同上把查询到的数据插入画面
              同样因为要翻页建议先把search_option存到self.detail_search_option里给翻页函数用
         """
-        # print('user_data:%s' % self.user_data)  # 测试代码不用管
-        # print('search_option:%s' % search_option)  # 测试代码不用管
 
     def last_page(self):
         """
@@ -101,6 +99,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         """
         self.tableWidget.setRowCount(0)  # 使用这行代码清空当前表格
         pass
+
     def next_page(self):
         """
         TODO:下一页

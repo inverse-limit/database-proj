@@ -10,6 +10,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
     switch_user_profile = QtCore.pyqtSignal()
     switch_cart = QtCore.pyqtSignal()
     switch_contactus = QtCore.pyqtSignal()
+    switch_book_detail = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
         super(home_window, self).__init__(parent)
@@ -27,8 +28,9 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         self.comboBox_class1.activated[str].connect(self.get_class2)
         self.comboBox_class2.addItem('...')
         self.user_data = 1  # 用户信息，这里改没有用处，它是从login和edit_user_profile传过来的
-        self.simple_research_option = None # 简单查询条件
-        self.detail_research_option = None # 复杂查询条件
+        self.simple_research_option = None  # 简单查询条件
+        self.detail_research_option = None  # 复杂查询条件
+        self.cart_content = None  # 购物车信息
 
         """
         TODO:给主界面左边的图书分类选项框输入所有大类作为候选项
@@ -70,7 +72,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
              查询的后果
              在数据库中检索后插入到页面，一页插个12行左右
              这个函数只查询第一页的书应该就够了，数据库那里直接查询整个表然后给到电脑内存里不太合理
-             下面的代码作为例子打印了上面的变量并且把搜索框里的字插入到表格里插了五行
+             下面的代码作为例子打印了上面的变量并且把搜索框里的字插入到表格书名列里插了五行
              搜索能够模糊匹配
              把总页数和当前页数标签更新一下:
              self.label_all_page.setText(共 n 页) self.label_all_page.setText(第 1 页) 注意空格，没有结果总页数也是1页
@@ -79,12 +81,12 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         # print(self.lineEdit_search.text())
         # print(self.radioButton_name.isChecked())
         #
-        # for i in range(5):
-        #     self.tableWidget.insertRow(i)  # 插入一行
-        #     isbn_item = QTableWidgetItem(self.lineEdit_search.text())  # 封装内容 QTableWidgetItem(这里必须是字符串!)
-        #     isbn_item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
-        #     # 其他列也一样
-        #     self.tableWidget.setItem(i,0,isbn_item)  # 插入内容 i 为行， 后一个参数为列
+        for i in range(5):
+            self.tableWidget.insertRow(i)  # 插入一行
+            item = QTableWidgetItem(self.lineEdit_search.text())  # 封装内容 QTableWidgetItem(这里必须是字符串!)
+            item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
+            item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
+            self.tableWidget.setItem(i,1,item)  # 插入内容 i 为行， 后一个参数为列
 
 
     def detail_search(self, search_option):
@@ -115,6 +117,15 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         """
         pass
 
+    def on_tableWidget_cellDoubleClicked(self, row, column):
+        """
+        TODO:用户双击表格后自动调用该函数，row, column为双击位置的行列数
+             利用这个把你想要的东西存到self.book_id里，我会把self.book_id
+             传送到book_detail类 在图书详情页面你需要利用那边的self.book_id调出图书信息填到界面里
+        """
+        self.book_id = 'I come from home'
+        self.book_detail()
+
     # 跳转
     def detail_search_window(self):
         self.switch_detail_research.emit()
@@ -124,6 +135,9 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
 
     def cart_window(self):
         self.switch_cart.emit()
+
+    def book_detail(self):
+        self.switch_book_detail.emit()
 
     def contactus_window(self):
         self.switch_contactus.emit()

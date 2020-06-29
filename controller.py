@@ -6,6 +6,7 @@ from action.action_home_window import *
 from action.action_detail_search import *
 from action.action_user_profile import *
 from action.action_cart import *
+from action.action_book_detail import *
 
 from database import Database
 
@@ -34,6 +35,7 @@ class Controller:
         self.home.switch_detail_research.connect(self.show_detail_search)
         self.home.switch_contactus.connect(self.show_contactus)
         self.home.switch_user_profile.connect(self.show_user_profile)
+        self.home.switch_book_detail.connect(self.show_book_detail)
         self.home.switch_cart.connect(self.show_cart)
         self.home.show()
 
@@ -62,15 +64,25 @@ class Controller:
     def show_cart(self):
         self.cart = cart()
         self.cart.database = self.database
-        self.cart_isopen = True
         self.cart.switch_confirm_order.connect(self.show_confirm_order)
+        self.cart.refresh_cart(self.home.cart_content)
         self.cart.show()
-        self.cart.refresh_cart(self.home.user_data)
 
     def show_confirm_order(self):
         self.confirm_order = confirm_order()
         self.confirm_order.database = self.database
+        self.confirm_order.cart_content = self.home.cart_content
+        self.confirm_order.put_in_data(self.home.user_data, self.home.cart_content)
+        self.confirm_order.switch_cart.connect(self.end_buy)
         self.confirm_order.show()
+
+    def show_book_detail(self):
+        self.book_detail = book_detail()
+        self.book_detail.database = self.database
+        self.book_detail.switch_cart.connect(self.add_to_cart)
+        self.book_detail.cart_content = self.home.cart_content
+        self.book_detail.put_in_data(self.home.book_id)
+        self.book_detail.show()
 
     def show_contactus(self):
         pass
@@ -87,6 +99,18 @@ class Controller:
     def edit_user_profile_cancel(self):
         self.edit_user_profile.close()
         self.show_user_profile()
+
+    def add_to_cart(self):
+        self.home.cart_content = self.book_detail.cart_content
+        self.cart = cart()
+        self.cart.refresh_cart(self.home.cart_content)
+        self.book_detail.close()
+
+    def end_buy(self):
+        self.home.cart_content = self.confirm_order.cart_content
+        self.cart.refresh_cart(self.home.cart_content)
+        self.confirm_order.close()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

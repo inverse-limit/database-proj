@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>740</width>
+    <width>671</width>
     <height>580</height>
    </rect>
   </property>
@@ -19,20 +19,21 @@
    </property>
    <item row="0" column="0" colspan="3">
     <widget class="QTableWidget" name="tableWidget">
+     <attribute name="horizontalHeaderVisible">
+      <bool>true</bool>
+     </attribute>
      <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>119</number>
+      <number>129</number>
      </attribute>
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
      </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
      <column>
       <property name="text">
-       <string>ISBN</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>书名</string>
+       <string>     书名</string>
       </property>
      </column>
      <column>

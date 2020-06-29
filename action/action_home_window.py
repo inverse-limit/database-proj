@@ -81,7 +81,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         #
         # for i in range(5):
         #     self.tableWidget.insertRow(i)  # 插入一行
-        #     isbn_item = QTableWidgetItem(self.lineEdit_search.text())  # 封装内容
+        #     isbn_item = QTableWidgetItem(self.lineEdit_search.text())  # 封装内容 QTableWidgetItem(这里必须是字符串!)
         #     isbn_item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
         #     # 其他列也一样
         #     self.tableWidget.setItem(i,0,isbn_item)  # 插入内容 i 为行， 后一个参数为列

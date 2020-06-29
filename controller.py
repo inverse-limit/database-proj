@@ -7,25 +7,30 @@ from action.action_detail_search import *
 from action.action_user_profile import *
 from action.action_cart import *
 
+from database import Database
+
+
 class Controller:
     def __init__(self):
-        pass
+        self.database = Database()
 
     def show_login_window(self):
         self.login = login_window()
+        self.login.database = self.database
         self.login.switch_register.connect(self.show_register_window)
         self.login.switch_home.connect(self.show_home_window)
         self.login.show()
 
     def show_register_window(self):
         self.register = register_window()
+        self.register.database = self.database
         self.register.show()
 
     def show_home_window(self):
-        self.user_data = self.login.user_data
         self.login.close()
         self.home = home_window()
-        self.home.user_data = self.user_data
+        self.home.database = self.database
+        self.home.user_data = self.login.user_data
         self.home.switch_detail_research.connect(self.show_detail_search)
         self.home.switch_contactus.connect(self.show_contactus)
         self.home.switch_user_profile.connect(self.show_user_profile)
@@ -34,17 +39,20 @@ class Controller:
 
     def show_detail_search(self):
         self.detail_search = detail_research()
+        self.detail_search.database = self.database
         self.detail_search.switch_home.connect(self.do_detail_search)
         self.detail_search.show()
 
     def show_user_profile(self):  # user_profile类的个人信息由home的user_data传入
         self.user_profile = user_profile()
+        self.user_profile.database = self.database
         self.user_profile.put_in_user_data(self.home.user_data)
         self.user_profile.switch_edit_profile.connect(self.show_edit_user_profile)
         self.user_profile.show()
 
     def show_edit_user_profile(self):
         self.edit_user_profile = edit_user_profile()
+        self.edit_user_profile.database = self.database
         self.edit_user_profile.put_in_user_data(self.home.user_data)
         self.edit_user_profile.switch_user_profile_accept.connect(self.edit_user_profile_accept)
         self.edit_user_profile.switch_user_profile_cancel.connect(self.edit_user_profile_cancel)
@@ -53,6 +61,7 @@ class Controller:
 
     def show_cart(self):
         self.cart = cart()
+        self.cart.database = self.database
         self.cart_isopen = True
         self.cart.switch_confirm_order.connect(self.show_confirm_order)
         self.cart.show()
@@ -60,6 +69,7 @@ class Controller:
 
     def show_confirm_order(self):
         self.confirm_order = confirm_order()
+        self.confirm_order.database = self.database
         self.confirm_order.show()
 
     def show_contactus(self):

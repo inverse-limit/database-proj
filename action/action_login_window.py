@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
-from ui_login_window import *
+from ui.ui_login_window import *
 
 
 class login_window(QtWidgets.QMainWindow, Ui_login_window):

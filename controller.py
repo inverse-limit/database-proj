@@ -1,11 +1,11 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from action_login_window import *
-from action_register_window import *
-from action_home_window import *
-from action_detail_search import *
-from action_user_profile import *
-
+from action.action_login_window import *
+from action.action_register_window import *
+from action.action_home_window import *
+from action.action_detail_search import *
+from action.action_user_profile import *
+from action.action_cart import *
 
 class Controller:
     def __init__(self):
@@ -29,6 +29,7 @@ class Controller:
         self.home.switch_detail_research.connect(self.show_detail_search)
         self.home.switch_contactus.connect(self.show_contactus)
         self.home.switch_user_profile.connect(self.show_user_profile)
+        self.home.switch_cart.connect(self.show_cart)
         self.home.show()
 
     def show_detail_search(self):
@@ -49,6 +50,17 @@ class Controller:
         self.edit_user_profile.switch_user_profile_cancel.connect(self.edit_user_profile_cancel)
         self.user_profile.close()
         self.edit_user_profile.show()
+
+    def show_cart(self):
+        self.cart = cart()
+        self.cart_isopen = True
+        self.cart.switch_confirm_order.connect(self.show_confirm_order)
+        self.cart.show()
+        self.cart.refresh_cart(self.home.user_data)
+
+    def show_confirm_order(self):
+        self.confirm_order = confirm_order()
+        self.confirm_order.show()
 
     def show_contactus(self):
         pass

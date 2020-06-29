@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
-from ui_detail_search import *
+from ui.ui_detail_search import *
 
 
 class detail_research(QtWidgets.QDialog, Ui_detail_search_window):

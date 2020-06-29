@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit, QTableWidgetItem
 from PyQt5.QtCore import Qt
-from ui_home_window import *
+from ui.ui_home_window import *
 
 
 class home_window(QtWidgets.QMainWindow, Ui_home_window):
@@ -85,6 +85,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         #     isbn_item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
         #     # 其他列也一样
         #     self.tableWidget.setItem(i,0,isbn_item)  # 插入内容 i 为行， 后一个参数为列
+
 
     def detail_search(self, search_option):
         """

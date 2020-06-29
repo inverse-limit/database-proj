@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
-from ui_register_window import *
+from ui.ui_register_window import *
 from PyQt5.QtCore import Qt
 
 

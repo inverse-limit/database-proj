@@ -15,6 +15,8 @@ class cart(QtWidgets.QWidget, Ui_cart):
         self.pushButton_clear.clicked.connect(self.clear_cart)
         self.pushButton_pay.clicked.connect(self.confirm_order)
         self.pushButton_selectall.clicked.connect(self.selectall)
+        self.tableWidget.viewport().installEventFilter(self)  # 点击空白处时解除spinbox
+        self.p_col = None
 
     def refresh_cart(self, cart_content):
         """
@@ -24,7 +26,9 @@ class cart(QtWidgets.QWidget, Ui_cart):
         """
         self.tableWidget.setRowCount(0)  # 先清空界面
         # 插入例
+        total_price = 0  # 总价
         for row in range(2):
+            # 书名
             self.tableWidget.insertRow(row)
             test = QtWidgets.QTableWidgetItem(cart_content)
             test.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
@@ -32,62 +36,26 @@ class cart(QtWidgets.QWidget, Ui_cart):
             test.setCheckState(QtCore.Qt.Checked)
             self.tableWidget.setItem(row, 0, test)
 
+            # 价格
             price = QtWidgets.QTableWidgetItem('4.4')
             price.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
             price.setFlags(QtCore.Qt.ItemIsEnabled)  # 其它行用这列 不要加上ItemIsUserCheckable
             self.tableWidget.setItem(row,2,price)
 
+            # 数量
             number = QtWidgets.QTableWidgetItem('2')
             number.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
             self.tableWidget.setItem(row,3,number)  # 数量行连ItemIsEnabled也不要加
 
+            # 单项总价
             total = float(self.tableWidget.item(row,2).text()) * float(self.tableWidget.item(row,3).text())
             total_t = QtWidgets.QTableWidgetItem('%.2f' % total)
             total_t.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
             total_t.setFlags(QtCore.Qt.ItemIsEnabled)
             self.tableWidget.setItem(row,4,total_t)
 
-
-    def on_tableWidget_cellDoubleClicked(self, row, column):
-        if column == 3:
-            num = QtWidgets.QSpinBox()
-            num.setMaximum(99)
-            current_num = int(self.tableWidget.item(row,column).text())
-            num.setValue(current_num)
-            num.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-            self.tableWidget.setCellWidget(row, column, num)
-        else:
-            pass
-
-    def on_tableWidget_currentCellChanged(self, row, column, p_row, p_column):
-        p_item = self.tableWidget.cellWidget(p_row, p_column)
-        if p_item:
-            if p_column == 3:
-                number = p_item.value()
-                self.tableWidget.removeCellWidget(p_row, p_column)
-                number = QtWidgets.QTableWidgetItem(str(number))
-                number.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-                self.tableWidget.setItem(p_row, p_column, number)
-                total = float(self.tableWidget.item(p_row, 2).text()) * float(self.tableWidget.item(p_row, 3).text())
-                total_t = QtWidgets.QTableWidgetItem('%.2f' % total)
-                total_t.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-                total_t.setFlags(QtCore.Qt.ItemIsEnabled)
-                self.tableWidget.setItem(p_row, 4, total_t)
-
-
-    def selectall(self):
-        if self.tableWidget.rowCount() == 0:
-            pass
-        else:
-            isallchecked = 0
-            for row in range(self.tableWidget.rowCount()):
-                if self.tableWidget.item(row, 0).checkState() == QtCore.Qt.Checked:
-                    isallchecked += 1
-                else:
-                    self.tableWidget.item(row, 0).setCheckState(QtCore.Qt.Checked)
-            if isallchecked == self.tableWidget.rowCount():
-                for row in range(self.tableWidget.rowCount()):
-                    self.tableWidget.item(row, 0).setCheckState(QtCore.Qt.Unchecked)
+            total_price += total
+        self.price.setText('%.2f' % total_price)
 
     def clear_cart(self):
         reply = QtWidgets.QMessageBox.question(self, '删除选中项','确认要删除吗',
@@ -104,6 +72,67 @@ class cart(QtWidgets.QWidget, Ui_cart):
             QtWidgets.QMessageBox.about(self, '确认支付', '购物车里没有商品!')
         else:
             self.switch_confirm_order.emit()
+
+    def get_price(self, row):
+        if isinstance(row, int):
+            return float(self.tableWidget.item(row, 4).text())
+        else:
+            return float(self.price.text())
+
+    def on_tableWidget_cellDoubleClicked(self, row, column):
+        if column == 3:
+            num = QtWidgets.QSpinBox()
+            num.setMaximum(99)
+            current_num = int(self.tableWidget.item(row,column).text())
+            num.setValue(current_num)
+            num.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+            self.tableWidget.setCellWidget(row, column, num)
+            self.p_row = row
+            self.p_col = column
+        else:
+            pass
+
+    def on_tableWidget_currentCellChanged(self, row, column, p_row, p_column):
+        p_item = self.tableWidget.cellWidget(p_row, p_column)
+        if p_item:
+            if p_column == 3:
+                number = p_item.value()
+                self.tableWidget.removeCellWidget(p_row, p_column)
+                number = QtWidgets.QTableWidgetItem(str(number))
+                number.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                self.tableWidget.setItem(p_row, p_column, number)
+                # total = float(self.tableWidget.item(p_row, 2).text()) * float(self.tableWidget.item(p_row, 3).text())
+                # total_t = QtWidgets.QTableWidgetItem('%.2f' % total)
+                # total_t.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                # total_t.setFlags(QtCore.Qt.ItemIsEnabled)
+                # self.tableWidget.setItem(p_row, 4, total_t)
+
+    def eventFilter(self, source, event):  # 在点击表格空白处时解除spinbox
+        if (event.type() == QtCore.QEvent.MouseButtonPress and
+            source is self.tableWidget.viewport() and
+            self.tableWidget.itemAt(event.pos()) is None):
+            if self.p_col and self.p_col == 3:
+                p_item = self.tableWidget.cellWidget(self.p_row, self.p_col)
+                number = p_item.value()
+                self.tableWidget.removeCellWidget(self.p_row, self.p_col)
+                number = QtWidgets.QTableWidgetItem(str(number))
+                number.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                self.tableWidget.setItem(self.p_row, self.p_col, number)
+        return QtWidgets.QWidget.eventFilter(self, source, event)
+
+    def selectall(self):  # 全选，若已全选则全反选
+        if self.tableWidget.rowCount() == 0:
+            pass
+        else:
+            isallchecked = 0
+            for row in range(self.tableWidget.rowCount()):
+                if self.tableWidget.item(row, 0).checkState() == QtCore.Qt.Checked:
+                    isallchecked += 1
+                else:
+                    self.tableWidget.item(row, 0).setCheckState(QtCore.Qt.Checked)
+            if isallchecked == self.tableWidget.rowCount():
+                for row in range(self.tableWidget.rowCount()):
+                    self.tableWidget.item(row, 0).setCheckState(QtCore.Qt.Unchecked)
 
 
 class confirm_order(QDialog, Ui_confirm_order):

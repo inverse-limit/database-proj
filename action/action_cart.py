@@ -125,7 +125,8 @@ class cart(QtWidgets.QWidget, Ui_cart):
             num.valueChanged.connect(self.changeprice)
 
     def on_tableWidget_cellDoubleClicked(self, row, column):
-        self.show_book_detail(row)
+        if not column == self.num:
+            self.show_book_detail(row)
 
     def on_tableWidget_currentCellChanged(self, row, column, p_row, p_column):
         p_item = self.tableWidget.cellWidget(p_row, p_column)

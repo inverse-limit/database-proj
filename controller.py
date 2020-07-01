@@ -32,6 +32,7 @@ class Controller:
         self.home = home_window()
         self.home.database = self.database
         self.home.user_data = self.login.user_data
+        self.home.put_in_data()
         self.home.switch_detail_research.connect(self.show_detail_search)
         self.home.switch_contactus.connect(self.show_contactus)
         self.home.switch_user_profile.connect(self.show_user_profile)

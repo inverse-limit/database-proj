@@ -32,18 +32,18 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         self.detail_research_option = None  # 复杂查询条件
         self.cart_content = None  # 购物车信息
 
+    def put_in_data(self):
         """
         TODO:给主界面左边的图书分类选项框输入所有大类作为候选项
-        添加方法：把类别作为字符串放进一个列表，然后self.combobox_class1.addItems(列表)
-        默认也就是列表的第一个应该是'...'表示所有类别，它没有子分类
-        当用户切换大类时会自动触发下面的get_class2函数，函数的输入值text就是此时框内的字符，利用它把子类的数据给到小类框
-        下面为添加元素的例子
+             添加方法：把类别作为字符串放进一个列表，然后self.combobox_class1.addItems(列表)
+             默认也就是列表的第一个应该是'...'表示所有类别，它没有子分类
+             当用户切换大类时会自动触发下面的get_class2函数，函数的输入值text就是此时框内的字符，利用它把子类的数据给到小类框
+             下面为添加元素的例子
         """
         # sample---------------------------
         listt = ['...', '1', '2']
         self.comboBox_class1.addItems(listt)
         # sample-----------------------------
-
 
     def get_class2(self, text):
         """

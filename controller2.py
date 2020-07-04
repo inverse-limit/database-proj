@@ -15,8 +15,7 @@ from database import Database
 
 class Controller2:
     def __init__(self):
-        # self.database = Database()
-        self.database = None
+        self.database = Database()
 
     def show_manage(self):
         self.manage = manage()

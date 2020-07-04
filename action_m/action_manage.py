@@ -16,6 +16,8 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
     def __init__(self, parent=None):
         super(manage, self).__init__(parent)
         self.setupUi(self)
+        self.tableWidget.setColumnWidth(0,4)
+        self.tableWidget.setColumnWidth(1,90)
         # 跳转链接
         self.pushButton_detail_search.clicked.connect(self.detail_search_window)
         # 功能按钮
@@ -53,23 +55,23 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
 
     def simple_search(self):
         """
-        TODO:和home的一样，区别search条件多了一个显示上架/未上架图书的选项combobox_filter，根据它进行查询
-             这里第一列是封面，插入图片的方法看下方例子
+        TODO:和home的一样，区别search条件多了一个显示上架/未上架图书的选项combobox_filter，以及排序的combobox_sort,
+             根据它进行查询, 插入图片的方法看下方例子
         """
         self.tableWidget.insertRow(0)
-        # item = QTableWidgetItem('test')  # 封装内容 QTableWidgetItem(这里必须是字符串!)
-        # item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
-        # item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)  # 禁止修改表内元素+可以勾选
-        # item.setCheckState(QtCore.Qt.Unchecked)
-        # self.tableWidget.setItem(0,0,item)  # 插入内容 i 为行， 后一个参数为列
-        # path = './icon/test_pic.jpg'
-        # item = QTableWidgetItem(QtGui.QIcon(QtGui.QPixmap(path).scaled(QtCore.QSize(100, 100), Qt.KeepAspectRatio)),'')
-        # item = QTableWidgetItem(QtGui.QIcon(QtGui.QPixmap(path)), '')
-        # item = QTableWidgetItem(QtGui.QIcon(path), '格式')
-        # item.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        # item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
-        # item.setCheckState(QtCore.Qt.Unchecked)
-        # self.tableWidget.setItem(0,0,item)
+
+        # 第一列固定这么加
+        item = QtWidgets.QTableWidgetItem('')
+        item.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+        item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
+        item.setCheckState(QtCore.Qt.Unchecked)
+        self.tableWidget.setItem(0,0,item)
+
+        # 第二列封面
+        path = './icon/test_pic2.jpg'
+        item = self.get_image_label(path)
+        self.tableWidget.setCellWidget(0,1,item)
+
 
     def detail_search(self, search_option):
         """
@@ -78,13 +80,14 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
 
     def refresh_filter(self, text):
         """
-        TODO:这个函数在改变显示内容即已上架/未上架/全部时自动调用，先判断当前查询条件时简单查询还是复杂查询，
-             然后把新的显示内容选项覆盖当前搜索条件的显示内容项 然后重新调用查询 相当于刷新
+        TODO:这个函数在改变显示内容即已上架/未上架/全部 时自动调用，先判断当前查询条件时简单查询还是复杂查询，
+             然后把新的 显示内容 选项覆盖当前搜索条件的显示内容项 然后重新调用查询 相当于刷新
         """
 
     def refresh_sort(self, text):
         """
-        TODO: 这个函数在改变排序方式即已上架/未上架/全部时自动调用，和上面的函数一个意思
+        TODO: 这个函数在改变排序方式即已上架/未上架/全部 时自动调用，先判断当前查询条件时简单查询还是复杂查询，
+              然后把新的 排序 选项覆盖当前搜索条件的 排序 项 然后重新调用查询 相当于刷新
         """
 
     def refresh_current_page(self):
@@ -134,14 +137,6 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         TODO:上面那个注释里 上架改成删除 删除前提示一下是否要删除
         """
 
-    def get_image_label(self, image):
-        image_label = QtWidgets.QLabel(self.centralwidget)
-        image_label.setText('')
-        image_label.setScaledContents(True)
-        pixmap = QtGui.QPixmap(image)
-        image_label.setPixmap(pixmap)
-        return image_label
-
     def add_book(self):
         self.switch_add_book.emit()
 
@@ -158,6 +153,15 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
             if isallchecked == self.tableWidget.rowCount():
                 for row in range(self.tableWidget.rowCount()):
                     self.tableWidget.item(row, 0).setCheckState(QtCore.Qt.Unchecked)
+
+    def get_image_label(self, image):
+        image_label = QtWidgets.QLabel(self.centralwidget)
+        image_label.setText('')
+        image_label.setScaledContents(True)
+        pixmap = QtGui.QPixmap(image)
+        pixmap.scaled(50, 40, QtCore.Qt.KeepAspectRatio)
+        image_label.setPixmap(pixmap)
+        return image_label
 
     def show_user(self):
         self.switch_user.emit()

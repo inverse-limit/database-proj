@@ -24,5 +24,5 @@ class order_manage(QtWidgets.QWidget, Ui_order_manage):
         """
         TODO:和home类似把相应行的order_id存到self.order_id里，然后切换到订单详情用这个填信息
         """
-        self.order_id = 'I am press_id'
+        self.order_id = 'I am order_id'
         self.switch_order_detail.emit()

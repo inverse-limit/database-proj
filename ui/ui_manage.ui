@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1234</width>
+    <width>1243</width>
     <height>736</height>
    </rect>
   </property>
@@ -278,7 +278,7 @@
          <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>117</number>
+         <number>110</number>
         </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
          <bool>false</bool>
@@ -298,6 +298,11 @@
         <attribute name="verticalHeaderStretchLastSection">
          <bool>false</bool>
         </attribute>
+        <column>
+         <property name="text">
+          <string/>
+         </property>
+        </column>
         <column>
          <property name="text">
           <string>封面</string>
@@ -426,7 +431,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1234</width>
+     <width>1243</width>
      <height>23</height>
     </rect>
    </property>

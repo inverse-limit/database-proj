@@ -15,7 +15,8 @@ from database import Database
 
 class Controller2:
     def __init__(self):
-        self.database = Database()
+        # self.database = Database()
+        self.database = None
 
     def show_manage(self):
         self.manage = manage()
@@ -90,6 +91,7 @@ class Controller2:
 
     def show_order_manage(self):
         self.order_manage = order_manage()
+        self.order_manage.database = self.database
         self.order_manage.switch_order_detail.connect(self.order_detail)
         self.order_manage.show()
 
@@ -107,18 +109,21 @@ class Controller2:
 
     def user_order(self):
         self.order_manage = order_manage()
+        self.order_manage.database = self.database
         self.order_manage.lineEdit_search.setText(self.m_user_profile.u_account.text())
         self.order_manage.show()
         self.order_manage.search()
 
     def user_cart(self):
         self.view_cart_order = view_cart_order()
+        self.view_cart_order.database = self.database
         self.view_cart_order.put_in_user_data(user_id = self.m_user_profile.user_id)
         self.view_cart_order.switch_book.connect(self.show_book_detail_from_view)
         self.view_cart_order.show()
 
     def order_detail(self):
         self.view_cart_order = view_cart_order()
+        self.view_cart_order.database = self.database
         self.view_cart_order.put_in_user_data(order_id=self.order_manage.order_id)
         self.view_cart_order.switch_book.connect(self.show_book_detail_from_view)
         self.view_cart_order.show()

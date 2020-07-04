@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from ui.ui_register_window import *
 from PyQt5.QtCore import Qt
+import pyodbc
 
 
 class register_window(QDialog, Ui_register_window):
@@ -25,8 +26,28 @@ class register_window(QDialog, Ui_register_window):
                                  邀请码是否在数据库中
                                  可能还有其他的
         '''
-        QtWidgets.QMessageBox.about(self, '提示', '注册成功!')
-        self.done(1)  # 退出窗口
+        check = self.database.register_function(self.u_account.text(), self.u_pswd.text(), self.u_name.text(),
+                                                self.u_telephone.text(), self.u_email.text(), self.invite.text(),
+                                                self.check_pswd.text())
+        if check == 0:
+            QtWidgets.QMessageBox.about(self, '提示', '用户名已存在！')
+        if check == 6:
+            QtWidgets.QMessageBox.about(self, '提示', '用户名过长！')
+        if check == 5:
+            QtWidgets.QMessageBox.about(self, '提示', '两次输入密码不一致！')
+        if check == 1:
+            QtWidgets.QMessageBox.about(self, '提示', '邀请码不存在！')
+        if check == 3:
+            QtWidgets.QMessageBox.about(self, '提示', '电话不符合格式！')
+        if check == 4:
+            QtWidgets.QMessageBox.about(self, '提示', '邮箱不符合格式！')
+        if check == 7:
+            QtWidgets.QMessageBox.about(self, '提示', '密码过短！')
+        if check == 8:
+            QtWidgets.QMessageBox.about(self, '提示', '密码过长！')
+        if check == 2:
+            QtWidgets.QMessageBox.about(self, '提示', '注册成功!')
+            self.done(1)  # 退出窗口
 
     def cancel(self):
         self.done(-1)

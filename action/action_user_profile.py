@@ -20,6 +20,14 @@ class user_profile(QtWidgets.QWidget, Ui_user_profile):
              如果某一项没有就是'未设置'
              将user_data里的这些内容填到窗口里，下面为示例
         """
+        self.u_account.setText(user_data[0])
+        self.u_nickname.setText(user_data[1])
+        self.u_name.setText(user_data[2])
+        self.u_telephone.setText(user_data[3])
+        self.u_email.setText(user_data[4])
+        self.vip_status.setText(user_data[5])
+        self.u_address1.setText(user_data[6])
+        self.u_address2.setText(user_data[7])
         # self.u_account.setText('张三')  # 设置用户名
         # self.u_nickname.setText('安安')  # 昵称
         # self.u_name.setText('阿斯蒂')  # 真实姓名
@@ -49,6 +57,13 @@ class edit_user_profile(QtWidgets.QWidget, Ui_edit_user_profile):
              使得用户打开编辑界面框里默认填了当前的信息
         """
         self.user_data = user_data  # 这行代码不要改，保存当前用户信息，下面accept函数需要修改它
+        self.u_account.setText(user_data[0])
+        self.u_nickname.setText(user_data[1])
+        self.u_name.setText(user_data[2])
+        self.u_telephone.setText(user_data[3])
+        self.u_email.setText(user_data[4])
+        self.u_address1.setPlainText(user_data[6])
+        self.u_address2.setPlainText(user_data[7])
         # self.u_account.setText('张三')  # 设置用户名
         # self.u_nickname.setText('安安')  # 昵称
         # self.u_name.setText('阿斯蒂')  # 真实姓名
@@ -72,7 +87,22 @@ class edit_user_profile(QtWidgets.QWidget, Ui_edit_user_profile):
         # print(self.u_email.text())
         # print(self.u_address1.toPlainText())
         # modify self.user_data according to above data
-        self.switch_user_profile_accept.emit()  # 这行代码放在最下面不要改
+        check = self.database.user_accept(self.u_account.text(), self.u_nickname.text(), self.u_name.text(),
+                                          self.u_telephone.text(), self.u_email.text(), self.u_address1.toPlainText(),
+                                          self.u_address2.toPlainText())
+        if check == 0:
+            QtWidgets.QMessageBox.about(self, '提示', '电话不符合格式！')
+        if check == 1:
+            QtWidgets.QMessageBox.about(self, '提示', '邮箱不符合格式！')
+        if check == 2:
+            self.user_data[1] = self.u_nickname.text()
+            self.user_data[2] = self.u_name.text()
+            self.user_data[3] = self.u_telephone.text()
+            self.user_data[4] = self.u_email.text()
+            self.user_data[6] = self.u_address1.toPlainText()
+            self.user_data[7] = self.u_address2.toPlainText()
+            QtWidgets.QMessageBox.about(self, '提示', '修改成功！')
+            self.switch_user_profile_accept.emit()  # 这行代码放在最下面不要改
 
     def cancel(self):
         self.switch_user_profile_cancel.emit()

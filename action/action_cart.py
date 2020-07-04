@@ -4,6 +4,7 @@ import time
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from ui.ui_cart import *
 from ui.ui_confirm_order import *
+import pyodbc
 
 
 class cart(QtWidgets.QWidget, Ui_cart):
@@ -33,37 +34,49 @@ class cart(QtWidgets.QWidget, Ui_cart):
              将从数据库得到的数据存到self.cart_content，建议先看一下下面confirm_order类的注释，两个类的数据需要协调一下
         """
         self.tableWidget.setRowCount(0)  # 先清空界面
+        self.vip = user_data[5]
+        self.cart_content = self.database.cart_select(user_data[0], self.vip)
         # 插入例
-        total_price = 0  # 总价
-        for row in range(5):
-            # 书名
-            self.tableWidget.insertRow(row)
-            test = QtWidgets.QTableWidgetItem('我是书')
-            test.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-            test.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)  # 书名行用这几行添加，为了有勾选框
-            test.setCheckState(QtCore.Qt.Checked)
-            self.tableWidget.setItem(row, 0, test)
+        self.total_price = 0
+        if self.cart_content:
+            self.cart_id = []
+            n = len(self.cart_content)
+            for row in range(0, n):
+                self.cart_id.append(self.cart_content[row].cart_id)
+                # 书名
+                self.tableWidget.insertRow(row)
+                test = QtWidgets.QTableWidgetItem(self.cart_content[row].book_name)
+                test.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                test.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)  # 书名行用这几行添加，为了有勾选框
+                test.setCheckState(QtCore.Qt.Checked)
+                self.tableWidget.setItem(row, 0, test)
 
-            # 价格
-            price = QtWidgets.QTableWidgetItem('4.4')
-            price.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-            price.setFlags(QtCore.Qt.ItemIsEnabled)  # 其它行用这列 不要加上ItemIsUserCheckable
-            self.tableWidget.setItem(row,2,price)
+                # 作者
+                author = QtWidgets.QTableWidgetItem(str(self.cart_content[row].author_name))
+                author.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                author.setFlags(QtCore.Qt.ItemIsEnabled)  # 其它行用这列 不要加上ItemIsUserCheckable
+                self.tableWidget.setItem(row, 1, author)
 
-            # 数量
-            number = QtWidgets.QTableWidgetItem('2')
-            number.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-            self.tableWidget.setItem(row,3,number)  # 数量行连ItemIsEnabled也不要加
+                # 价格
+                price = QtWidgets.QTableWidgetItem(str(self.cart_content[row].pr))
+                price.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                price.setFlags(QtCore.Qt.ItemIsEnabled)  # 其它行用这列 不要加上ItemIsUserCheckable
+                self.tableWidget.setItem(row,2,price)
 
-            # 单项总价
-            total = float(self.tableWidget.item(row,2).text()) * float(self.tableWidget.item(row,3).text())
-            total_t = QtWidgets.QTableWidgetItem('%.2f' % total)
-            total_t.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-            total_t.setFlags(QtCore.Qt.ItemIsEnabled)
-            self.tableWidget.setItem(row,4,total_t)
+                # 数量
+                number = QtWidgets.QTableWidgetItem(str(self.cart_content[row].number))
+                number.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                self.tableWidget.setItem(row,3,number)  # 数量行连ItemIsEnabled也不要加
 
-            total_price += total
-        self.price.setText('%.2f' % total_price)  # 设置画面总价
+               # 单项总价
+                total = float(self.tableWidget.item(row,2).text()) * float(self.tableWidget.item(row,3).text())
+                total_t = QtWidgets.QTableWidgetItem('%.2f' % total)
+                total_t.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                total_t.setFlags(QtCore.Qt.ItemIsEnabled)
+                self.tableWidget.setItem(row,4,total_t)
+
+                self.total_price += total
+        self.price.setText('%.2f' % self.total_price)  # 设置画面总价
 
     def modify_change_num(self, row, num):
         """
@@ -71,7 +84,8 @@ class cart(QtWidgets.QWidget, Ui_cart):
              下面大段代码之下还有一个comfirm_order的类要填
              图像界面不用管，我下面一堆已经写了
         """
-        pass
+        self.cart_content = self.database.cart_changenum(self.cart_id[row], num, self.vip)
+
 
     def show_book_detail(self, row):
         """
@@ -79,6 +93,7 @@ class cart(QtWidgets.QWidget, Ui_cart):
              需要利用把row对应的book_id存到self.book_id里面，然后 self.switch_book_detail.emit() 切换到图书详情页
              就和主页双击行打开详情页一样
         """
+        self.book_id = self.database.cart_book_detail(self.cart_id[row]).book_id
         self.switch_book_detail.emit()
 
     def clear_cart(self):
@@ -159,7 +174,6 @@ class cart(QtWidgets.QWidget, Ui_cart):
                 self.modify_change_num(self.p_row, num)
         self.refresh_price()
 
-
     def eventFilter(self, source, event):  # 在点击表格空白处时解除spinbox
         if (event.type() == QtCore.QEvent.MouseButtonPress and
             source is self.tableWidget.viewport() and
@@ -217,17 +231,26 @@ class confirm_order(QDialog, Ui_confirm_order):
              想办法把索引和购物车内容cart_content匹配起来，把被选中的那些图书信息保存到self.order_content里
              并把user_data存到self.user_data里，下面get_address函数拿地址可以用到
         """
-        # self.textBrowser.setText() 地址栏初始化时默认填入地址1
+        n = len(select_list)
+        self.order_content = []
+        for i in range(0,n):
+            self.order_content.append(cart_content[select_list[i]])
+        self.user_data = user_data
+        self.u_account.setText(user_data[0])
+        self.u_nickname.setText(user_data[1])
+        self.u_telephone.setText(user_data[3])
+        self.price.setText(self.total_price)
+        self.textBrowser.setText(self.user_data[6])   # 地址栏初始化时默认填入地址1
 
     def get_address(self, text):
         """
         TODO:见下方注释
         """
         if text == '地址1':
-            # self.textBrowser.setText(...) 填入地址1
+            self.textBrowser.setText(self.user_data[6])
             self.textBrowser.setReadOnly(True)
         elif text == '地址2':
-            # 填入地址2
+            self.textBrowser.setText(self.user_data[7])
             self.textBrowser.setReadOnly(True)
         else:
             self.textBrowser.setReadOnly(False)  # 选择其它地址，开放地址栏编辑权限
@@ -240,5 +263,10 @@ class confirm_order(QDialog, Ui_confirm_order):
         TODO:用户点击确认支付界面，利用self.user_data以及self.order_content把订单数据填到数据库里
              并对数据库购物车表进行相应处理，减去已支付的书的数量，其它self里的属性不用管了
         """
-        QtWidgets.QMessageBox.information(self, '确认订单', '支付成功')
-        self.switch_cart.emit()
+        name = self.database.isorder(self.order_content)
+        if name:
+            QtWidgets.QMessageBox.about(self, '提示', '书籍 《' + name + '》 没有足够的库存！')
+        else:
+            self.database.order_ok(self.user_data, self.order_content)
+            QtWidgets.QMessageBox.information(self, '确认订单', '支付成功')
+            self.switch_cart.emit()

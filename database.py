@@ -15,7 +15,11 @@ class Database:
             return 0  # 用户名存在
         else:
             if len(account) >10:
-                return 6  # 过长
+                return 6  # 用户名过长
+            if len(pswd) < 8:
+                return 7  # 密码过短
+            if len(pswd) > 10:
+                return 8  # 密码过长
             if pswd != checkpswd:
                 return 5  # 两次密码不一致
             if invit:

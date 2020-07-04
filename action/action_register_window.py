@@ -41,6 +41,10 @@ class register_window(QDialog, Ui_register_window):
             QtWidgets.QMessageBox.about(self, '提示', '电话不符合格式！')
         if check == 4:
             QtWidgets.QMessageBox.about(self, '提示', '邮箱不符合格式！')
+        if check == 7:
+            QtWidgets.QMessageBox.about(self, '提示', '密码过短！')
+        if check == 8:
+            QtWidgets.QMessageBox.about(self, '提示', '密码过长！')
         if check == 2:
             QtWidgets.QMessageBox.about(self, '提示', '注册成功!')
             self.done(1)  # 退出窗口

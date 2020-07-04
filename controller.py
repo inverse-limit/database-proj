@@ -32,6 +32,7 @@ class Controller:
         self.home = home_window()
         self.home.database = self.database
         self.home.user_data = self.login.user_data
+        self.home.put_in_data()
         self.home.switch_detail_research.connect(self.show_detail_search)
         self.home.switch_contactus.connect(self.show_contactus)
         self.home.switch_user_profile.connect(self.show_user_profile)
@@ -72,6 +73,7 @@ class Controller:
     def show_confirm_order(self):
         self.confirm_order = confirm_order()
         self.confirm_order.database = self.database
+        self.confirm_order.total_price = self.cart.price.text()
         self.confirm_order.put_in_data(self.home.user_data, self.cart.cart_content, self.cart.select_list)
         self.confirm_order.switch_cart.connect(self.end_buy)
         self.confirm_order.show()

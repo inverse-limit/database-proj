@@ -2,6 +2,7 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from ui.ui_login_window import *
+import pyodbc
 
 
 class login_window(QtWidgets.QMainWindow, Ui_login_window):
@@ -27,5 +28,10 @@ class login_window(QtWidgets.QMainWindow, Ui_login_window):
              之后各种地方的函数自动传入的user_data数据都是现在这个格式，在修改个人信息界面处修改了之后也会相应改变
              操作完成后self.switch_home.emit()切换到home界面
         """
-        self.user_data = 'I am user_data'
-        self.switch_home.emit()
+        check = self.database.login_check(self.u_account.text(), self.u_pswd.text())
+        if check == 0:
+            QtWidgets.QMessageBox.about(self, '提示', '用户名或密码错误')
+        else:
+            self.user_data = self.database.login_u_data(self.u_account.text(), self.u_pswd.text())
+            # user_data 0: account 1:nickname 2:name 3:telephone 4: email 5:vip_status 6:address1 7:address2 8:注册日期
+            self.switch_home.emit()

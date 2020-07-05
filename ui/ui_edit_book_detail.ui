@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>498</width>
-    <height>507</height>
+    <width>519</width>
+    <height>527</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>280</y>
+     <y>310</y>
      <width>36</width>
      <height>16</height>
     </rect>
@@ -30,8 +30,8 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>310</y>
-     <width>451</width>
+     <y>340</y>
+     <width>481</width>
      <height>121</height>
     </rect>
    </property>
@@ -39,70 +39,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>10</y>
-     <width>207</width>
-     <height>261</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_book_name">
-      <property name="text">
-       <string>书名：</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEdit_book_name"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_author">
-      <property name="text">
-       <string>作者/译者：</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_author"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_press">
-      <property name="text">
-       <string>出版社：</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_press"/>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_pressdata">
-      <property name="text">
-       <string>出版日期：</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit_pressdate"/>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_ISBN">
-      <property name="text">
-       <string>ISBN：</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="lineEdit_ISBN"/>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>470</y>
+     <x>260</x>
+     <y>480</y>
      <width>239</width>
      <height>25</height>
     </rect>
@@ -134,10 +72,10 @@
   <widget class="QLabel" name="picture">
    <property name="geometry">
     <rect>
-     <x>43</x>
-     <y>31</y>
-     <width>151</width>
-     <height>221</height>
+     <x>30</x>
+     <y>20</y>
+     <width>181</width>
+     <height>261</height>
     </rect>
    </property>
    <property name="text">
@@ -149,6 +87,121 @@
    <property name="scaledContents">
     <bool>true</bool>
    </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>241</x>
+     <y>10</y>
+     <width>251</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_book_name">
+      <property name="text">
+       <string>书名：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_book_name"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_author">
+      <property name="text">
+       <string>作者：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_author"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>译者(可选)：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_translator"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_press">
+      <property name="text">
+       <string>出版社：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_press"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>类别：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QComboBox" name="comboBox_class1"/>
+    </item>
+    <item row="4" column="2">
+     <widget class="QComboBox" name="comboBox_class2"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_ISBN">
+      <property name="text">
+       <string>ISBN：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_ISBN"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_pressdata">
+      <property name="text">
+       <string>出版日期：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_pressdate"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>版本号：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_version"/>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>单价：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_price"/>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>会员价：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit_vip_price"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

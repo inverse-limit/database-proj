@@ -26,6 +26,7 @@ class Controller2:
         self.manage.switch_press.connect(self.show_press)
         self.manage.switch_user.connect(self.show_user_manage)
         self.manage.switch_order.connect(self.show_order_manage)
+        self.manage.put_in_data()
         self.manage.show()
 
     def show_detail_search(self):
@@ -43,6 +44,7 @@ class Controller2:
 
     def show_book_detail_add(self):
         self.edit_book_detail = edit_book_detail()
+        self.edit_book_detail.put_in_class1()
         self.edit_book_detail.database = self.database
         self.edit_book_detail.switch_save.connect(self.refresh_manage)
         self.edit_book_detail.show()

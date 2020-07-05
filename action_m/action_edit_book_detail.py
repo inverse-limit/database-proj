@@ -17,8 +17,11 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
 
     def put_in_data(self, book_id=None):
         if book_id:
+            self.book_id = book_id
+
         # TODO:利用book_id调出图书信息，
         #      填到界面里，并且存到self.book_id里，intro还是intro，其它前面加个lineEdit比如lineEdit_book_name
+
             # 封面加入方法
             # path = './icon/test_pic2'
             # self.picture.setPixmap(QtGui.QPixmap(path))

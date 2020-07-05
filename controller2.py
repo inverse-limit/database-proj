@@ -26,6 +26,7 @@ class Controller2:
         self.manage.switch_press.connect(self.show_press)
         self.manage.switch_user.connect(self.show_user_manage)
         self.manage.switch_order.connect(self.show_order_manage)
+        self.manage.put_in_data()
         self.manage.show()
 
     def show_detail_search(self):

@@ -44,6 +44,7 @@ class Controller2:
 
     def show_book_detail_add(self):
         self.edit_book_detail = edit_book_detail()
+        self.edit_book_detail.put_in_class1()
         self.edit_book_detail.database = self.database
         self.edit_book_detail.switch_save.connect(self.refresh_manage)
         self.edit_book_detail.show()

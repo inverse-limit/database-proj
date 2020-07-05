@@ -13,7 +13,19 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
         self.pushButton_save.clicked.connect(self.save)
         self.pushButton_cancel.clicked.connect(self.close)
         self.pushButton_upload.clicked.connect(self.upload_cover)
+        self.comboBox_class1.activated[str].connect(self.get_class2)
         self.book_id = None
+
+    def put_in_class1(self):
+        """
+        TODO:往类别1里填默认的类别，和manage一样 这里不需要 ... 项
+             class2里填默认类别对应的子类别
+        """
+
+    def get_class2(self, text):
+        """
+        TODO:根据class1往class2里填类别，和manage一样 这里不需要 ... 项
+        """
 
     def put_in_data(self, book_id=None):
         if book_id:
@@ -30,7 +42,7 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
     def save(self):
         """
         TODO:如果self.book_id不为None, 说明是双击表格进来的，把对书详细信息的改动保存到数据库
-             如果self.book_id为None,说明是新增书目进来的，检验下除了简介封面以外的格子是不是都填了
+             如果self.book_id为None,说明是新增书目进来的，检验下除了简介封面译者以外的格子是不是都填了
              然后把新书的信息放到数据库，默认是未上架状态
         """
         self.switch_save.emit()

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>671</width>
+    <width>833</width>
     <height>580</height>
    </rect>
   </property>
@@ -23,7 +23,7 @@
       <bool>true</bool>
      </attribute>
      <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>129</number>
+      <number>125</number>
      </attribute>
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
@@ -31,9 +31,22 @@
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
      </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>90</number>
+     </attribute>
      <column>
       <property name="text">
-       <string>     书名</string>
+       <string/>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>封面</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>书名</string>
       </property>
      </column>
      <column>

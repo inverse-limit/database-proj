@@ -11,10 +11,12 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
     switch_cart = QtCore.pyqtSignal()
     switch_contactus = QtCore.pyqtSignal()
     switch_book_detail = QtCore.pyqtSignal()
+    switch_user_order = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
         super(home_window, self).__init__(parent)
         self.setupUi(self)
+        self.tableWidget.setColumnWidth(0, 90)
         # 跳转链接
         self.pushButton_detail_search.clicked.connect(self.detail_search_window)
         self.pushButton_cart.clicked.connect(self.cart_window)
@@ -25,6 +27,9 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         self.pushButton_last_page.clicked.connect(self.last_page)
         self.pushButton_next_page.clicked.connect(self.next_page)
         self.pushButton_page_jump.clicked.connect(self.page_jump)
+        self.pushButton_order.clicked.connect(self.user_order)
+        self.comboBox_sort.addItems(['默认', '销量降序', '销量升序', '价格降序', '价格升序'])
+        self.comboBox_sort.activated[str].connect(self.refresh_sort)
         self.comboBox_class1.activated[str].connect(self.get_class2)
         self.comboBox_class2.addItem('...')
         self.user_data = 1  # 用户信息，这里改没有用处，它是从login和edit_user_profile传过来的
@@ -54,6 +59,12 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         self.comboBox_class2.clear()
         listt = self.database.home_class2(text)
         self.comboBox_class2.addItems(listt)
+
+    def refresh_sort(self, text):
+        """
+        TODO: 这个函数在改变排序方式 时自动调用，先判断当前查询条件时简单查询还是复杂查询，
+              然后把新的 排序 选项覆盖当前搜索条件的 排序 项 然后重新调用查询 相当于刷新
+        """
 
     def simple_search(self):
         """
@@ -336,3 +347,6 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
 
     def contactus_window(self):
         self.switch_contactus.emit()
+
+    def user_order(self):
+        self.switch_user_order.emit()

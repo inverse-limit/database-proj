@@ -7,6 +7,8 @@ from action.action_detail_search import *
 from action.action_user_profile import *
 from action.action_cart import *
 from action.action_book_detail import *
+from action.action_user_order import *
+from action_m.action_view_cart_order import *
 
 from database import Database
 
@@ -38,7 +40,21 @@ class Controller:
         self.home.switch_user_profile.connect(self.show_user_profile)
         self.home.switch_book_detail.connect(self.show_book_detail)
         self.home.switch_cart.connect(self.show_cart)
+        self.home.switch_user_order.connect(self.show_user_order)
         self.home.show()
+
+    def show_user_order(self):
+        self.user_order = user_order()
+        self.user_order.database = self.database
+        self.user_order.put_in_data(self.home.user_data)
+        self.user_order.switch_view.connect(self.show_view)
+        self.user_order.show()
+
+    def show_view(self):
+        self.view = view_cart_order()
+        self.view.database = self.database
+        self.view.put_in_user_data(order_id=self.user_order.order_id)
+        self.view.show()
 
     def show_detail_search(self):
         self.detail_search = detail_research()
@@ -51,7 +67,23 @@ class Controller:
         self.user_profile.database = self.database
         self.user_profile.put_in_user_data(self.home.user_data)
         self.user_profile.switch_edit_profile.connect(self.show_edit_user_profile)
+        self.user_profile.switch_buy_vip.connect(self.show_buy_vip)
+        self.user_profile.switch_login.connect(self.logout)
         self.user_profile.show()
+
+    def logout(self):
+        self.user_profile.close()
+        try:
+            self.home.close()
+        except:
+            pass
+        self.show_login_window()
+
+    def show_buy_vip(self):
+        self.buy_vip = buy_vip()
+        self.buy_vip.database = self.database
+        self.buy_vip.switch_user_profile.connect(self.refresh_user_profile)
+        self.buy_vip.show()
 
     def show_edit_user_profile(self):
         self.edit_user_profile = edit_user_profile()
@@ -94,8 +126,13 @@ class Controller:
         self.book_detail.put_in_data(self.cart.book_id)
         self.book_detail.show()
 
+
     def show_contactus(self):
         pass
+
+    def refresh_user_profile(self):
+        self.user_profile.close()
+        self.show_user_profile()
 
     def do_detail_search(self):
         self.home.detail_search(self.detail_search.search_option)

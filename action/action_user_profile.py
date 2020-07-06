@@ -3,15 +3,20 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from ui.ui_user_profile import *
 from ui.ui_edit_user_profile import *
+from ui.ui_buy_vip import *
 
 
 class user_profile(QtWidgets.QWidget, Ui_user_profile):
     switch_edit_profile = QtCore.pyqtSignal()
+    switch_buy_vip = QtCore.pyqtSignal()
+    switch_login = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
         super(user_profile, self).__init__(parent)
         self.setupUi(self)
         self.pushButton_edit_profile.clicked.connect(self.edit_user_profile)
+        self.pushButton_buy_membership.clicked.connect(self.buy_vip)
+        self.pushButton_logout.clicked.connect(self.logout)
 
     def put_in_user_data(self, user_data):
         """
@@ -39,6 +44,16 @@ class user_profile(QtWidgets.QWidget, Ui_user_profile):
 
     def edit_user_profile(self):
         self.switch_edit_profile.emit()
+
+    def buy_vip(self):
+        self.switch_buy_vip.emit()
+
+    def logout(self):
+        reply = QtWidgets.QMessageBox.question(self, '退出登录', '确认要退出登录吗',
+                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                               QtWidgets.QMessageBox.No)
+        if reply == QtWidgets.QMessageBox.Yes:
+            self.switch_login.emit()
 
 
 class edit_user_profile(QtWidgets.QWidget, Ui_edit_user_profile):
@@ -106,4 +121,23 @@ class edit_user_profile(QtWidgets.QWidget, Ui_edit_user_profile):
 
     def cancel(self):
         self.switch_user_profile_cancel.emit()
+
+class buy_vip(QtWidgets.QDialog, Ui_buy_vip):
+    switch_user_profile = QtCore.pyqtSignal()
+
+    def __init__(self, parent=None):
+        super(buy_vip, self).__init__(parent)
+        self.setupUi(self)
+        self.pushButton_cancel.clicked.connect(self.cancel)
+
+    def accept(self):
+        """
+        TODO:判断选了哪个radioButton，使数据库里相应用户开通会员或是延长会员时间
+        """
+        QtWidgets.QMessageBox.about(self, '提示', '开通成功！')
+        self.switch_user_profile.emit()
+        self.done(1)
+
+    def cancel(self):
+        self.done(-1)
 

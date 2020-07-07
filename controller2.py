@@ -9,13 +9,15 @@ from action_m.action_user_manage import *
 from action_m.action_m_user_profile import *
 from action_m.action_order_manage import *
 from action_m.action_view_cart_order import *
+from action_m.action_stat import *
 
 from database import Database
 
 
 class Controller2:
     def __init__(self):
-        self.database = Database()
+        # self.database = Database()
+        self.database = None
 
     def show_manage(self):
         self.manage = manage()
@@ -44,8 +46,8 @@ class Controller2:
 
     def show_book_detail_add(self):
         self.edit_book_detail = edit_book_detail()
-        self.edit_book_detail.put_in_class1()
         self.edit_book_detail.database = self.database
+        self.edit_book_detail.put_in_class1()
         self.edit_book_detail.switch_save.connect(self.refresh_manage)
         self.edit_book_detail.show()
 
@@ -94,7 +96,15 @@ class Controller2:
         self.order_manage = order_manage()
         self.order_manage.database = self.database
         self.order_manage.switch_order_detail.connect(self.order_detail)
+        self.order_manage.switch_stat.connect(self.show_stat)
         self.order_manage.show()
+
+    def show_stat(self):
+        self.stat = statistic()
+        self.stat.database = self.database
+        self.data = self.order_manage.data
+        self.stat.makeup()
+        self.stat.show()
 
     def do_detail_search(self):
         self.manage.detail_search(self.detail_search.search_option)

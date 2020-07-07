@@ -6,11 +6,13 @@ from ui.ui_order_manage import *
 
 class order_manage(QtWidgets.QWidget, Ui_order_manage):
     switch_order_detail = QtCore.pyqtSignal()
+    switch_stat = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
         super(order_manage, self).__init__(parent)
         self.setupUi(self)
         self.pushButton_search.clicked.connect(self.search)
+        self.pushButton_stat.clicked.connect(self.stat)
         self.order_id = 'order_id'  # 测试
 
     def search(self):
@@ -26,3 +28,10 @@ class order_manage(QtWidgets.QWidget, Ui_order_manage):
         """
         self.order_id = 'I am order_id'
         self.switch_order_detail.emit()
+
+    def stat(self):
+        """
+        TODO:看一下action_stat界面里的函数，把那边需要的数据存到self.data里，它会自动传到action_stat里
+        """
+        self.data = None
+        self.switch_stat.emit()

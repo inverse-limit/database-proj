@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
+    <width>554</width>
     <height>429</height>
    </rect>
   </property>
@@ -151,12 +151,12 @@
      <item>
       <widget class="QLabel" name="label_u_address2">
        <property name="text">
-        <string>收获地址2：</string>
+        <string>收货地址1：</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QTextBrowser" name="u_address2"/>
+      <widget class="QTextBrowser" name="u_address1_2"/>
      </item>
     </layout>
    </item>
@@ -165,12 +165,12 @@
      <item>
       <widget class="QLabel" name="label_u_address1">
        <property name="text">
-        <string>收货地址1：</string>
+        <string>收货地址2：</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QTextBrowser" name="u_address1"/>
+      <widget class="QTextBrowser" name="u_address2"/>
      </item>
     </layout>
    </item>

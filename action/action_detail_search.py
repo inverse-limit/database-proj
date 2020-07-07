@@ -12,9 +12,27 @@ class detail_research(QtWidgets.QDialog, Ui_detail_search_window):
         self.setupUi(self)
         self.pushButton_cancel.clicked.connect(self.close)
         self.pushButton_accept.clicked.connect(self.accept)
-
+        self.comboBox_class1.activated[str].connect(self.get_class2)
+        self.comboBox_class2.addItem('...')
         stock_status = ['有货', '缺货']
         self.comboBox_stock.addItems(stock_status)
+
+    def put_in_data(self):
+        """
+        TODO:给主界面左边的图书分类选项框输入所有大类作为候选项
+             添加方法：把类别作为字符串放进一个列表，然后self.combobox_class1.addItems(列表)
+             默认也就是列表的第一个应该是'...'表示所有类别，它没有子分类
+             当用户切换大类时会自动触发下面的get_class2函数，函数的输入值text就是此时框内的字符，利用它把子类的数据给到小类框
+             下面为添加元素的例子
+        """
+
+    def get_class2(self, text):
+        """
+        TODO:用户点击表示大类的分类框1触会发该函数把大类框当前选项作为text参数传进来，
+             需要基于它把相应小类给到右边的选项框里
+             小类的第一个是'...'表示全部分类，用self.combobox.clear()可删除当前选项框里保存的所有内容
+             以下代码为基于大类给小类输入元素的例子
+        """
 
     def accept(self):
         """

@@ -9,6 +9,7 @@ from action_m.action_user_manage import *
 from action_m.action_m_user_profile import *
 from action_m.action_order_manage import *
 from action_m.action_view_cart_order import *
+from action_m.action_stat import *
 
 from database import Database
 
@@ -32,6 +33,7 @@ class Controller2:
     def show_detail_search(self):
         self.detail_search = detail_research()
         self.detail_search.database = self.database
+        self.detail_search.put_in_data()
         self.detail_search.switch_home.connect(self.do_detail_search)
         self.detail_search.show()
 
@@ -96,7 +98,15 @@ class Controller2:
         self.order_manage = order_manage()
         self.order_manage.database = self.database
         self.order_manage.switch_order_detail.connect(self.order_detail)
+        self.order_manage.switch_stat.connect(self.show_stat)
         self.order_manage.show()
+
+    def show_stat(self):
+        self.stat = statistic()
+        self.stat.database = self.database
+        self.data = self.order_manage.data
+        self.stat.makeup()
+        self.stat.show()
 
     def do_detail_search(self):
         self.manage.detail_search(self.detail_search.search_option)

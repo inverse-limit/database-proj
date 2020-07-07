@@ -123,7 +123,7 @@
      <item>
       <widget class="QLabel" name="label_u_address2">
        <property name="text">
-        <string>收获地址2：</string>
+        <string>收货地址2：</string>
        </property>
       </widget>
      </item>

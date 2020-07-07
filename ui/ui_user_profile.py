@@ -103,7 +103,7 @@ class Ui_user_profile(object):
         self.label_u_name.setText(_translate("user_profile", "真实姓名："))
         self.u_name.setText(_translate("user_profile", "真实姓名"))
         self.label_u_address1.setText(_translate("user_profile", "收货地址1："))
-        self.label_u_address2.setText(_translate("user_profile", "收获地址2："))
+        self.label_u_address2.setText(_translate("user_profile", "收货地址2："))
         self.pushButton_edit_profile.setText(_translate("user_profile", "编辑个人资料"))
         self.pushButton_buy_membership.setText(_translate("user_profile", "开通/续费会员"))
         self.pushButton_logout.setText(_translate("user_profile", "退出登录"))

@@ -14,6 +14,8 @@ class cart(QtWidgets.QWidget, Ui_cart):
     def __init__(self, parent=None):
         super(cart, self).__init__(parent)
         self.setupUi(self)
+        self.tableWidget.setColumnWidth(0,4)
+        self.tableWidget.setColumnWidth(1, 70)
         self.cart_content = None
         self.p_col = None
         self.p_row = None
@@ -23,9 +25,9 @@ class cart(QtWidgets.QWidget, Ui_cart):
         self.pushButton_selectall.clicked.connect(self.selectall)
         self.tableWidget.viewport().installEventFilter(self)  # 点击空白处时解除spinbox
         self.checklist = 0
-        self.single_price = 2
-        self.num = 3
-        self.total_row = 4
+        self.single_price = 4
+        self.num = 5
+        self.total_row = 6
 
     def refresh_cart(self, user_data):
         """

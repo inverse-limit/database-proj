@@ -3,8 +3,8 @@ import pyodbc
 
 class Database:
     def __init__(self):
-        self.cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=192.168.0.102;\
-                            DATABASE=online_bookshop;UID=online_bookshop_m;PWD=dbproject')
+       self.cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=192.168.0.101;\
+                                   DATABASE=online_bookshop;UID=sa;PWD=dbproject')
 
     def register_function(self, account, pswd, name, telephone, email, invit, checkpswd):
         cursor = self.cnxn.cursor()
@@ -80,7 +80,7 @@ class Database:
         data.append(row.u_address1)
         data.append(row.u_address2)
         data.append(row.u_re_time)
-        row = cursor.execute("select * from users where u_account = ? and u_pswd = ? and vip_status > getdate()",
+        row = cursor.execute("select * from users where u_account = ? and u_pswd = ? and vip_status >= getdate()",
                              account, pswd).fetchone()
         if row:
             data[5] = '会员日期至' + str(row.vip_status)
@@ -90,7 +90,7 @@ class Database:
 
     def home_class(self):
         cursor = self.cnxn.cursor()
-        row = cursor.execute("select distinct class as a from class").fetchall()
+        row = cursor.execute("select distinct class1 as a from class").fetchall()
         n = len(row)
         listt = ['...']
         for i in range(0, n):
@@ -99,7 +99,7 @@ class Database:
 
     def home_class2(self, text):
         cursor = self.cnxn.cursor()
-        row = cursor.execute("select distinct subclass as a from class where class = ?", text).fetchall()
+        row = cursor.execute("select distinct subclass as a from class where class1 = ?", text).fetchall()
         n = len(row)
         listt = ['...']
         for i in range(0, n):
@@ -112,86 +112,86 @@ class Database:
             if option[0] != '...':
                 if option[3]:
                     if option[1] != '...':
-                        row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "
+                        row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "
                                              "p.s_price, a.mon_sell, a.reserve "
                                              "from book a inner join class b on a.book_id=b.book_id "
                                              "inner join author_book c on a.book_id = c.book_id "
                                              "inner join press d on a.press_id = d.press_id "
                                              "inner join price p on a.book_id = p.book_id "
-                                             "where b.class = ? and b.subclass = ? and a.book_name like ? ",
+                                             "where b.class1 = ? and b.subclass = ? and a.book_name like ? and at = 'a'",
                                              option[0], option[1], '%'+option[2]+'%').fetchall()
                         return row
                     else:
-                        row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "
+                        row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "
                                              "p.s_price, a.mon_sell, a.reserve "
                                              "from book a inner join class b on a.book_id=b.book_id "
                                              "inner join author_book c on a.book_id = c.book_id "
                                              "inner join press d on a.press_id = d.press_id "
                                              "inner join price p on a.book_id = p.book_id "
-                                             "where b.class = ? and a.book_name like ? ",
+                                             "where b.class1 = ? and a.book_name like ? and at = 'a' ",
                                              option[0], '%' + option[2] + '%').fetchall()
                         return row
                 if option[4]:
                     if option[1] != '...':
-                        row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "
+                        row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "
                                              "p.s_price, a.mon_sell, a.reserve "
                                              "from book a inner join class b on a.book_id=b.book_id "
                                              "inner join author_book c on a.book_id = c.book_id "
                                              "inner join press d on a.press_id = d.press_id "
                                              "inner join price p on a.book_id = p.book_id "
-                                             "where b.class = ? and b.subclass = ? and c.author_name like ? ",
+                                             "where b.class1 = ? and b.subclass = ? and c.author_name like ? and at = 'a' ",
                                              option[0], option[1], '%' + option[2] + '%').fetchall()
                         return row
                     else:
-                        row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "
+                        row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "
                                              "p.s_price, a.mon_sell, a.reserve "
                                              "from book a inner join class b on a.book_id=b.book_id "
                                              "inner join author_book c on a.book_id = c.book_id "
                                              "inner join press d on a.press_id = d.press_id "
                                              "inner join price p on a.book_id = p.book_id "
-                                             "where b.class = ? and c.author_name like ? ",
+                                             "where b.class1 = ? and c.author_name like ? and at = 'a' ",
                                              option[0], '%' + option[2] + '%').fetchall()
                         return row
             if option[0] == '...':
                 if option[3]:
-                    row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "
+                    row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "
                                          "p.s_price, a.mon_sell, a.reserve "
                                          "from book a inner join class b on a.book_id=b.book_id "
                                          "inner join author_book c on a.book_id = c.book_id "
                                          "inner join press d on a.press_id = d.press_id "
                                          "inner join price p on a.book_id = p.book_id "
-                                         "where a.book_name like ? ",
+                                         "where a.book_name like ? and at = 'a' ",
                                          '%' + option[2] + '%').fetchall()
                     return row
                 if option[4]:
-                    row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "
+                    row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "
                                          "p.s_price, a.mon_sell, a.reserve "
                                          "from book a inner join class b on a.book_id=b.book_id "
                                          "inner join author_book c on a.book_id = c.book_id "
                                          "inner join press d on a.press_id = d.press_id "
                                          "inner join price p on a.book_id = p.book_id "
-                                         "where c.author_name like ? ",
+                                         "where c.author_name like ? and at = 'a' ",
                                          '%' + option[2] + '%').fetchall()
                     return row
         if option[0]:
             if option[1] != '...':
-                row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "
+                row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "
                                      "p.s_price, a.mon_sell, a.reserve "
                                      "from book a inner join class b on a.book_id=b.book_id "
                                      "inner join author_book c on a.book_id = c.book_id "
                                      "inner join press d on a.press_id = d.press_id "
                                      "inner join price p on a.book_id = p.book_id "
-                                     "where b.class = ? and b.subclass = ?",
+                                     "where b.class1 = ? and b.subclass = ? and at = 'a' ",
                                      option[0], option[1]).fetchall()
                 return row
             else:
-                row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "
+                row = cursor.execute("select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "
                                      "p.s_price, a.mon_sell, a.reserve "
                                      "from book a inner join class b on a.book_id=b.book_id "
                                      "inner join author_book c on a.book_id = c.book_id "
                                      "inner join press d on a.press_id = d.press_id "
                                      "inner join price p on a.book_id = p.book_id "
-                                     "where b.class = ?", option[0]).fetchall()
+                                     "where b.class1 = ? and at = 'a' ", option[0]).fetchall()
                 return row
 
 
@@ -234,7 +234,7 @@ class Database:
 
     def detail_search_result(self, option):
         cursor = self.cnxn.cursor()
-        select = "select a.book_id, a.book_name, c.author_name, b.class as c, d.press_name, "\
+        select = "select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, "\
                  "p.s_price, a.mon_sell, a.reserve " \
                  "from book a inner join class b on a.book_id=b.book_id "\
                  "inner join author_book c on a.book_id = c.book_id "\
@@ -256,7 +256,7 @@ class Database:
                 condition += "c.author_name = ? and c.at = 't' and "
                 variable.append(option[3])
             if option[4]:
-                condition += "b.class = ? and "
+                condition += "b.class1 = ? and "
                 variable.append(option[4])
             if option[5]:
                 condition += "b.subclass = ? and "
@@ -271,7 +271,7 @@ class Database:
                 condition += "reserve > 0 and "
             else:
                 condition += "reserve = 0 and "
-            condition += "p.s_price>0"
+            condition += "at = 'a' "
             row = cursor.execute(select + condition, variable).fetchall()
             return row
 
@@ -281,7 +281,7 @@ class Database:
                              "a.intro, a.graph "
                              "from book a inner join author_book c on a.book_id = c.book_id "
                              "inner join press d on a.press_id = d.press_id "
-                             "where a.book_id = ?", book_id
+                             "where a.book_id = ? and at = 'a' ", book_id
                              ).fetchone()
         detail = []
         detail.append(row.book_name)
@@ -291,6 +291,13 @@ class Database:
         detail.append(row.book_id)
         detail.append(row.intro)
         detail.append(row.graph)
+        row = cursor.execute("select a.book_id, a.book_name, a.pressdate, c.author_name, d.press_name, "
+                             "a.intro, a.graph "
+                             "from book a inner join author_book c on a.book_id = c.book_id "
+                             "inner join press d on a.press_id = d.press_id "
+                             "where a.book_id = ? and at = 't' ", book_id
+                             ).fetchone()
+        detail[1] += '/' + row.author_name
         return detail
 
     def cart_select(self, account, vip):
@@ -419,7 +426,7 @@ class Database:
 
     def manage_simple_search(self, option, filter, sort):   #??????
         cursor = self.cnxn.cursor()
-        select = "select a.book_id, a.book_name, c.author_name, b.class as cl, d.press_name, a.reserve, a.on_sale, p.s_price, " \
+        select = "select a.book_id, a.book_name, c.author_name, b.class1 as cl, d.press_name, a.reserve, a.on_sale, p.s_price, " \
                  "p.discount, a.mon_sell " \
                  "from book a inner join class b on a.book_id=b.book_id " \
                  "inner join author_book c on a.book_id = c.book_id " \
@@ -428,7 +435,7 @@ class Database:
         condition = "where "
         variable = []
         if option[0] != '...':
-            condition += "b.class = ? and "
+            condition += "b.class1 = ? and "
             variable.append(option[0])
         if option[1] != '...':
             condition += "b.subclass = ? and "
@@ -444,7 +451,7 @@ class Database:
             condition += "on_sale = 'on' and "
         if filter == '未上架':
             condition += "on_sale = 'off' and "
-        condition += "p.s_price>0 "
+        condition += "at = 'a' "
         if sort == '价格升序':
             condition += 'order by p.s_price asc'
         if sort == '价格降序':
@@ -458,7 +465,7 @@ class Database:
 
     def manage_detail_search(self, option, filter, sort):
         cursor = self.cnxn.cursor()
-        select = "select a.book_id, a.book_name, c.author_name, b.class as cl, d.press_name, a.reserve, a.on_sale, p.s_price, " \
+        select = "select a.book_id, a.book_name, c.author_name, b.class1 as cl, d.press_name, a.reserve, a.on_sale, p.s_price, " \
                  "p.discount, a.mon_sell "\
                  "from book a inner join class b on a.book_id=b.book_id " \
                  "inner join author_book c on a.book_id = c.book_id " \
@@ -480,7 +487,7 @@ class Database:
                 condition += "c.author_name = ? and c.at = 't' and "
                 variable.append(option[3])
             if option[4]:
-                condition += "b.class = ? and "
+                condition += "b.class1 = ? and "
                 variable.append(option[4])
             if option[5]:
                 condition += "b.subclass = ? and "
@@ -499,7 +506,7 @@ class Database:
                 condition += "on_sale = 'on' and "
             if filter == '未上架':
                 condition += "on_sale = 'off' and "
-            condition += "p.s_price>0 "
+            condition += "at = 'a' "
             if sort == '价格升序':
                 condition += 'order by p.s_price asc'
             if sort == '价格降序':
@@ -510,3 +517,267 @@ class Database:
                 condition += 'order by a.mon_sell desc'
             row = cursor.execute(select + condition, variable).fetchall()
             return row
+
+    def manage_on_off_de_book(self, blist, sta):
+        cursor = self.cnxn.cursor()
+        n = len(blist)
+        if sta == 'down':
+            stat = 'off'
+        if sta == 'up':
+            stat = 'on'
+        for i in range(0, n):
+            cursor.execute("update book set on_sale = ? whrere book_id = ?", stat, blist[i])
+            cursor.commit()
+        if sta == 'delete':
+            for i in range(0, n):
+                cursor.execute("delete from book whrere book_id = ?", blist[i])
+                cursor.commit()
+
+    def m_user_manage_search(self, option):
+        cursor = self.cnxn.cursor()
+        select = "select * from users "
+        condition = "where "
+        variable = []
+        if option[0]:
+            if option[1]:
+                condition += "u_account = ? and "
+                variable.append(option[0])
+            if option[2]:
+                condition += "u_nickname like ? and "
+                variable.append('%' + option[0] + '%')
+        if option[5] == '非会员':
+            condition += "(vip_status < getdate() or vip_status = NULL) and "
+        if option[5] == '会员':
+            condition += "vip_status >= getdate() and "
+        if option[5] == '作家用户':
+            condition += "u_invtnum != NULL and "
+        condition += "u_re_time >= ? and u_re_time <= ? "
+        variable.append(option[3])
+        variable.append(option[4])
+        row = cursor.execute(select + condition, variable).fetchall()
+        return row
+
+    def m_user_profile(self, uid):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from users where u_id = ? ", uid).fetchone()
+        return row
+
+    def m_order_manage_search(self, option):
+        cursor = self.cnxn.cursor()
+        select = "select * from users a inner join sell b on a.u_id = b.u_id "\
+                 "inner join sell_book c on b.sell_id = c.sell_id "
+        condition = "where "
+        variable = []
+        if option[0]:
+            if option[1]:
+                condition += "u_account = ? and "
+                variable.append(option[0])
+            if option[2]:
+                condition += "u_nickname = ? and "
+                variable.append(option[0])
+        condition += "s_date >= ? and s_date <= ? order by b.sell_id"
+        variable.append(option[3])
+        variable.append(option[4])
+        row = cursor.execute(select + condition, variable).fetchall()
+        sell_id = cursor.execute("select distinct b.sell_id from users a inner join sell b on a.u_id = b.u_id "
+                                 "inner join sell_book c on b.sell_id = c.sell_id " + condition, variable).fetchall()
+        return [row, sell_id]
+
+    def m_press_search(self, option):
+        cursor = self.cnxn.cursor()
+        select = "select * from press "
+        condition = "where "
+        variable = []
+        if option[0]:
+            if option[1]:
+                condition += "press_name like ? "
+                variable.append('%' + option[0] + '%')
+            if option[2]:
+                condition += "person like ? "
+                variable.append('%' + option[0] + '%')
+        row = cursor.execute(select + condition, variable).fetchall()
+        return row
+
+    def m_press_detail(self, pid):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from press where press_id = ? ", pid).fetchone()
+        return row
+
+    def m_press_save(self, pid, option):
+        cursor = self.cnxn.cursor()
+        if len(option[0]) == 0:
+            return 0
+        if len(option[1]) == 0:
+            return 1
+        if len(option[2]) == 0:
+            return 2
+        if len(option[3]) == 0:
+            return 3
+        if len(option[4]) == 0:
+            return 4
+        if pid:
+            cursor.execute("update press set press_name = ?, person = ?, telephone = ?, "
+                           "email = ?, address = ? where press_id = ?", option[0], option[1],
+                           option[2], option[3], option[4], pid)
+            cursor.commit()
+        else:
+            max0 = cursor.execute("select max(press_id) as m from press").fetchone()
+            if max0:
+                max1 = max0.m + 1
+            else:
+                max1 = 1
+            cursor.execute("insert into press values(?, ?, ?, ?, ?, ?)", max1, option[0], option[1],
+                           option[2], option[3], option[4])
+            cursor.commit()
+        return 5
+
+    def m_cart_view_u(self, uid):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from users a inner join cart b on a.u_id = b.u_id "
+                             "inner join book c on b.book_id = c.book_id "
+                             "inner join author_book d on c.book_id = d.book_id "
+                             "where a.u_id = ? and at = 'a'", uid).fetchall()
+        return row
+
+    def m_order_view(self, sid):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from users a inner join sell b on a.u_id = b.u_id "
+                             "inner join sell_book c on b.sell_id = c.sell_id "
+                             "inner join book d on c.book_id = d.book_id "
+                             "inner join author_book e on d.book_id = e.book_id "
+                             "where b.sell_id = ? and at = 'a'", sid).fetchall()
+        return row
+
+    def m_book_detail(self, bid):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from book a inner join author_book b on a.book_id = b.book_id "
+                             "inner join press c on a.press_id = c.press_id "
+                             "inner join price d on a.book_id = d.book_id "
+                             "inner join class e on a.book_id = e.book_id "
+                             "where at = 'a'").fetchone()
+        row1 = cursor.execute("select * from book a inner join author_book b on a.book_id = b.book_id "
+                              "inner join press c on a.press_id = c.press_id "
+                              "inner join price d on a.book_id = d.book_id "
+                              "inner join class e on a.book_id = e.book_id "
+                              "where at = 't'").fetchone()
+        return [row, row1]
+
+    def m_class2(self, text):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select distinct subclass as a from class where class1 = ?", text).fetchall()
+        n = len(row)
+        listt = []
+        for i in range(0, n):
+            listt.append(row[i].a)
+        return listt
+
+    def update_book(self, bid, option):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from press where press_name = ?", option[3]).fetchone()
+        if row:
+            press_id = row.press_id
+            update = "update book set book_name = ?, press_id = ?, pressdate = ?, " \
+                     "versions = ?, reserve = 0 "
+            if option[0] is None or len(option[0]) == 0:
+                return 3  # 未填写书名
+            if option[8] is None or len(option[8]) == 0 or option[8] != bid:
+                return 4  # ISBN不可修改
+            if option[9] is None or len(str(option[9])) == 0:
+                return 5  # 未填写出版日期
+            if option[10] is None:
+                return 6  # 未填写版本号
+            variable = [option[0], press_id, option[9], option[10]]
+            if option[13]:
+                update += ", intro = ? "
+                variable.append(option[13])
+            variable.append(bid)
+            cursor.execute(update + "where book_id = ?", variable)
+            if option[1]:
+                cursor.execute("update author_book set author_name = ? where book_id = ? and "
+                               "at = 'a'", option[1], bid)
+                if option[2]:
+                    row = cursor.execute("select * from author_book where book_id = ? and at = 't'",
+                                         bid).fetchone()
+                    if row:
+                        cursor.execute("update author_book set author_name = ? where book_id = ? "
+                                       "and at = 't'", option[2])
+                    else:
+                        max0 = cursor.execute("select max(ab_id) as m from author_book").fetchone()
+                        if max0:
+                            max1 = max0.m + 1
+                        else:
+                            max1 = 1
+                        cursor.execute("insert into author_book values(?,?,?,'t')", max1, option[2], bid)
+                else:
+                    row = cursor.execute("select * from author_book where book_id = ? and at = 't'",
+                                         bid).fetchone()
+                    if row:
+                        cursor.execute("delete from author_book where author_name = ? and book_id = ? "
+                                       "and at = 't'", option[2])
+                if option[6]:
+                    if option[7]:
+                        cursor.execute("update class set class1 = ?, subclass = ? where book_id = ?", option[6], option[7], bid)
+                    else:
+                        cursor.execute("update class set class1 = ? where book_id = ?", option[6], bid)
+                else:
+                    cursor.execute("update class set class1 = ?, subclass = ? where book_id = ?", option[4], option[5], bid)
+                if option[11]:
+                    if option[12]:
+                        cursor.execute("update price set s_price = ?, discount = ? where book_id = ?", option[11], option[12], bid)
+                    else:
+                        cursor.execute("update price set s_price = ?, discount = ? where book_id = ?", option[11], option[11], bid)
+                    cursor.commit()
+                    return -1  #保存成功
+                else:
+                    return 2  # 未填写单价
+            else:
+                return 1  # 未填写作者
+        else:
+            return 0  # 出版社不存在 请先添加出版社信息
+
+    def insert_book(self, option):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from press where press_name = ?", option[3]).fetchone()
+        if row:
+            press_id = row.press_id
+            if option[0] is None or len(option[0]) == 0:
+                return 3  # 未填写书名
+            if option[8] is None or len(option[8]) == 0:
+                return 4  # 未填写ISBN
+            if option[9] is None or len(str(option[9])) == 0:
+                return 5  # 未填写出版日期
+            if option[10] is None or len(option[10]) == 0:
+                return 6  # 未填写版本号
+            cursor.execute("insert into book(book_id, book_name, press_id, pressdate, versions, reserve)"
+                           " values(?, ?, ?, ?, ?, 0)", option[8], option[0], press_id, option[9], option[10])
+            if option[13]:
+                cursor.execute("update book set intro = ? where book_id = ?", option[13], option[8])
+            if option[1]:
+                max0 = cursor.execute("select max(ab_id) from author_book").fetchval()
+                cursor.execute("insert into author_book(ab_id, author_name, book_id, at) values(?,?,?,'a')", max0 + 1, option[1], option[8])
+                if option[2]:
+                    max0 = cursor.execute("select max(ab_id) from author_book").fetchval()
+                    cursor.execute("insert into author_book(ab_id, author_name, book_id, at) values(?,?,?,'t')", max0 + 1, option[2], option[8])
+                if option[6]:
+                    max0 = cursor.execute("select max(class_id) from class").fetchval()
+                    if option[7]:
+                        cursor.execute("insert into class values(?,?,?,?)", max0 + 1, option[8], option[6], option[7])
+                    else:
+                        cursor.execute("insert into class(class_id, book_id, class1)"
+                                       " values(?,?,?)", max0 + 1, option[8], option[6])
+                else:
+                    max0 = cursor.execute("select max(class_id) from class").fetchval()
+                    cursor.execute("insert into class values(?,?,?,?)", max0 + 1 , option[8], option[4], option[5])
+                if option[11]:
+                    if option[12]:
+                        cursor.execute("insert into price values(?,?,?)", option[8], option[11], option[12])
+                    else:
+                        cursor.execute("insert into price(book_id, s_price) values(?,?)", option[8], option[11])
+                    cursor.commit()
+                    return -1  #保存成功
+                else:
+                    return 2  # 未填写单价
+            else:
+                return 1  # 未填写作者
+        else:
+            return 0  # 出版社不存在 请先添加出版社信息

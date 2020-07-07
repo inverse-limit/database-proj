@@ -38,20 +38,22 @@ class Controller2:
     def show_book_detail_from_manage(self):
         self.edit_book_detail = edit_book_detail()
         self.edit_book_detail.database = self.database
+        self.edit_book_detail.put_in_class1()
         self.edit_book_detail.put_in_data(self.manage.book_id)
         self.edit_book_detail.switch_save.connect(self.refresh_manage)
         self.edit_book_detail.show()
 
     def show_book_detail_add(self):
         self.edit_book_detail = edit_book_detail()
-        self.edit_book_detail.put_in_class1()
         self.edit_book_detail.database = self.database
+        self.edit_book_detail.put_in_class1()
         self.edit_book_detail.switch_save.connect(self.refresh_manage)
         self.edit_book_detail.show()
 
     def show_book_detail_from_view(self):
         self.edit_book_detail = edit_book_detail()
         self.edit_book_detail.database = self.database
+        self.edit_book_detail.put_in_class1()
         self.edit_book_detail.put_in_data(self.view_cart_order.book_id)
         self.edit_book_detail.switch_save.connect(self.refresh_manage)
         self.edit_book_detail.show()

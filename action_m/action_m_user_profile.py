@@ -2,6 +2,7 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from ui.ui_m_user_profile import *
+import time
 
 
 class m_user_profile(QtWidgets.QWidget, Ui_m_user_profile):
@@ -19,6 +20,22 @@ class m_user_profile(QtWidgets.QWidget, Ui_m_user_profile):
         """
         TODO:类似Home的逻辑，双击用户管理表的一行给进来一个user_id，用它填信息并存到self.user_id里
         """
+        row = self.database.m_user_profile(user_id)
+        self.user_id = user_id
+        date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        if row.vip_status >= date:
+            sta = '会员有效期至 ' + str(row.vip_status)
+        else:
+            sta = '非会员'
+        self.u_account.setText(row.u_account)
+        self.u_nickname.setText(row.u_nickname)
+        self.u_name.setText(row.u_name)
+        self.u_telephone.setText(row.u_telephone)
+        self.u_email.setText(row.u_email)
+        self.vip_status.setText(sta)
+        self.u_address1.setPlainText(row.u_address1)
+        self.u_address2.setPlainText(row.u_address2)
+
         # self.u_account.setText('张三')  # 设置用户名
         # self.u_nickname.setText('安安')  # 昵称
         # self.u_name.setText('阿斯蒂')  # 真实姓名

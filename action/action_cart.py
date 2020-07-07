@@ -46,6 +46,22 @@ class cart(QtWidgets.QWidget, Ui_cart):
             for row in range(0, n):
                 self.cart_id.append(self.cart_content[row].cart_id)
                 # 书名
+                item = QtWidgets.QTableWidgetItem('')
+                item.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
+                item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
+                item.setCheckState(QtCore.Qt.Unchecked)
+                self.tableWidget.setItem(row, 0, item)
+
+                if self.cart_content[row].graph:
+                    path = self.cart_content[row].graph
+                    item = self.get_image_label(path)
+                    self.tableWidget.setCellWidget(row, 0, item)
+                else:
+                    path = './icon/no_cover.jpg'
+                    item = self.get_image_label(path)
+                    self.tableWidget.setCellWidget(row, 0, item)
+
+
                 self.tableWidget.insertRow(row)
                 test = QtWidgets.QTableWidgetItem(self.cart_content[row].book_name)
                 test.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
@@ -213,6 +229,14 @@ class cart(QtWidgets.QWidget, Ui_cart):
                 price += self.get_price(row)
         self.price.setText('%.2f' % price)
 
+    def get_image_label(self, image):
+        image_label = QtWidgets.QLabel()
+        image_label.setText('')
+        image_label.setScaledContents(True)
+        pixmap = QtGui.QPixmap(image)
+        pixmap.scaled(50, 40, QtCore.Qt.KeepAspectRatio)
+        image_label.setPixmap(pixmap)
+        return image_label
 
 class confirm_order(QDialog, Ui_confirm_order):
     switch_cart = QtCore.pyqtSignal()

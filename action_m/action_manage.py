@@ -72,7 +72,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                                                       self.comboBox_sort.currentText())
         n = len(self.row)
         self.page_now = 1
-        for i in range((self.page_now - 1) * 12, min(n, self.page_now * 12)):
+        for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
             self.tableWidget.insertRow(i)
             # 第一列固定这么加
             item = QtWidgets.QTableWidgetItem('')
@@ -129,7 +129,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
             self.tableWidget.setItem(i, 9, item)
-        self.page_all = math.ceil(n/12)
+        self.page_all = math.ceil(n/6)
         self.label_all_page.setText("共" + str(self.page_all) + "页")
         self.label_current_page.setText("第" + str(self.page_now) + "页")
 
@@ -143,7 +143,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                                                       self.comboBox_sort.currentText())
         n = len(self.row)
         self.page_now = 1
-        for i in range((self.page_now - 1) * 12, min(n, self.page_now * 12)):
+        for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
             self.tableWidget.insertRow(i)
             # 第一列固定这么加
             item = QtWidgets.QTableWidgetItem('')
@@ -200,7 +200,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
             self.tableWidget.setItem(i, 9, item)
-        self.page_all = math.ceil(n/12)
+        self.page_all = math.ceil(n/6)
         self.label_all_page.setText("共" + str(self.page_all) + "页")
         self.label_current_page.setText("第" + str(self.page_now) + "页")
 
@@ -248,54 +248,54 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                 self.tableWidget.setRowCount(0)
                 n = len(self.row)
                 self.page_now = m
-                for i in range((self.page_now - 1) * 12, min(n, self.page_now * 12)):
+                for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
                     self.tableWidget.insertRow(i)
                     # 第一列固定这么加
                     item = QtWidgets.QTableWidgetItem('')
                     item.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
                     item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                     item.setCheckState(QtCore.Qt.Unchecked)
-                    self.tableWidget.setItem(i, 0, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 0, item)
 
                     # 第二列封面
                     path = './icon/test_pic2.jpg'
                     item = self.get_image_label(path)
-                    self.tableWidget.setCellWidget(i, 1, item)
+                    self.tableWidget.setCellWidget(i - (self.page_now - 1) * 6, 1, item)
 
                     item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 2, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 2, item)
 
                     item = QTableWidgetItem(self.row[i].author_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 3, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 3, item)
 
                     item = QTableWidgetItem(self.row[i].cl)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 4, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 4, item)
 
                     item = QTableWidgetItem(self.row[i].press_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 5, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 5, item)
 
                     item = QTableWidgetItem(str(self.row[i].s_price))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 6, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 6, item)
 
                     item = QTableWidgetItem(str(self.row[i].mon_sell))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 7, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 7, item)
 
                     item = QTableWidgetItem(str(self.row[i].reserve))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 8, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 8, item)
 
                     if self.row[i].on_sale == 'on':
                         sta = '已上架'
@@ -304,62 +304,62 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                     item = QTableWidgetItem(sta)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 9, item)
-                self.page_all = math.ceil(n / 12)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 9, item)
+                self.page_all = math.ceil(n/6)
                 self.label_all_page.setText("共" + str(self.page_all) + "页")
                 self.label_current_page.setText("第" + str(self.page_now) + "页")
             else:
                 self.tableWidget.setRowCount(0)
                 n = len(self.row)
                 self.page_now = self.page_all
-                for i in range((self.page_now - 1) * 12, min(n, self.page_now * 12)):
+                for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
                     self.tableWidget.insertRow(i)
                     # 第一列固定这么加
                     item = QtWidgets.QTableWidgetItem('')
                     item.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
                     item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                     item.setCheckState(QtCore.Qt.Unchecked)
-                    self.tableWidget.setItem(i, 0, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 0, item)
 
                     # 第二列封面
                     path = './icon/test_pic2.jpg'
                     item = self.get_image_label(path)
-                    self.tableWidget.setCellWidget(i, 1, item)
+                    self.tableWidget.setCellWidget(i - (self.page_now - 1) * 6, 1, item)
 
                     item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 2, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 2, item)
 
                     item = QTableWidgetItem(self.row[i].author_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 3, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 3, item)
 
                     item = QTableWidgetItem(self.row[i].cl)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 4, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 4, item)
 
                     item = QTableWidgetItem(self.row[i].press_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 5, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 5, item)
 
                     item = QTableWidgetItem(str(self.row[i].s_price))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 6, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 6, item)
 
                     item = QTableWidgetItem(str(self.row[i].mon_sell))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 7, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 7, item)
 
                     item = QTableWidgetItem(str(self.row[i].reserve))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 8, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 8, item)
 
                     if self.row[i].on_sale == 'on':
                         sta = '已上架'
@@ -368,8 +368,8 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                     item = QTableWidgetItem(sta)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 9, item)
-                self.page_all = math.ceil(n / 12)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 9, item)
+                self.page_all = math.ceil(n / 6)
                 self.label_all_page.setText("共" + str(self.page_all) + "页")
                 self.label_current_page.setText("第" + str(self.page_now) + "页")
 
@@ -382,54 +382,54 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         self.tableWidget.setRowCount(0)
         n = len(self.row)
         self.page_now -= 1
-        for i in range((self.page_now - 1) * 12, min(n, self.page_now * 12)):
+        for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
             self.tableWidget.insertRow(i)
             # 第一列固定这么加
             item = QtWidgets.QTableWidgetItem('')
             item.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
             item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
             item.setCheckState(QtCore.Qt.Unchecked)
-            self.tableWidget.setItem(i, 0, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 0, item)
 
             # 第二列封面
             path = './icon/test_pic2.jpg'
             item = self.get_image_label(path)
-            self.tableWidget.setCellWidget(i, 1, item)
+            self.tableWidget.setCellWidget(i - (self.page_now - 1) * 6, 1, item)
 
             item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 2, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 2, item)
 
             item = QTableWidgetItem(self.row[i].author_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 3, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 3, item)
 
             item = QTableWidgetItem(self.row[i].cl)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 4, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 4, item)
 
             item = QTableWidgetItem(self.row[i].press_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 5, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 5, item)
 
             item = QTableWidgetItem(str(self.row[i].s_price))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 6, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 6, item)
 
             item = QTableWidgetItem(str(self.row[i].mon_sell))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 7, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 7, item)
 
             item = QTableWidgetItem(str(self.row[i].reserve))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 8, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 8, item)
 
             if self.row[i].on_sale == 'on':
                 sta = '已上架'
@@ -438,8 +438,8 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
             item = QTableWidgetItem(sta)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 9, item)
-        self.page_all = math.ceil(n / 12)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 9, item)
+        self.page_all = math.ceil(n / 6)
         self.label_all_page.setText("共" + str(self.page_all) + "页")
         self.label_current_page.setText("第" + str(self.page_now) + "页")
 
@@ -450,54 +450,54 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         self.tableWidget.setRowCount(0)
         n = len(self.row)
         self.page_now += 1
-        for i in range((self.page_now - 1) * 12, min(n, self.page_now * 12)):
+        for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
             self.tableWidget.insertRow(i)
             # 第一列固定这么加
             item = QtWidgets.QTableWidgetItem('')
             item.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
             item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
             item.setCheckState(QtCore.Qt.Unchecked)
-            self.tableWidget.setItem(i, 0, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 0, item)
 
             # 第二列封面
             path = './icon/test_pic2.jpg'
             item = self.get_image_label(path)
-            self.tableWidget.setCellWidget(i, 1, item)
+            self.tableWidget.setCellWidget(i - (self.page_now - 1) * 6, 1, item)
 
             item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 2, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 2, item)
 
             item = QTableWidgetItem(self.row[i].author_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 3, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 3, item)
 
             item = QTableWidgetItem(self.row[i].cl)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 4, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 4, item)
 
             item = QTableWidgetItem(self.row[i].press_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 5, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 5, item)
 
             item = QTableWidgetItem(str(self.row[i].s_price))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 6, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 6, item)
 
             item = QTableWidgetItem(str(self.row[i].mon_sell))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 7, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 7, item)
 
             item = QTableWidgetItem(str(self.row[i].reserve))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 8, item)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 8, item)
 
             if self.row[i].on_sale == 'on':
                 sta = '已上架'
@@ -506,8 +506,8 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
             item = QTableWidgetItem(sta)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 9, item)
-        self.page_all = math.ceil(n / 12)
+            self.tableWidget.setItem(i - (self.page_now - 1) * 6, 9, item)
+        self.page_all = math.ceil(n / 6)
         self.label_all_page.setText("共" + str(self.page_all) + "页")
         self.label_current_page.setText("第" + str(self.page_now) + "页")
 
@@ -518,57 +518,57 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         self.tableWidget.setRowCount(0)
         n = len(self.row)
         if isinstance(self.lineEdit_pagejump,int):
-            if self.lineEdit_pagejump >0 and self.lineEdit_pagejump <= math.ceil(n/12):
+            if self.lineEdit_pagejump >0 and self.lineEdit_pagejump <= math.ceil(n/6):
                 self.tableWidget.setRowCount(0)
                 self.page_now = self.lineEdit_pagejump
-                for i in range((self.page_now - 1) * 12, min(n, self.page_now * 12)):
+                for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
                     self.tableWidget.insertRow(i)
                     # 第一列固定这么加
                     item = QtWidgets.QTableWidgetItem('')
                     item.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
                     item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
                     item.setCheckState(QtCore.Qt.Unchecked)
-                    self.tableWidget.setItem(i, 0, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 0, item)
 
                     # 第二列封面
                     path = './icon/test_pic2.jpg'
                     item = self.get_image_label(path)
-                    self.tableWidget.setCellWidget(i, 1, item)
+                    self.tableWidget.setCellWidget(i - (self.page_now - 1) * 6, 1, item)
 
                     item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 2, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 2, item)
 
                     item = QTableWidgetItem(self.row[i].author_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 3, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 3, item)
 
                     item = QTableWidgetItem(self.row[i].cl)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 4, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 4, item)
 
                     item = QTableWidgetItem(self.row[i].press_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 5, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 5, item)
 
                     item = QTableWidgetItem(str(self.row[i].s_price))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 6, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 6, item)
 
                     item = QTableWidgetItem(str(self.row[i].mon_sell))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 7, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 7, item)
 
                     item = QTableWidgetItem(str(self.row[i].reserve))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 8, item)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 8, item)
 
                     if self.row[i].on_sale == 'on':
                         sta = '已上架'
@@ -577,8 +577,8 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                     item = QTableWidgetItem(sta)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                     item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                     item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-                    self.tableWidget.setItem(i, 9, item)
-                self.page_all = math.ceil(n / 12)
+                    self.tableWidget.setItem(i - (self.page_now - 1) * 6, 9, item)
+                self.page_all = math.ceil(n / 6)
                 self.label_all_page.setText("共" + str(self.page_all) + "页")
                 self.label_current_page.setText("第" + str(self.page_now) + "页")
         else:
@@ -589,7 +589,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         """
         TODO:同home
         """
-        n = (self.page_now - 1) *12 + row
+        n = (self.page_now - 1) *7 + row
         infor = self.row[n]
         self.book_id = infor.book_id
         self.book_detail()
@@ -602,9 +602,9 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
              数据库更新完后 self.refresh_current_page刷新一下当前页面
         """
         listt = []
-        for row in range(0, 12):
+        for row in range(0, 6):
             if self.tableWidget.item(row, 0).checkState() == QtCore.Qt.Checked:
-                n = (self.page_now - 1) * 12 + row
+                n = (self.page_now - 1) * 6 + row
                 infor  = self.row[n]
                 listt.append(infor.book_id)
         self.database.manage_on_off_de_book(listt, 'down')
@@ -615,9 +615,9 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         TODO:上面那个注释里 下改成上
         """
         listt = []
-        for row in range(0, 12):
+        for row in range(0, 6):
             if self.tableWidget.item(row, 0).checkState() == QtCore.Qt.Checked:
-                n = (self.page_now - 1) * 12 + row
+                n = (self.page_now - 1) * 6 + row
                 infor = self.row[n]
                 listt.append(infor.book_id)
         self.database.manage_on_off_de_book(listt, 'up')
@@ -632,9 +632,9 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                                                QtWidgets.QMessageBox.No)
         if reply == QtWidgets.QMessageBox.Yes:
             listt = []
-            for row in range(0, 12):
+            for row in range(0, 6):
                 if self.tableWidget.item(row, 0).checkState() == QtCore.Qt.Checked:
-                    n = (self.page_now - 1) * 12 + row
+                    n = (self.page_now - 1) * 6 + row
                     infor = self.row[n]
                     listt.append(infor.book_id)
             self.database.manage_on_off_de_book(listt, 'delete')

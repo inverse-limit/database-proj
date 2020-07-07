@@ -84,6 +84,7 @@ class Controller:
         self.buy_vip = buy_vip()
         self.buy_vip.database = self.database
         self.buy_vip.switch_user_profile.connect(self.refresh_user_profile)
+        self.buy_vip.user_data = self.home.user_data
         self.buy_vip.show()
 
     def show_edit_user_profile(self):

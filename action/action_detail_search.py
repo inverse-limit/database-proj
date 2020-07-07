@@ -25,6 +25,8 @@ class detail_research(QtWidgets.QDialog, Ui_detail_search_window):
              当用户切换大类时会自动触发下面的get_class2函数，函数的输入值text就是此时框内的字符，利用它把子类的数据给到小类框
              下面为添加元素的例子
         """
+        listt = self.database.home_class()
+        self.comboBox_class1.addItems(listt)
 
     def get_class2(self, text):
         """
@@ -33,6 +35,9 @@ class detail_research(QtWidgets.QDialog, Ui_detail_search_window):
              小类的第一个是'...'表示全部分类，用self.combobox.clear()可删除当前选项框里保存的所有内容
              以下代码为基于大类给小类输入元素的例子
         """
+        self.comboBox_class2.clear()
+        listt = self.database.home_class2(text)
+        self.comboBox_class2.addItems(listt)
 
     def accept(self):
         """

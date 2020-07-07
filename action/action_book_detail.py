@@ -20,12 +20,22 @@ class book_detail(QtWidgets.QWidget, Ui_book_detail):
              填到界面里，并且存到self.book_id里
         """
         infor = self.database.book_detail_putin(book_id)
+        print(infor)
         self.book_name.setText(infor[0])
         self.author.setText(infor[1])
         self.press.setText(infor[2])
         self.pressdate.setText(infor[3])
         self.ISBN.setText(infor[4])
         self.intro.setPlainText(infor[5])
+        self.version.setText(infor[6])
+        self.stock.setText(infor[7])
+        self.price.setText(infor[8])
+        if infor[9]:
+            path = infor[9]
+            self.cover.setPixmap(QtGui.QPixmap(path))
+        else:
+            path = './icon/no_cover.jpg'
+            self.cover.setPixmap(QtGui.QPixmap(path))
         self.book_id = book_id
 
     def add_to_cart(self):

@@ -129,14 +129,22 @@ class buy_vip(QtWidgets.QDialog, Ui_buy_vip):
         super(buy_vip, self).__init__(parent)
         self.setupUi(self)
         self.pushButton_cancel.clicked.connect(self.cancel)
+        self.pushButton_accept.clicked.connect(self.accept)
 
     def accept(self):
         """
         TODO:判断选了哪个radioButton，使数据库里相应用户开通会员或是延长会员时间
         """
-        QtWidgets.QMessageBox.about(self, '提示', '开通成功！')
-        self.switch_user_profile.emit()
-        self.done(1)
+        option = [self.radioButton_1.isChecked(), self.radioButton_5.isChecked(), self.radioButton_6.isChecked(),
+                  self.radioButton_12.isChecked()]
+        account = self.user_data[0]
+        check = self.database.buy_vip(account, option)
+        if check == 1:
+            QtWidgets.QMessageBox.about(self, '提示', '开通成功！')
+            self.switch_user_profile.emit()
+            self.done(1)
+        if check == 0:
+            QtWidgets.QMessageBox.about(self, '提示', '请选择开通时间！')
 
     def cancel(self):
         self.done(-1)

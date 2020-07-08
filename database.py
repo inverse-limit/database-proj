@@ -386,7 +386,7 @@ class Database:
 
     def manage_simple_search(self, option, filter, sort):  # ??????
         cursor = self.cnxn.cursor()
-        select = "select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, a.reserve, a.on_sale, p.s_price, " \
+        select = "select a.book_id, a.book_name, c.author_name, b.class1 as cl, d.press_name, a.reserve, a.on_sale, p.s_price, " \
                  "p.discount, a.mon_sell, a.graph " \
                  "from book a inner join class b on a.book_id=b.book_id " \
                  "inner join author_book c on a.book_id = c.book_id " \
@@ -617,12 +617,12 @@ class Database:
                              "inner join press c on a.press_id = c.press_id "
                              "inner join price d on a.book_id = d.book_id "
                              "inner join class e on a.book_id = e.book_id "
-                             "where at = 'a'").fetchone()
+                             "where at = 'a' and a.book_id = ? ", bid).fetchone()
         row1 = cursor.execute("select * from book a inner join author_book b on a.book_id = b.book_id "
                               "inner join press c on a.press_id = c.press_id "
                               "inner join price d on a.book_id = d.book_id "
                               "inner join class e on a.book_id = e.book_id "
-                              "where at = 't'").fetchone()
+                              "where at = 't' and a.book_id = ? ", bid).fetchone()
         return [row, row1]
 
     def update_book(self, bid, option):

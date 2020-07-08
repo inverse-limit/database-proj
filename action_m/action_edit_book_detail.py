@@ -55,8 +55,12 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
                 index = self.comboBox_class2.findText(self.row[0].subclass, QtCore.Qt.MatchFixedString)
                 if index >= 0:
                     self.comboBox_class2.setCurrentIndex(index)
-            path = './icon/test_pic2'
-            self.picture.setPixmap(QtGui.QPixmap(path))
+            if self.row[0].graph:
+                path = self.row[0].graph
+                self.picture.setPixmap(QtGui.QPixmap(path))
+            else:
+                path = './icon/no_cover.jpg'
+                self.picture.setPixmap(QtGui.QPixmap(path))
 
         # TODO:利用book_id调出图书信息，
         #      填到界面里，并且存到self.book_id里，intro还是intro，其它前面加个lineEdit比如lineEdit_book_name

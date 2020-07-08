@@ -743,7 +743,7 @@ class Database:
             a = 12
         if a != 0:
             if d:
-                cursor.execute("update users set vip_status = dateadd(m, ?, ?) where u_account = ?", d.vip_status, a, account)
+                cursor.execute("update users set vip_status = dateadd(m, ?, ?) where u_account = ?", a, d.vip_status, account)
                 cursor.commit()
             else:
                 cursor.execute("update users set vip_status = dateadd(m, ?, getdate()) where u_account = ?", a, account)

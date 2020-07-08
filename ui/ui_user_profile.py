@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_user_profile(object):
     def setupUi(self, user_profile):
         user_profile.setObjectName("user_profile")
-        user_profile.resize(519, 429)
+        user_profile.resize(545, 429)
         self.gridLayout = QtWidgets.QGridLayout(user_profile)
         self.gridLayout.setContentsMargins(20, 20, -1, -1)
         self.gridLayout.setVerticalSpacing(33)
@@ -60,8 +60,6 @@ class Ui_user_profile(object):
         self.u_address2.setObjectName("u_address2")
         self.horizontalLayout.addWidget(self.u_address2)
         self.gridLayout.addLayout(self.horizontalLayout, 4, 0, 1, 6)
-        spacerItem3 = QtWidgets.QSpacerItem(168, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem3, 5, 0, 1, 2)
         self.pushButton_edit_profile = QtWidgets.QPushButton(user_profile)
         self.pushButton_edit_profile.setObjectName("pushButton_edit_profile")
         self.gridLayout.addWidget(self.pushButton_edit_profile, 5, 3, 1, 1)
@@ -89,6 +87,8 @@ class Ui_user_profile(object):
         self.vip_status = QtWidgets.QLabel(user_profile)
         self.vip_status.setObjectName("vip_status")
         self.gridLayout.addWidget(self.vip_status, 2, 4, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(168, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem3, 5, 0, 1, 3)
 
         self.retranslateUi(user_profile)
         QtCore.QMetaObject.connectSlotsByName(user_profile)

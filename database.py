@@ -4,7 +4,7 @@ import pyodbc
 class Database:
     def __init__(self):
        self.cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=192.168.0.101;\
-                                   DATABASE=online_bookshop;UID=sa;PWD=dbproject')
+                                   DATABASE=online_bookshop;UID=online_bookshop_m;PWD=dbproject')
 
     def register_function(self, account, pswd, name, telephone, email, invit, checkpswd):
         cursor = self.cnxn.cursor()
@@ -233,7 +233,7 @@ class Database:
     def book_detail_putin(self, book_id):
         cursor = self.cnxn.cursor()
         row = cursor.execute("select a.book_id, a.book_name, a.pressdate, c.author_name, d.press_name, "
-                             "a.intro, a.graph, a.reserve, p.s_price, p.discount "
+                             "a.intro, a.graph, a.reserve, p.s_price, p.discount, a.versions "
                              "from book a inner join author_book c on a.book_id = c.book_id "
                              "inner join press d on a.press_id = d.press_id "
                              "inner join price p on a.book_id = p.book_id "

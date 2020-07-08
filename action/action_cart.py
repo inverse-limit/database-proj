@@ -45,7 +45,7 @@ class cart(QtWidgets.QWidget, Ui_cart):
             n = len(self.cart_content)
             for row in range(0, n):
                 self.cart_id.append(self.cart_content[row].cart_id)
-                # 书名
+                self.tableWidget.insertRow(row)
                 item = QtWidgets.QTableWidgetItem('')
                 item.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
                 item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)
@@ -61,12 +61,9 @@ class cart(QtWidgets.QWidget, Ui_cart):
                     item = self.get_image_label(path)
                     self.tableWidget.setCellWidget(row, 1, item)
 
-
-                self.tableWidget.insertRow(row)
                 test = QtWidgets.QTableWidgetItem(self.cart_content[row].book_name)
                 test.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-                test.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)  # 书名行用这几行添加，为了有勾选框
-                test.setCheckState(QtCore.Qt.Checked)
+                test.setFlags(QtCore.Qt.ItemIsEnabled)
                 self.tableWidget.setItem(row, 2, test)
 
                 # 作者

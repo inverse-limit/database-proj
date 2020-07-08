@@ -202,10 +202,10 @@ class Database:
             if option[3]:
                 condition += "c.author_name = ? and c.at = 't' and "
                 variable.append(option[3])
-            if option[4]:
+            if option[4] != '...':
                 condition += "b.class1 = ? and "
                 variable.append(option[4])
-            if option[5]:
+            if option[5] != '...':
                 condition += "b.subclass = ? and "
                 variable.append(option[5])
             if option[6]:
@@ -384,6 +384,45 @@ class Database:
         cursor.execute("insert into cart values(?,?,?,?,1)", max1, id1, bid, pr)
         cursor.commit()
 
+    def manage_simple_search(self, option, filter, sort):  # ??????
+        cursor = self.cnxn.cursor()
+        select = "select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, a.reserve, a.on_sale, p.s_price, " \
+                 "p.discount, a.mon_sell, a.graph " \
+                 "from book a inner join class b on a.book_id=b.book_id " \
+                 "inner join author_book c on a.book_id = c.book_id " \
+                 "inner join press d on a.press_id = d.press_id " \
+                 "inner join price p on a.book_id = p.book_id "
+        condition = "where "
+        variable = []
+        if option[0] != '...':
+            condition += "b.class1 = ? and "
+            variable.append(option[0])
+        if option[1] != '...':
+            condition += "b.subclass = ? and "
+            variable.append(option[1])
+        if option[2]:
+            if option[3]:
+                condition += "a.book_name like ? "
+                variable.append('%' + option[2] + '%')
+            if option[4]:
+                condition += "c.author_name like ? "
+                variable.append('%' + option[2] + '%')
+        if filter == '已上架':
+            condition += "on_sale = 'on' and "
+        if filter == '未上架':
+            condition += "on_sale = 'off' and "
+        condition += "at = 'a' "
+        if sort == '价格升序':
+            condition += 'order by p.s_price asc'
+        if sort == '价格降序':
+            condition += 'order by p.s_price desc'
+        if sort == '销量升序':
+            condition += 'order by a.mon_sell asc'
+        if sort == '销量降序':
+            condition += 'order by a.mon_sell desc'
+        row = cursor.execute(select + condition, variable).fetchall()
+        return row
+
     def manage_detail_search(self, option, filter, sort):
         cursor = self.cnxn.cursor()
         select = "select a.book_id, a.book_name, c.author_name, b.class1 as cl, d.press_name, a.reserve, a.on_sale, p.s_price, " \
@@ -407,10 +446,10 @@ class Database:
             if option[3]:
                 condition += "c.author_name = ? and c.at = 't' and "
                 variable.append(option[3])
-            if option[4]:
+            if option[4] != '...':
                 condition += "b.class1 = ? and "
                 variable.append(option[4])
-            if option[5]:
+            if option[5] != '...':
                 condition += "b.subclass = ? and "
                 variable.append(option[5])
             if option[6]:
@@ -516,8 +555,11 @@ class Database:
             if option[2]:
                 condition += "person like ? "
                 variable.append('%' + option[0] + '%')
-        row = cursor.execute(select + condition, variable).fetchall()
-        return row
+            row = cursor.execute(select + condition, variable).fetchall()
+            return row
+        else:
+            row = cursor.execute("select * from press").fetchall()
+            return row
 
     def m_press_detail(self, pid):
         cursor = self.cnxn.cursor()
@@ -669,6 +711,9 @@ class Database:
                 return 5  # 未填写出版日期
             if option[10] is None or len(option[10]) == 0:
                 return 6  # 未填写版本号
+            row = cursor.execute("select * from book where book_id = ?", option[8]).fetchone()
+            if row:
+                return 7  # ISBN已存在
             cursor.execute("insert into book(book_id, book_name, press_id, pressdate, versions, reserve)"
                            " values(?, ?, ?, ?, ?, 0)", option[8], option[0], press_id, option[9], option[10])
             if option[13]:

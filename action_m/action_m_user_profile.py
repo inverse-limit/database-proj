@@ -33,8 +33,8 @@ class m_user_profile(QtWidgets.QWidget, Ui_m_user_profile):
         self.u_telephone.setText(row.u_telephone)
         self.u_email.setText(row.u_email)
         self.vip_status.setText(sta)
-        self.u_address1.setPlainText(row.u_address1)
-        self.u_address2.setPlainText(row.u_address2)
+        self.u_address1_2.setPlainText(row.u_address1)
+        self.u_address2.setText(row.u_address2)
 
         # self.u_account.setText('张三')  # 设置用户名
         # self.u_nickname.setText('安安')  # 昵称

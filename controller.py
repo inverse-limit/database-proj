@@ -133,6 +133,7 @@ class Controller:
         pass
 
     def refresh_user_profile(self):
+        self.home.user_data = self.buy_vip.user_data
         self.user_profile.close()
         self.show_user_profile()
 

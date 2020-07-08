@@ -26,7 +26,7 @@ class Database:
                 max0 = cursor.execute("select invtnum from author_book where invtnum = ?", invit).fetchone()
                 if max0:
                     cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vip_status)"
-                                   " values(?,?,?,?,?,?,?, dateadd(y,50,getdate()))",
+                                   " values(?,?,?,?,?,?,?, dateadd(yy,50,getdate()))",
                                    max1, account, pswd, name, telephone, email, invit)
                     max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()
                     if max0:
@@ -637,7 +637,7 @@ class Database:
         if row:
             press_id = row.press_id
             update = "update book set book_name = ?, press_id = ?, pressdate = ?, " \
-                     "versions = ?, reserve = 0 "
+                     "versions = ? "
             if option[0] is None or len(option[0]) == 0:
                 return 3  # 未填写书名
             if option[8] is None or len(option[8]) == 0 or option[8] != bid:
@@ -650,6 +650,11 @@ class Database:
             if option[13]:
                 update += ", intro = ? "
                 variable.append(option[13])
+            if option[14]:
+                update += ", reserve = ? "
+                variable.append(option[14])
+            else:
+                update += ", reserve = 0 "
             variable.append(bid)
             cursor.execute(update + "where book_id = ?", variable)
             if option[1]:
@@ -717,8 +722,12 @@ class Database:
             row = cursor.execute("select * from book where book_id = ?", option[8]).fetchone()
             if row:
                 return 7  # ISBN已存在
-            cursor.execute("insert into book(book_id, book_name, press_id, pressdate, versions, reserve)"
-                           " values(?, ?, ?, ?, ?, 0)", option[8], option[0], press_id, option[9], option[10])
+            if option[14]:
+                cursor.execute("insert into book(book_id, book_name, press_id, pressdate, versions, reserve) "
+                               "values(?,?,?,?,?,?)", option[8], option[0], press_id, option[9], option[10], option[14])
+            else:
+                cursor.execute("insert into book(book_id, book_name, press_id, pressdate, versions, reserve)"
+                               " values(?, ?, ?, ?, ?, 0)", option[8], option[0], press_id, option[9], option[10])
             if option[13]:
                 cursor.execute("update book set intro = ? where book_id = ?", option[13], option[8])
             if option[1]:

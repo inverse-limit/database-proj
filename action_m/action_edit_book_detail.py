@@ -80,7 +80,7 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
                   self.lineEdit_press.text(), self.comboBox_class1.currentText(), self.comboBox_class2.currentText(),
                   self.lineEdit_class1.text(), self.lineEdit_class2.text(), self.lineEdit_ISBN.text(),
                   self.lineEdit_pressdate.text(), self.lineEdit_version.text(), self.lineEdit_price.text(),
-                  self.lineEdit_vip_price.text(), self.intro.toPlainText()]
+                  self.lineEdit_vip_price.text(), self.intro.toPlainText(), self.lineEdit_stock.text()]
         if self.book_id:
             check = self.database.update_book(self.book_id, option)
         else:

@@ -29,9 +29,14 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
                 self.label_account.setText(self.row[i].u_account)
                 self.label_nickname.setText(self.row[i].u_nickname)
 
-                path = './icon/test_pic2.jpg'
-                item = self.get_image_label(path)
-                self.tableWidget.setCellWidget(i, 0, item)
+                if self.row[i].graph:
+                    path = self.row[i].graph
+                    item = self.get_image_label(path)
+                    self.tableWidget.setCellWidget(i, 0, item)
+                else:
+                    path = './icon/no_cover.jpg'
+                    item = self.get_image_label(path)
+                    self.tableWidget.setCellWidget(i, 0, item)
 
                 item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                 item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
@@ -58,7 +63,8 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
                 item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
                 self.tableWidget.setItem(i, 5, item)
 
-                total += self.row[i].price * self.row[i].number
+                total += self.row[i].price*self.row[i].number
+                print(total)
             self.label_total.setText(str(total))
             # TODO:用user_id搜出该用户购物车信息填到表里
             # 第一列是图片
@@ -77,9 +83,14 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
                 self.label_account.setText(self.row[i].u_account)
                 self.label_nickname.setText(self.row[i].u_nickname)
 
-                path = './icon/test_pic2.jpg'
-                item = self.get_image_label(path)
-                self.tableWidget.setCellWidget(i, 0, item)
+                if self.row[i].graph:
+                    path = self.row[i].graph
+                    item = self.get_image_label(path)
+                    self.tableWidget.setCellWidget(i, 0, item)
+                else:
+                    path = './icon/no_cover.jpg'
+                    item = self.get_image_label(path)
+                    self.tableWidget.setCellWidget(i, 0, item)
 
                 item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
                 item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
@@ -105,6 +116,7 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
                 item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                 item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
                 self.tableWidget.setItem(i, 5, item)
+                total += self.row[i].price*self.row[i].number
             self.label_total.setText(str(total))
         # 最后把总价填到label_total里
 

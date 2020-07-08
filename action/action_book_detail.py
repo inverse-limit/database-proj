@@ -27,9 +27,9 @@ class book_detail(QtWidgets.QWidget, Ui_book_detail):
         self.pressdate.setText(infor[3])
         self.ISBN.setText(infor[4])
         self.intro.setPlainText(infor[5])
-        self.version.setText(infor[6])
-        self.stock.setText(infor[7])
-        self.price.setText(infor[8])
+        self.version.setText(str(infor[6]))
+        self.stock.setText(str(infor[7]))
+        self.price.setText(str(infor[8]))
         if infor[9]:
             path = infor[9]
             self.cover.setPixmap(QtGui.QPixmap(path))

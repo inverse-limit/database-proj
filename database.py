@@ -25,7 +25,7 @@ class Database:
             if invit:
                 max0 = cursor.execute("select invtnum from author_book where invtnum = ?", invit).fetchone()
                 if max0:
-                    cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vipstatus)"
+                    cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vip_status)"
                                    " values(?,?,?,?,?,?,?, dateadd(y,50,getdate()))",
                                    max1, account, pswd, name, telephone, email, invit)
                     max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()

@@ -33,7 +33,7 @@ class order_manage(QtWidgets.QWidget, Ui_order_manage):
         for i in range(0,n):
             for j in range(0,m):
                 if self.row[j].sell_id == self.sell_id[i].sell_id:
-                    text += '图书' + self.row[j].book_id + str(self.row[j].number) + '本；'
+                    text += '图书 《' + self.row[j].book_name + '》 ' + str(self.row[j].number) + '本；'
                     s_date = self.row[j].s_date
                     total = self.row[j].total_price
                     account = self.row[j].u_account

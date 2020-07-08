@@ -18,7 +18,7 @@ class admin_login(QtWidgets.QMainWindow, Ui_admin_login):
         """
         TODO:检测管理员账号
         """
-        check = self.database.login_check(self.u_account.text(), self.u_pswd.text())
+        check = self.database.login_check_m(self.u_account.text(), self.u_pswd.text())
         if check == 0:
             QtWidgets.QMessageBox.about(self, '提示', '用户名或密码错误')
         else:

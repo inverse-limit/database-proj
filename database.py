@@ -760,7 +760,8 @@ class Database:
         if flag == 'no':
             cursor = self.cnxn.cursor()
             select = "select * from users a inner join sell b on a.u_id = b.u_id " \
-                     "inner join sell_book c on b.sell_id = c.sell_id "
+                     "inner join sell_book c on b.sell_id = c.sell_id " \
+                     "inner join book d on c.book_id = d.book_id "
             condition = "where u_account = ?"
             row = cursor.execute(select + condition, account).fetchall()
             sell_id = cursor.execute("select distinct b.sell_id from users a inner join sell b on a.u_id = b.u_id "
@@ -770,9 +771,10 @@ class Database:
         if flag == 'yes':
             cursor = self.cnxn.cursor()
             select = "select * from users a inner join sell b on a.u_id = b.u_id " \
-                     "inner join sell_book c on b.sell_id = c.sell_id "
-            condition = "where "
-            variable = []
+                     "inner join sell_book c on b.sell_id = c.sell_id " \
+                     "inner join book d on c.book_id = d.book_id "
+            condition = "where u_account = ? and "
+            variable = [account]
             condition += "s_date >= ? and s_date <= ? order by b.sell_id"
             variable.append(d1)
             variable.append(d2)
@@ -803,3 +805,11 @@ class Database:
                 cursor.commit()
             row = cursor.execute("select vip_status from users where u_account = ?", account).fetchone()
             return row
+
+    def login_check_m(self, account, pswd):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from manager where m_account = ? and m_pswd = ?", account, pswd).fetchone()
+        if row:
+            return 1
+        else:
+            return 0

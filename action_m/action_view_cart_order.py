@@ -64,7 +64,6 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
                 self.tableWidget.setItem(i, 5, item)
 
                 total += self.row[i].price*self.row[i].number
-                print(total)
             self.label_total.setText(str(total))
             # TODO:用user_id搜出该用户购物车信息填到表里
             # 第一列是图片

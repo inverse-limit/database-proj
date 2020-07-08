@@ -23,6 +23,7 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
             self.tableWidget.setRowCount(0)
             self.row = self.database.m_cart_view_u(user_id)
             n = len(self.row)
+            total = 0
             for i in range(0,n):
                 self.tableWidget.insertRow(i)
                 self.label_account.setText(self.row[i].u_account)
@@ -56,6 +57,9 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
                 item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                 item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
                 self.tableWidget.setItem(i, 5, item)
+
+                total += self.row[i].price * self.row[i].number
+            self.label_total.setText(str(total))
             # TODO:用user_id搜出该用户购物车信息填到表里
             # 第一列是图片
             # self.tableWidget.insertRow(0)
@@ -67,6 +71,7 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
             self.tableWidget.setRowCount(0)
             self.row = self.database.m_order_view(order_id)
             n = len(self.row)
+            total = 0
             for i in range(0, n):
                 self.tableWidget.insertRow(i)
                 self.label_account.setText(self.row[i].u_account)
@@ -100,6 +105,7 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
                 item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
                 item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
                 self.tableWidget.setItem(i, 5, item)
+            self.label_total.setText(str(total))
         # 最后把总价填到label_total里
 
     def on_tableWidget_cellDoubleClicked(self, row, column):

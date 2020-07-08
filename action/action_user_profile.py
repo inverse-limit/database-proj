@@ -138,12 +138,13 @@ class buy_vip(QtWidgets.QDialog, Ui_buy_vip):
         option = [self.radioButton_1.isChecked(), self.radioButton_5.isChecked(), self.radioButton_6.isChecked(),
                   self.radioButton_12.isChecked()]
         account = self.user_data[0]
-        check = self.database.buy_vip(account, option)
-        if check == 1:
+        row = self.database.buy_vip(account, option)
+        if row:
             QtWidgets.QMessageBox.about(self, '提示', '开通成功！')
+            self.user_data[5] = '会员日期至' + row.vip_status
             self.switch_user_profile.emit()
             self.done(1)
-        if check == 0:
+        else:
             QtWidgets.QMessageBox.about(self, '提示', '请选择开通时间！')
 
     def cancel(self):

@@ -124,10 +124,10 @@ class Database:
             variable.append(option[1])
         if option[2]:
             if option[3]:
-                condition += "a.book_name like ? "
+                condition += "a.book_name like ? and "
                 variable.append('%' + option[2] + '%')
             if option[4]:
-                condition += "c.author_name like ? "
+                condition += "c.author_name like ? and "
                 variable.append('%' + option[2] + '%')
         condition += "at = 'a' "
         if sort == '价格升序':
@@ -194,8 +194,8 @@ class Database:
                 condition += "a.book_id = ? and "
                 variable.append(option[0])
             if option[1]:
-                condition += "a.book_name = ? and "
-                variable.append(option[1])
+                condition += "a.book_name like ? and "
+                variable.append('%' + option[1] + '%')
             if option[2]:
                 condition += "c.author_name = ? and c.at = 'a' and "
                 variable.append(option[2])
@@ -438,8 +438,8 @@ class Database:
                 condition += "a.book_id = ? and "
                 variable.append(option[0])
             if option[1]:
-                condition += "a.book_name = ? and "
-                variable.append(option[1])
+                condition += "a.book_name like ? and "
+                variable.append('%' + option[1] + '%')
             if option[2]:
                 condition += "c.author_name = ? and c.at = 'a' and "
                 variable.append(option[2])
@@ -793,6 +793,5 @@ class Database:
             else:
                 cursor.execute("update users set vip_status = dateadd(m, ?, getdate()) where u_account = ?", a, account)
                 cursor.commit()
-            return 1
-        else:
-            return 0
+            row = cursor.execute("select vip_status from users where u_account = ?", account).fetchone()
+            return row

@@ -746,7 +746,7 @@ class Database:
                     if option[12]:
                         cursor.execute("insert into price values(?,?,?)", option[8], option[11], option[12])
                     else:
-                        cursor.execute("insert into price(book_id, s_price) values(?,?)", option[8], option[11])
+                        cursor.execute("insert into price values(?,?,?)", option[8], option[11], option[11])
                     cursor.commit()
                     return -1  #保存成功
                 else:

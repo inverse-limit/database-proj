@@ -131,6 +131,7 @@ class Database:
                 condition += "c.author_name like ? and "
                 variable.append('%' + option[2] + '%')
         condition += "at = 'a' "
+        condition += "and on_sale = 'on' "
         if sort == '价格升序':
             condition += 'order by p.s_price asc'
         if sort == '价格降序':
@@ -220,6 +221,7 @@ class Database:
             else:
                 condition += "reserve = 0 and "
             condition += "at = 'a' "
+            condition += "and on_sale = 'on' "
             if sort == '价格升序':
                 condition += 'order by p.s_price asc'
             if sort == '价格降序':

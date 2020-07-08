@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from ui.ui_user_manage import *
 from PyQt5.QtWidgets import QTableWidgetItem
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDate
 import time
 
 
@@ -13,8 +13,10 @@ class user_manage(QtWidgets.QWidget, Ui_user_manage):
     def __init__(self, parent=None):
         super(user_manage, self).__init__(parent)
         self.setupUi(self)
-        self.comboBox_vip_status.addItems(['非会员','会员','作家用户'])
+        self.comboBox_vip_status.addItems(['非会员','会员'])
         self.pushButton_search.clicked.connect(self.search)
+        self.dateEdit_date1.setDate(QDate.currentDate())
+        self.dateEdit_date2.setDate(QDate.currentDate())
 
     def search(self):
         """

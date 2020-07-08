@@ -246,7 +246,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
              有可能出现的情况是在下面下架或删除书的函数里调用该函数，由于一次下架删除很多书导致当前页数不存在
              所以这个函数可以先按当前查询条件用上面的函数查一下若页数存在则跳往此页，若不存在则跳往最后一页
         """
-        m = self.page_now
+#        m = self.page_now
         if self.search_option is None:
             pass
         else:
@@ -650,7 +650,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
              数据库更新完后 self.refresh_current_page刷新一下当前页面
         """
         listt = []
-        for row in range(self.tableWidget.rowCount()):
+        for row in range(0, self.tableWidget.rowCount()):
             if self.tableWidget.item(row, 0).checkState() == QtCore.Qt.Checked:
                 n = (self.page_now - 1) * 6 + row
                 infor  = self.row[n]
@@ -663,7 +663,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         TODO:上面那个注释里 下改成上
         """
         listt = []
-        for row in range(self.tableWidget.rowCount()):
+        for row in range(0, self.tableWidget.rowCount()):
             if self.tableWidget.item(row, 0).checkState() == QtCore.Qt.Checked:
                 n = (self.page_now - 1) * 6 + row
                 infor = self.row[n]

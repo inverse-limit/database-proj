@@ -46,6 +46,7 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
             self.lineEdit_version.setText(str(self.row[0].versions))
             self.lineEdit_price.setText(str(self.row[0].s_price))
             self.lineEdit_vip_price.setText(str(self.row[0].discount))
+            self.lineEdit_stock.setText(str(self.row[0].reserve))
             self.intro.setPlainText(self.row[0].intro)
             index = self.comboBox_class1.findText(self.row[0].class1, QtCore.Qt.MatchFixedString)
             if index >= 0:

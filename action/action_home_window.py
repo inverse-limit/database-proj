@@ -368,7 +368,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
              利用这个把你想要的东西存到self.book_id里，我会把self.book_id
              传送到book_detail类 在图书详情页面你需要利用那边的self.book_id调出图书信息填到界面里
         """
-        n = (self.page_now - 1) * 12 + row
+        n = (self.page_now - 1) * 6 + row
         infor = self.row[n]
         self.book_id = infor.book_id
         self.switch_book_detail.emit()

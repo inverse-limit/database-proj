@@ -368,21 +368,27 @@ class Database:
 
     def add_cart(self, bid, account, vip):
         cursor = self.cnxn.cursor()
-        max0 = cursor.execute("select max(cart_id) as m from cart").fetchone()
-        if max0.m:
-            max1 = max0.m+1
+        row = cursor.execute("select * from cart inner a join users b on a.u_id = b.u_id "
+                             "where book_id = ? and u_account = ?", bid, account).fetchone()
+        if row:
+            return 0
         else:
-            max1 = 1
-        id0 = cursor.execute("select u_id from users where u_account  = ?", account).fetchone()
-        id1 = id0.u_id
-        if vip == '非会员':
-            row = cursor.execute("select s_price from price where book_id = ?", bid).fetchone()
-            pr = row.s_price
-        else:
-            row = cursor.execute("select discount from price where book_id = ?", bid).fetchone()
-            pr = row.discount
-        cursor.execute("insert into cart values(?,?,?,?,1)", max1, id1, bid, pr)
-        cursor.commit()
+            max0 = cursor.execute("select max(cart_id) as m from cart").fetchone()
+            if max0.m:
+                max1 = max0.m+1
+            else:
+                max1 = 1
+            id0 = cursor.execute("select u_id from users where u_account  = ?", account).fetchone()
+            id1 = id0.u_id
+            if vip == '非会员':
+                row = cursor.execute("select s_price from price where book_id = ?", bid).fetchone()
+                pr = row.s_price
+            else:
+                row = cursor.execute("select discount from price where book_id = ?", bid).fetchone()
+                pr = row.discount
+            cursor.execute("insert into cart values(?,?,?,?,1)", max1, id1, bid, pr)
+            cursor.commit()
+            return 1
 
     def manage_simple_search(self, option, filter, sort):  # ??????
         cursor = self.cnxn.cursor()
@@ -486,11 +492,11 @@ class Database:
         if sta == 'up':
             stat = 'on'
         for i in range(0, n):
-            cursor.execute("update book set on_sale = ? whrere book_id = ?", stat, blist[i])
+            cursor.execute("update book set on_sale = ? where book_id = ?", stat, blist[i])
             cursor.commit()
         if sta == 'delete':
             for i in range(0, n):
-                cursor.execute("delete from book whrere book_id = ?", blist[i])
+                cursor.execute("delete from book where book_id = ?", blist[i])
                 cursor.commit()
 
     def m_user_manage_search(self, option):

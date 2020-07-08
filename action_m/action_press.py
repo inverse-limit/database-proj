@@ -23,33 +23,36 @@ class press(QtWidgets.QWidget, Ui_press):
         self.tableWidget.setRowCount(0)
         option = [self.lineEdit_search.text(), self.radioButton_press_name.isChecked(), self.radioButton_person.isChecked()]
         self.row = self.database.m_press_search(option)
-        n = len(self.row)
-        for i in range(0,n):
-            self.tableWidget.insertRow(i)
-            item = QTableWidgetItem(self.row[i].press_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
-            item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
-            item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 0, item)
+        if self.row:
+            n = len(self.row)
+            for i in range(0,n):
+                self.tableWidget.insertRow(i)
+                item = QTableWidgetItem(self.row[i].press_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
+                item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
+                item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
+                self.tableWidget.setItem(i, 0, item)
 
-            item = QTableWidgetItem(self.row[i].person)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
-            item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
-            item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 1, item)
+                item = QTableWidgetItem(self.row[i].person)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
+                item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
+                item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
+                self.tableWidget.setItem(i, 1, item)
 
-            item = QTableWidgetItem(str(self.row[i].telephone))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
-            item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
-            item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 2, item)
+                item = QTableWidgetItem(str(self.row[i].telephone))  # 封装内容 QTableWidgetItem(这里必须是字符串!)
+                item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
+                item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
+                self.tableWidget.setItem(i, 2, item)
 
-            item = QTableWidgetItem(self.row[i].email)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
-            item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
-            item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 3, item)
+                item = QTableWidgetItem(self.row[i].email)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
+                item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
+                item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
+                self.tableWidget.setItem(i, 3, item)
 
-            item = QTableWidgetItem(self.row[i].address)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
-            item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
-            item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
-            self.tableWidget.setItem(i, 4, item)
+                item = QTableWidgetItem(self.row[i].address)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
+                item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
+                item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
+                self.tableWidget.setItem(i, 4, item)
+        else:
+            pass
 
     def on_tableWidget_cellDoubleClicked(self, row, column):
         """

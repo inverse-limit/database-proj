@@ -94,6 +94,8 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
             QtWidgets.QMessageBox.about(self, '提示', '未填写出版日期！')
         if check == 6:
             QtWidgets.QMessageBox.about(self, '提示', '未填写版本号！')
+        if check == 7:
+            QtWidgets.QMessageBox.about(self, '提示', 'ISBN已存在！')
         if check == -1:
             QtWidgets.QMessageBox.about(self, '提示', '保存成功！')
         self.switch_save.emit()

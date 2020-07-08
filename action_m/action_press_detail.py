@@ -12,6 +12,7 @@ class press_detail(QtWidgets.QWidget, Ui_press_detail):
         self.setupUi(self)
         self.pushButton_save.clicked.connect(self.save)
         self.pushButton_cancel.clicked.connect(self.close)
+        self.press_id = None
 
     def put_in_data(self, press_id=None):
         if press_id:

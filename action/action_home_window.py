@@ -143,7 +143,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         """
         self.tableWidget.setRowCount(0)
         self.search_option = search_option
-        self.row = self.database.detail_search_result(search_option, self.comboBox_sort.currentText())
+        self.row = self.database.home_detail_search(search_option, self.comboBox_sort.currentText())
         n = len(self.row)
         self.page_now = 1
         for i in range(0, min(n, 1 * 6)):

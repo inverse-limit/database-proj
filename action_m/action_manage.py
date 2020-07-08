@@ -96,7 +96,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
             self.tableWidget.setItem(i, 3, item)
 
-            item = QTableWidgetItem(self.row[i].cl)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
+            item = QTableWidgetItem(self.row[i].c)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
             self.tableWidget.setItem(i, 4, item)
@@ -141,6 +141,8 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         self.search_option = search_option
         self.row = self.database.manage_detail_search(self.search_option, self.comboBox_filter.currentText(),
                                                       self.comboBox_sort.currentText())
+        print(search_option)
+        print(self.row)
         n = len(self.row)
         self.page_now = 1
         for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
@@ -518,7 +520,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         if self.row():
             self.tableWidget.setRowCount(0)
             n = len(self.row)
-            if isinstance(self.lineEdit_pagejump.text(),int):
+            if self.lineEdit_pagejump.text().isdigit():
                 if self.lineEdit_pagejump.text() >0 and self.lineEdit_pagejump.text() <= math.ceil(n/6):
                     self.tableWidget.setRowCount(0)
                     self.page_now = int(self.lineEdit_pagejump.text())

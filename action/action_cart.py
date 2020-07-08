@@ -55,11 +55,11 @@ class cart(QtWidgets.QWidget, Ui_cart):
                 if self.cart_content[row].graph:
                     path = self.cart_content[row].graph
                     item = self.get_image_label(path)
-                    self.tableWidget.setCellWidget(row, 0, item)
+                    self.tableWidget.setCellWidget(row, 1, item)
                 else:
                     path = './icon/no_cover.jpg'
                     item = self.get_image_label(path)
-                    self.tableWidget.setCellWidget(row, 0, item)
+                    self.tableWidget.setCellWidget(row, 1, item)
 
 
                 self.tableWidget.insertRow(row)
@@ -67,31 +67,31 @@ class cart(QtWidgets.QWidget, Ui_cart):
                 test.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
                 test.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable)  # 书名行用这几行添加，为了有勾选框
                 test.setCheckState(QtCore.Qt.Checked)
-                self.tableWidget.setItem(row, 0, test)
+                self.tableWidget.setItem(row, 2, test)
 
                 # 作者
                 author = QtWidgets.QTableWidgetItem(str(self.cart_content[row].author_name))
                 author.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
                 author.setFlags(QtCore.Qt.ItemIsEnabled)  # 其它行用这列 不要加上ItemIsUserCheckable
-                self.tableWidget.setItem(row, 1, author)
+                self.tableWidget.setItem(row, 3, author)
 
                 # 价格
                 price = QtWidgets.QTableWidgetItem(str(self.cart_content[row].pr))
                 price.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
                 price.setFlags(QtCore.Qt.ItemIsEnabled)  # 其它行用这列 不要加上ItemIsUserCheckable
-                self.tableWidget.setItem(row,2,price)
+                self.tableWidget.setItem(row,4,price)
 
                 # 数量
                 number = QtWidgets.QTableWidgetItem(str(self.cart_content[row].number))
                 number.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
-                self.tableWidget.setItem(row,3,number)  # 数量行连ItemIsEnabled也不要加
+                self.tableWidget.setItem(row,5,number)  # 数量行连ItemIsEnabled也不要加
 
                # 单项总价
-                total = float(self.tableWidget.item(row,2).text()) * float(self.tableWidget.item(row,3).text())
+                total = float(self.tableWidget.item(row,4).text()) * float(self.tableWidget.item(row,5).text())
                 total_t = QtWidgets.QTableWidgetItem('%.2f' % total)
                 total_t.setTextAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
                 total_t.setFlags(QtCore.Qt.ItemIsEnabled)
-                self.tableWidget.setItem(row,4,total_t)
+                self.tableWidget.setItem(row,6,total_t)
 
                 self.total_price += total
         self.price.setText('%.2f' % self.total_price)  # 设置画面总价

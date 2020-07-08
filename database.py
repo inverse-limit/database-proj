@@ -368,7 +368,7 @@ class Database:
 
     def add_cart(self, bid, account, vip):
         cursor = self.cnxn.cursor()
-        row = cursor.execute("select * from cart inner a join users b on a.u_id = b.u_id "
+        row = cursor.execute("select * from cart a inner join users b on a.u_id = b.u_id "
                              "where book_id = ? and u_account = ?", bid, account).fetchone()
         if row:
             return 0

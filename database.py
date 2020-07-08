@@ -486,11 +486,11 @@ class Database:
         if sta == 'up':
             stat = 'on'
         for i in range(0, n):
-            cursor.execute("update book set on_sale = ? whrere book_id = ?", stat, blist[i])
+            cursor.execute("update book set on_sale = ? where book_id = ?", stat, blist[i])
             cursor.commit()
         if sta == 'delete':
             for i in range(0, n):
-                cursor.execute("delete from book whrere book_id = ?", blist[i])
+                cursor.execute("delete from book where book_id = ?", blist[i])
                 cursor.commit()
 
     def m_user_manage_search(self, option):

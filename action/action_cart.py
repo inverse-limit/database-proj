@@ -92,6 +92,7 @@ class cart(QtWidgets.QWidget, Ui_cart):
 
                 self.total_price += total
         self.price.setText('%.2f' % self.total_price)  # 设置画面总价
+        self.selectall()
 
     def modify_change_num(self, row, num):
         """

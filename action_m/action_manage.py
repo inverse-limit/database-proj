@@ -635,7 +635,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         """
         TODO:同home
         """
-        n = (self.page_now - 1) *7 + row
+        n = (self.page_now - 1) *6 + row
         infor = self.row[n]
         self.book_id = infor.book_id
         self.book_detail()

@@ -45,7 +45,11 @@ class book_detail(QtWidgets.QWidget, Ui_book_detail):
         if reply == QtWidgets.QMessageBox.Yes:
             # TODO: 同意加入购物车触发该函数，把页面里书的信息（利用self.book_id）加到数据库购物车表里，
             #  用户信息可由self.user_data调用，就是home类的那个
-            self.database.add_cart(self.book_id, self.user_data[0], self.user_data[5])
+            check = self.database.add_cart(self.book_id, self.user_data[0], self.user_data[5])
+            if check == 0:
+                QtWidgets.QMessageBox.about(self, '提示', '您的购物车内已有该图书！')
+            if check == 1:
+                QtWidgets.QMessageBox.about(self, '提示', '添加成功！')
             self.switch_cart.emit()  # 这行放最下面
         if reply == QtWidgets.QMessageBox.No:
             pass

@@ -3,7 +3,7 @@ import pyodbc
 
 class Database:
     def __init__(self):
-       self.cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=192.168.0.101;\
+       self.cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=personal2.shenzhuo.vip,18140;\
                                    DATABASE=online_bookshop;UID=online_bookshop_m;PWD=dbproject')
 
     def register_function(self, account, pswd, name, telephone, email, invit, checkpswd):

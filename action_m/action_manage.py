@@ -258,6 +258,8 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                 self.tableWidget.setRowCount(0)
                 n = len(self.row)
                 self.page_now = m
+                print(n)
+                print(self.page_now)
                 for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
                     self.tableWidget.insertRow(i)
                     # 第一列固定这么加

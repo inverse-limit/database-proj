@@ -82,9 +82,14 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
             self.tableWidget.setItem(i,0,item)
 
             # 第二列封面
-            path = './icon/test_pic2.jpg'
-            item = self.get_image_label(path)
-            self.tableWidget.setCellWidget(i,1,item)
+            if self.row[i].graph:
+                path = self.row[i].graph
+                item = self.get_image_label(path)
+                self.tableWidget.setCellWidget(i, 1, item)
+            else:
+                path = './icon/no_cover.jpg'
+                item = self.get_image_label(path)
+                self.tableWidget.setCellWidget(i, 1, item)
 
             item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐
@@ -155,9 +160,14 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
             self.tableWidget.setItem(i, 0, item)
 
             # 第二列封面
-            path = './icon/test_pic2.jpg'
-            item = self.get_image_label(path)
-            self.tableWidget.setCellWidget(i, 1, item)
+            if self.row[i].graph:
+                path = self.row[i].graph
+                item = self.get_image_label(path)
+                self.tableWidget.setCellWidget(i, 1, item)
+            else:
+                path = './icon/no_cover.jpg'
+                item = self.get_image_label(path)
+                self.tableWidget.setCellWidget(i, 1, item)
 
             item = QTableWidgetItem(self.row[i].book_name)  # 封装内容 QTableWidgetItem(这里必须是字符串!)
             item.setTextAlignment(Qt.AlignCenter | Qt.AlignVCenter)  # 格内居中对齐

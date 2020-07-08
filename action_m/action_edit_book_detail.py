@@ -29,7 +29,7 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
         TODO:根据class1往class2里填类别，和manage一样 这里不需要 ... 项
         """
         self.comboBox_class2.clear()
-        listt = self.database.m_class2(text)
+        listt = self.database.home_class2(text)
         self.comboBox_class2.addItems(listt)
 
     def put_in_data(self, book_id=None):
@@ -95,6 +95,8 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
         if check == 6:
             QtWidgets.QMessageBox.about(self, '提示', '未填写版本号！')
         if check == 7:
+            QtWidgets.QMessageBox.about(self, '提示', 'ISBN已存在！')
+        if check == 8:
             QtWidgets.QMessageBox.about(self, '提示', 'ISBN已存在！')
         if check == -1:
             QtWidgets.QMessageBox.about(self, '提示', '保存成功！')

@@ -625,15 +625,6 @@ class Database:
                               "where at = 't'").fetchone()
         return [row, row1]
 
-    def m_class2(self, text):
-        cursor = self.cnxn.cursor()
-        row = cursor.execute("select distinct subclass as a from class where class1 = ?", text).fetchall()
-        n = len(row)
-        listt = []
-        for i in range(0, n):
-            listt.append(row[i].a)
-        return listt
-
     def update_book(self, bid, option):
         cursor = self.cnxn.cursor()
         row = cursor.execute("select * from press where press_name = ?", option[3]).fetchone()
@@ -683,7 +674,13 @@ class Database:
                     else:
                         cursor.execute("update class set class1 = ? where book_id = ?", option[6], bid)
                 else:
-                    cursor.execute("update class set class1 = ?, subclass = ? where book_id = ?", option[4], option[5], bid)
+                    if option[4] == '...':
+                        return 8
+                    else:
+                        if option[5] != '...':
+                            cursor.execute("update class set class1 = ?, subclass = ? where book_id = ?", option[4], option[5], bid)
+                        else:
+                            cursor.execute("update class set class1 = ? where book_id = ?", option[4], bid)
                 if option[11]:
                     if option[12]:
                         cursor.execute("update price set s_price = ?, discount = ? where book_id = ?", option[11], option[12], bid)
@@ -732,8 +729,13 @@ class Database:
                         cursor.execute("insert into class(class_id, book_id, class1)"
                                        " values(?,?,?)", max0 + 1, option[8], option[6])
                 else:
+                    if option[4] == '...':
+                        return 8  # 请填写新建类别或选择分类
                     max0 = cursor.execute("select max(class_id) from class").fetchval()
-                    cursor.execute("insert into class values(?,?,?,?)", max0 + 1 , option[8], option[4], option[5])
+                    if option[5] != '...':
+                        cursor.execute("insert into class values(?,?,?,?)", max0 + 1 , option[8], option[4], option[5])
+                    else:
+                        cursor.execute("insert into class(class_id, book_id, class1) values(?, ?, ?)", max0+1, option[8], option[4])
                 if option[11]:
                     if option[12]:
                         cursor.execute("insert into price values(?,?,?)", option[8], option[11], option[12])

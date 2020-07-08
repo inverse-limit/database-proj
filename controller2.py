@@ -115,7 +115,7 @@ class Controller2:
     def show_stat(self):
         self.stat = statistic()
         self.stat.database = self.database
-        self.data = self.order_manage.data
+        self.stat.data = self.order_manage.data
         self.stat.makeup()
         self.stat.show()
 

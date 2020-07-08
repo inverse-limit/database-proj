@@ -1,5 +1,6 @@
 # 数据库类会在controller.py里初始化，然后每个action文件里的类都会有self.database属性就是controller里初始化的数据库对象
 import pyodbc
+import datetime
 
 class Database:
     def __init__(self):
@@ -531,7 +532,8 @@ class Database:
     def m_order_manage_search(self, option):
         cursor = self.cnxn.cursor()
         select = "select * from users a inner join sell b on a.u_id = b.u_id "\
-                 "inner join sell_book c on b.sell_id = c.sell_id "
+                 "inner join sell_book c on b.sell_id = c.sell_id "\
+                 "inner join book d on c.book_id = d.book_id "
         condition = "where "
         variable = []
         if option[0]:
@@ -822,3 +824,46 @@ class Database:
             return 1
         else:
             return 0
+
+    def getEveryDay(self, begin_date, end_date):
+        date_list = []
+        begin_date = datetime.datetime.strptime(begin_date, "%Y-%m-%d")
+        end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+        while begin_date <= end_date:
+            date_str = begin_date.strftime("%Y-%m-%d")
+            date_list.append(date_str)
+            begin_date += datetime.timedelta(days=1)
+        return date_list
+
+    def stat_1(self, day1, day2):
+        cursor = self.cnxn.cursor()
+        datelist = self.getEveryDay(day1, day2)
+        totals = []
+        for i in range(len(datelist)):
+            # 如果不是字符串，row里面的参数加str()
+            total = 0
+            row = cursor.execute("select * from sell where s_date = ?", str(datelist[i])).fetchall()
+            k = len(row)
+            for j in range(k):
+                total += float(row[j].total_price)
+            totals.append(total)
+        return totals, datelist
+
+    def stat_2(self, day1, day2):
+        cursor = self.cnxn.cursor()
+        listt = self.home_class()  # listt[0] == '...'
+        n = len(listt)
+        classes = []  # 所有大类
+        totals = []
+        for i in range(1, n):
+            classes.append(listt[i])
+            total = 0
+            row = cursor.execute("select * from sell s inner join sell_book sb on s.sell_id = sb.sell_id "
+                                 "inner join class c on sb.book_id = c.book_id "
+                                 "where s.s_date >= ? and s.s_date <= ? and c.class1 = ? ",
+                                 day1, day2, listt[i]).fetchall()
+            k = len(row)
+            for j in range(0, k):
+                total += float(row[j].total_price)
+            totals.append(total)
+        return totals, classes

@@ -36,6 +36,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         self.user_data = 1  # 用户信息，这里改没有用处，它是从login和edit_user_profile传过来的
         self.search_option = None  # 查询条件
         self.cart_content = None  # 购物车信息
+        self.pushButton_contact.hide()
 
     def put_in_data(self):
         """

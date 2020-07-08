@@ -34,6 +34,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         self.pushButton_down.clicked.connect(self.down_book)
         self.pushButton_up.clicked.connect(self.up_book)
         self.pushButton_delete.clicked.connect(self.delete_book)
+        self.pushButton_delete.hide()
 
         self.comboBox_class1.activated[str].connect(self.get_class2)
         self.comboBox_class2.addItem('...')

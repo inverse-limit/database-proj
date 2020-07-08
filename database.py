@@ -368,7 +368,7 @@ class Database:
 
     def add_cart(self, bid, account, vip):
         cursor = self.cnxn.cursor()
-        row = cursor.execute("select * from cart inner a join users b on a.u_id = b.u_id "
+        row = cursor.execute("select * from cart a inner join users b on a.u_id = b.u_id "
                              "where book_id = ? and u_account = ?", bid, account).fetchone()
         if row:
             return 0
@@ -746,7 +746,7 @@ class Database:
                     if option[12]:
                         cursor.execute("insert into price values(?,?,?)", option[8], option[11], option[12])
                     else:
-                        cursor.execute("insert into price(book_id, s_price) values(?,?)", option[8], option[11])
+                        cursor.execute("insert into price values(?,?,?)", option[8], option[11], option[11])
                     cursor.commit()
                     return -1  #保存成功
                 else:

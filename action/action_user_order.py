@@ -23,9 +23,9 @@ class user_order(QtWidgets.QWidget, Ui_user_order):
                                                            self.dateEdit_date2.date().toPyDate())
         m = len(self.row)
         n = len(self.sell_id)
-        text = ''
         self.account = user_data[0]
         for i in range(0, n):
+            text = ''
             for j in range(0, m):
                 if self.row[j].sell_id == self.sell_id[i].sell_id:
                     text += '图书' + self.row[j].book_id + str(self.row[j].number) + '本；'

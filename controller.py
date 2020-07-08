@@ -54,6 +54,7 @@ class Controller:
         self.view = view_cart_order()
         self.view.database = self.database
         self.view.put_in_user_data(order_id=self.user_order.order_id)
+        self.view.switch_book.connect(self.show_book_detail_from_view)
         self.view.show()
 
     def show_detail_search(self):
@@ -128,6 +129,13 @@ class Controller:
         self.book_detail.put_in_data(self.cart.book_id)
         self.book_detail.show()
 
+    def show_book_detail_from_view(self):
+        self.book_detail = book_detail()
+        self.book_detail.database = self.database
+        self.book_detail.switch_cart.connect(self.add_to_cart)
+        self.book_detail.user_data = self.home.user_data
+        self.book_detail.put_in_data(self.view.book_id)
+        self.book_detail.show()
 
     def show_contactus(self):
         pass

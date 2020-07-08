@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication
+from action_m.action_admin_login import *
 from action_m.action_manage import *
 from action.action_detail_search import *
 from action_m.action_edit_book_detail import *
@@ -18,7 +19,17 @@ class Controller2:
     def __init__(self):
         self.database = Database()
 
+    def show_login(self):
+        self.login = admin_login()
+        self.login.database = self.database
+        self.login.switch_manage.connect(self.show_manage)
+        self.login.show()
+
     def show_manage(self):
+        try:
+            self.login.close()
+        except:
+            pass
         self.manage = manage()
         self.manage.database = self.database
         self.manage.switch_detail_research.connect(self.show_detail_search)
@@ -144,5 +155,5 @@ class Controller2:
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main = Controller2()
-    main.show_manage()
+    main.show_login()
     sys.exit(app.exec_())

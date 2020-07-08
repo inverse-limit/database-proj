@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_login_window.ui'
+# Form implementation generated from reading ui file 'ui_admin_login.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -10,18 +10,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_login_window(object):
-    def setupUi(self, login_window):
-        login_window.setObjectName("login_window")
-        login_window.resize(567, 452)
-        self.centralwidget = QtWidgets.QWidget(login_window)
+class Ui_admin_login(object):
+    def setupUi(self, admin_login):
+        admin_login.setObjectName("admin_login")
+        admin_login.resize(567, 452)
+        self.centralwidget = QtWidgets.QWidget(admin_login)
         self.centralwidget.setObjectName("centralwidget")
-        self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.centralwidget)
-        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
-        self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setObjectName("verticalLayout")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem)
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        spacerItem = QtWidgets.QSpacerItem(20, 38, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem, 0, 0, 1, 1)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -34,9 +32,9 @@ class Ui_login_window(object):
         self.horizontalLayout_7.addWidget(self.title_label)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem2)
-        self.verticalLayout.addLayout(self.horizontalLayout_7)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 68, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem3)
+        self.gridLayout.addLayout(self.horizontalLayout_7, 1, 0, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 66, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem3, 2, 0, 1, 1)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -57,9 +55,9 @@ class Ui_login_window(object):
         self.horizontalLayout_4.addLayout(self.horizontalLayout)
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem6)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
-        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem7)
+        self.gridLayout.addLayout(self.horizontalLayout_4, 3, 0, 1, 1)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 38, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem7, 4, 0, 1, 1)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -81,9 +79,9 @@ class Ui_login_window(object):
         self.horizontalLayout_5.addLayout(self.horizontalLayout_2)
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem10)
-        self.verticalLayout.addLayout(self.horizontalLayout_5)
-        spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem11)
+        self.gridLayout.addLayout(self.horizontalLayout_5, 5, 0, 1, 1)
+        spacerItem11 = QtWidgets.QSpacerItem(20, 38, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem11, 6, 0, 1, 1)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -93,35 +91,28 @@ class Ui_login_window(object):
         self.pushButton_log = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_log.setObjectName("pushButton_log")
         self.horizontalLayout_3.addWidget(self.pushButton_log)
-        spacerItem13 = QtWidgets.QSpacerItem(28, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem13)
-        self.pushButton_register = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_register.setObjectName("pushButton_register")
-        self.horizontalLayout_3.addWidget(self.pushButton_register)
         self.horizontalLayout_6.addLayout(self.horizontalLayout_3)
-        spacerItem14 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem14)
-        self.verticalLayout.addLayout(self.horizontalLayout_6)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem15)
-        self.horizontalLayout_8.addLayout(self.verticalLayout)
-        login_window.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(login_window)
+        spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_6.addItem(spacerItem13)
+        self.gridLayout.addLayout(self.horizontalLayout_6, 7, 0, 1, 1)
+        spacerItem14 = QtWidgets.QSpacerItem(20, 38, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem14, 8, 0, 1, 1)
+        admin_login.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(admin_login)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 567, 23))
         self.menubar.setObjectName("menubar")
-        login_window.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(login_window)
+        admin_login.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(admin_login)
         self.statusbar.setObjectName("statusbar")
-        login_window.setStatusBar(self.statusbar)
+        admin_login.setStatusBar(self.statusbar)
 
-        self.retranslateUi(login_window)
-        QtCore.QMetaObject.connectSlotsByName(login_window)
+        self.retranslateUi(admin_login)
+        QtCore.QMetaObject.connectSlotsByName(admin_login)
 
-    def retranslateUi(self, login_window):
+    def retranslateUi(self, admin_login):
         _translate = QtCore.QCoreApplication.translate
-        login_window.setWindowTitle(_translate("login_window", "登录"))
-        self.title_label.setText(_translate("login_window", "网上书店"))
-        self.u_account_label.setText(_translate("login_window", "用户名"))
-        self.u_pswd_label.setText(_translate("login_window", "密码"))
-        self.pushButton_log.setText(_translate("login_window", "登录"))
-        self.pushButton_register.setText(_translate("login_window", "注册"))
+        admin_login.setWindowTitle(_translate("admin_login", "管理员登录"))
+        self.title_label.setText(_translate("admin_login", "网上书店管理系统"))
+        self.u_account_label.setText(_translate("admin_login", "用户名"))
+        self.u_pswd_label.setText(_translate("admin_login", "密码"))
+        self.pushButton_log.setText(_translate("admin_login", "登录"))

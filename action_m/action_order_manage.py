@@ -15,6 +15,7 @@ class order_manage(QtWidgets.QWidget, Ui_order_manage):
         self.setupUi(self)
         self.pushButton_search.clicked.connect(self.search)
         self.pushButton_stat.clicked.connect(self.stat)
+        self.pushButton_stat.hide()
         self.order_id = 'order_id'  # 测试
 
     def search(self):

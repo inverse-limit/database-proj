@@ -476,13 +476,13 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         """
         TODO:同上
         """
-        self.tableWidget.setRowCount(0)
         n = len(self.row)
         self.page_now += 1
         if self.page_now > self.page_all:
             self.page_now = self.page_all
             pass
         else:
+            self.tableWidget.setRowCount(0)
             for i in range((self.page_now - 1) * 6, min(n, self.page_now * 6)):
                 self.tableWidget.insertRow(i - (self.page_now - 1) * 6)
                 # 第一列固定这么加

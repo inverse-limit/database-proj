@@ -13,7 +13,7 @@ class user_manage(QtWidgets.QWidget, Ui_user_manage):
     def __init__(self, parent=None):
         super(user_manage, self).__init__(parent)
         self.setupUi(self)
-        self.comboBox_vip_status.addItems(['非会员','会员'])
+        self.comboBox_vip_status.addItems(['全部','非会员','会员','作家用户'])
         self.pushButton_search.clicked.connect(self.search)
         self.dateEdit_date1.setDate(QDate.currentDate())
         self.dateEdit_date2.setDate(QDate.currentDate())
@@ -48,7 +48,9 @@ class user_manage(QtWidgets.QWidget, Ui_user_manage):
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
             self.tableWidget.setItem(i, 2, item)
 
-            if self.row[i].vip_status >= date :
+            if self.row[i].vip_status is None:
+                sta = '非会员'
+            elif self.row[i].vip_status >= date :
                 sta = '会员有效期至 ' + str(self.row[i].vip_status)
             else:
                 sta = '非会员'

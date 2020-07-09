@@ -26,21 +26,25 @@ class Database:
             if invit:
                 max0 = cursor.execute("select invtnum from author_book where invtnum = ?", invit).fetchone()
                 if max0:
-                    cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vip_status)"
-                                   " values(?,?,?,?,?,?,?, dateadd(yy,50,getdate()))",
-                                   max1, account, pswd, name, telephone, email, invit)
-                    max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()
+                    max0 = cursor.execute("select * from users where u_invtnum = ?", invit).fetchone()
                     if max0:
-                        cursor.execute("delete from users where u_telephone = '00000000000' ")
-                        return 3  # 电话不符合格式
+                        return 9
                     else:
-                        max0 = cursor.execute("select * from users where u_email='11111'").fetchone()
+                        cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vip_status)"
+                                       " values(?,?,?,?,?,?,?, dateadd(yy,50,getdate()))",
+                                       max1, account, pswd, name, telephone, email, invit)
+                        max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()
                         if max0:
-                            cursor.execute("delete from users where u_email = '11111'")
-                            return 4  # 邮箱不符合格式
+                            cursor.execute("delete from users where u_telephone = '00000000000' ")
+                            return 3  # 电话不符合格式
                         else:
-                            cursor.commit()
-                            return 2  # 注册成功
+                            max0 = cursor.execute("select * from users where u_email='11111'").fetchone()
+                            if max0:
+                                cursor.execute("delete from users where u_email = '11111'")
+                                return 4  # 邮箱不符合格式
+                            else:
+                                cursor.commit()
+                                return 2  # 注册成功
                 else:
                     return 1  # 邀请码不存在
             else:
@@ -669,14 +673,14 @@ class Database:
                                          bid).fetchone()
                     if row:
                         cursor.execute("update author_book set author_name = ? where book_id = ? "
-                                       "and at = 't'", option[2])
+                                       "and at = 't'", option[2], bid)
                     else:
                         max0 = cursor.execute("select max(ab_id) as m from author_book").fetchone()
                         if max0:
                             max1 = max0.m + 1
                         else:
                             max1 = 1
-                        cursor.execute("insert into author_book values(?,?,?,'t')", max1, option[2], bid)
+                        cursor.execute("insert into author_book(ab_id, author_name, book_id, at) values(?,?,?,'t')", max1, option[2], bid)
                 else:
                     row = cursor.execute("select * from author_book where book_id = ? and at = 't'",
                                          bid).fetchone()
@@ -869,3 +873,8 @@ class Database:
                 total += float(row[j].total_price)
             totals.append(total)
         return totals, classes
+
+    def u_an(self, uid):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from users where u_id = ? ", uid).fetchone()
+        return row

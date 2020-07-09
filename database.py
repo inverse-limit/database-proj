@@ -730,12 +730,26 @@ class Database:
                         else:
                             cursor.execute("update class set class1 = ? where book_id = ?", option[4], bid)
                 if option[11]:
-                    if option[12]:
-                        cursor.execute("update price set s_price = ?, discount = ? where book_id = ?", option[11], option[12], bid)
-                    else:
-                        cursor.execute("update price set s_price = ?, discount = ? where book_id = ?", option[11], option[11], bid)
-                    cursor.commit()
-                    return -1  #保存成功
+                    try:
+                        float(option[11])
+                        if float(option[11]) >= 0:
+                            if option[12]:
+                                try:
+                                    float(option[12])
+                                    if float(option[12]) >=0 and float(option[12]) <= float(option[11]):
+                                        cursor.execute("update price set s_price = ?, discount = ? where book_id = ?", option[11], option[12], bid)
+                                    else:
+                                        return 14  #会员价大于单价或会员价小于0
+                                except:
+                                    return 13  # 会员价不是浮点数
+                            else:
+                                cursor.execute("update price set s_price = ?, discount = ? where book_id = ?", option[11], option[11], bid)
+                            cursor.commit()
+                            return -1  #保存成功
+                        else:
+                            return 12  # 单价小于0
+                    except:
+                        return 11 # 单价不是浮点数
                 else:
                     return 2  # 未填写单价
             else:

@@ -680,7 +680,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
                                                QtWidgets.QMessageBox.No)
         if reply == QtWidgets.QMessageBox.Yes:
             listt = []
-            for row in range(0, 6):
+            for row in range(0, self.tableWidget.rowCount()):
                 if self.tableWidget.item(row, 0).checkState() == QtCore.Qt.Checked:
                     n = (self.page_now - 1) * 6 + row
                     infor = self.row[n]

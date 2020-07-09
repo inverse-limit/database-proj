@@ -1,5 +1,6 @@
 # 数据库类会在controller.py里初始化，然后每个action文件里的类都会有self.database属性就是controller里初始化的数据库对象
 import pyodbc
+import datetime
 
 class Database:
     def __init__(self):
@@ -25,21 +26,26 @@ class Database:
             if invit:
                 max0 = cursor.execute("select invtnum from author_book where invtnum = ?", invit).fetchone()
                 if max0:
-                    cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vip_status)"
-                                   " values(?,?,?,?,?,?,?, dateadd(yy,50,getdate()))",
-                                   max1, account, pswd, name, telephone, email, invit)
-                    max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()
+                    max0 = cursor.execute("select * from users where u_invtnum = ?", invit).fetchone()
+                    print(max0)
                     if max0:
-                        cursor.execute("delete from users where u_telephone = '00000000000' ")
-                        return 3  # 电话不符合格式
+                        return 1
                     else:
-                        max0 = cursor.execute("select * from users where u_email='11111'").fetchone()
+                        cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vip_status)"
+                                       " values(?,?,?,?,?,?,?, '9999-01-01')",
+                                       max1, account, pswd, name, telephone, email, invit)
+                        max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()
                         if max0:
-                            cursor.execute("delete from users where u_email = '11111'")
-                            return 4  # 邮箱不符合格式
+                            cursor.execute("delete from users where u_telephone = '00000000000' ")
+                            return 3  # 电话不符合格式
                         else:
-                            cursor.commit()
-                            return 2  # 注册成功
+                            max0 = cursor.execute("select * from users where u_email='11111'").fetchone()
+                            if max0:
+                                cursor.execute("delete from users where u_email = '11111'")
+                                return 4  # 邮箱不符合格式
+                            else:
+                                cursor.commit()
+                                return 2  # 注册成功
                 else:
                     return 1  # 邀请码不存在
             else:
@@ -487,16 +493,17 @@ class Database:
     def manage_on_off_de_book(self, blist, sta):
         cursor = self.cnxn.cursor()
         n = len(blist)
-        if sta == 'down':
-            stat = 'off'
-        if sta == 'up':
-            stat = 'on'
-        for i in range(0, n):
-            cursor.execute("update book set on_sale = ? where book_id = ?", stat, blist[i])
-            cursor.commit()
         if sta == 'delete':
             for i in range(0, n):
                 cursor.execute("delete from book where book_id = ?", blist[i])
+                cursor.commit()
+        else:
+            if sta == 'down':
+                stat = 'off'
+            if sta == 'up':
+                stat = 'on'
+            for i in range(0, n):
+                cursor.execute("update book set on_sale = ? where book_id = ?", stat, blist[i])
                 cursor.commit()
 
     def m_user_manage_search(self, option):
@@ -516,7 +523,7 @@ class Database:
         if option[5] == '会员':
             condition += "vip_status >= getdate() and "
         if option[5] == '作家用户':
-            condition += "u_invtnum != NULL and "
+            condition += "u_invtnum != 'NULL' and "
         condition += "u_re_time >= ? and u_re_time <= ? "
         variable.append(option[3])
         variable.append(option[4])
@@ -531,7 +538,8 @@ class Database:
     def m_order_manage_search(self, option):
         cursor = self.cnxn.cursor()
         select = "select * from users a inner join sell b on a.u_id = b.u_id "\
-                 "inner join sell_book c on b.sell_id = c.sell_id "
+                 "inner join sell_book c on b.sell_id = c.sell_id " \
+                 "inner join book d on c.book_id = d.book_id "
         condition = "where "
         variable = []
         if option[0]:
@@ -665,7 +673,7 @@ class Database:
                                          bid).fetchone()
                     if row:
                         cursor.execute("update author_book set author_name = ? where book_id = ? "
-                                       "and at = 't'", option[2])
+                                       "and at = 't'", option[2], bid)
                     else:
                         max0 = cursor.execute("select max(ab_id) as m from author_book").fetchone()
                         if max0:
@@ -822,3 +830,41 @@ class Database:
             return 1
         else:
             return 0
+
+    def u_an(self, uid):
+        cursor = self.cnxn.cursor()
+        row = cursor.execute("select * from users where u_id = ? ", uid).fetchone()
+        return row
+'''
+    def stat_1(self, day1, day2):
+        cursor = self.cnxn.cursor()
+        n = 0  # n是day1 和 day2差的天数
+        totals = []
+        dates = []
+        for i in range(0, n+1):
+            dates.append()  # 从day1开始第i天的日期
+                            # 如果不是字符串，row里面的参数加str()
+            total = 0
+            row = cursor("select * from sell where s_date = ?", str(dates[i])).fetchall()
+            k = len(row)
+            for j in range(0, k):
+                total += row.total_price
+            totals.append(total)
+        return [totals, dates]
+
+    def stat_2(self, day1, day2):
+        cursor = self.cnxn.cursor()
+        listt = self.home_class() #listt[0] == '...'
+        n = len[listt]
+        classes = []  # 所有大类
+        totals = []
+        for i in range(1,n):
+            classes.append(listt[i])
+            total = 0
+            row = cursor.execute("select * from sell where s_date >= ? and s_date <= ? and class1 = ?",
+                                 day1, day2, listt[i]).fetchall()
+            k = len(row)
+            for j in range (0, k):
+                total += row.total_price
+            totals.append(total)
+        return [totals, classes]'''

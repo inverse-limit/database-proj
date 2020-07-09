@@ -23,12 +23,12 @@ class view_cart_order(QtWidgets.QWidget, Ui_view_cart_order):
             self.tableWidget.setRowCount(0)
             self.row = self.database.m_cart_view_u(user_id)
             n = len(self.row)
+            a_n = self.database.u_an(user_id)
+            self.label_account.setText(a_n.u_account)
+            self.label_nickname.setText(a_n.u_nickname)
             total = 0
             for i in range(0,n):
                 self.tableWidget.insertRow(i)
-                self.label_account.setText(self.row[i].u_account)
-                self.label_nickname.setText(self.row[i].u_nickname)
-
                 if self.row[i].graph:
                     path = self.row[i].graph
                     item = self.get_image_label(path)

@@ -46,7 +46,9 @@ class user_manage(QtWidgets.QWidget, Ui_user_manage):
             item.setFlags(QtCore.Qt.ItemIsEnabled)  # 禁止修改表内元素
             self.tableWidget.setItem(i, 2, item)
 
-            if self.row[i].vip_status >= date :
+            if self.row[i].vip_status is None:
+                sta = '非会员'
+            elif self.row[i].vip_status >= date:
                 sta = '会员有效期至 ' + str(self.row[i].vip_status)
             else:
                 sta = '非会员'

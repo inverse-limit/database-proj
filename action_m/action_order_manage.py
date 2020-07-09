@@ -29,8 +29,8 @@ class order_manage(QtWidgets.QWidget, Ui_order_manage):
         [self.row, self.sell_id] = self.database.m_order_manage_search(option)
         m = len(self.row)
         n = len(self.sell_id)
-        text = ''
         for i in range(0,n):
+            text = ''
             for j in range(0,m):
                 if self.row[j].sell_id == self.sell_id[i].sell_id:
                     text += '图书 《' + self.row[j].book_name + '》 ' + str(self.row[j].number) + '本；'

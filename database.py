@@ -428,10 +428,10 @@ class Database:
             variable.append(option[1])
         if option[2]:
             if option[3]:
-                condition += "a.book_name like ? "
+                condition += "a.book_name like ? and "
                 variable.append('%' + option[2] + '%')
             if option[4]:
-                condition += "c.author_name like ? "
+                condition += "c.author_name like ? and "
                 variable.append('%' + option[2] + '%')
         if filter == '已上架':
             condition += "on_sale = 'on' and "
@@ -540,7 +540,7 @@ class Database:
                 condition += "u_nickname like ? and "
                 variable.append('%' + option[0] + '%')
         if option[5] == '非会员':
-            condition += "(vip_status < getdate() or vip_status = NULL) and "
+            condition += "(vip_status < getdate() or vip_status is NULL) and "
         if option[5] == '会员':
             condition += "vip_status >= getdate() and "
         if option[5] == '作家用户':

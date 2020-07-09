@@ -207,23 +207,21 @@ class Database:
                 condition += "a.book_name like ? and "
                 variable.append('%' + option[1] + '%')
             if option[2]:
-                condition += "c.author_name = ? and c.at = 'a' and "
-                variable.append(option[2])
+                condition += "c.author_name like ? and c.at = 'a' and "
+                variable.append('%' + option[2] + '%')
             if option[3]:
-                condition += "c.author_name = ? and c.at = 't' and "
-                variable.append(option[3])
+                condition += "c.author_name like ? and c.at = 't' and "
+                variable.append('%' + option[3] + '%')
             if option[4] != '...':
                 condition += "b.class1 = ? and "
                 variable.append(option[4])
             if option[5] != '...':
                 condition += "b.subclass = ? and "
                 variable.append(option[5])
-            if option[6]:
-                condition += "p.s_price > ? and "
-                variable.append(option[6])
-            if option[7]:
-                condition += "p.s_price < ? and "
-                variable.append(option[7])
+            condition += "p.s_price >= ? and "
+            variable.append(option[6])
+            condition += "p.s_price <= ? and "
+            variable.append(option[7])
             if option[8] == '有货':
                 condition += "reserve > 0 and "
             else:
@@ -459,23 +457,21 @@ class Database:
                 condition += "a.book_name like ? and "
                 variable.append('%' + option[1] + '%')
             if option[2]:
-                condition += "c.author_name = ? and c.at = 'a' and "
-                variable.append(option[2])
+                condition += "c.author_name like ? and c.at = 'a' and "
+                variable.append('%' + option[2] + '%')
             if option[3]:
-                condition += "c.author_name = ? and c.at = 't' and "
-                variable.append(option[3])
+                condition += "c.author_name like ? and c.at = 't' and "
+                variable.append('%' + option[3] + '%')
             if option[4] != '...':
                 condition += "b.class1 = ? and "
                 variable.append(option[4])
             if option[5] != '...':
                 condition += "b.subclass = ? and "
                 variable.append(option[5])
-            if option[6]:
-                condition += "p.s_price > ? and "
-                variable.append(option[6])
-            if option[7]:
-                condition += "p.s_price < ? and "
-                variable.append(option[7])
+            condition += "p.s_price >= ? and "
+            variable.append(option[6])
+            condition += "p.s_price <= ? and "
+            variable.append(option[7])
             if option[8] == '有货':
                 condition += "reserve > 0 and "
             else:

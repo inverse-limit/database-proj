@@ -686,7 +686,7 @@ class Database:
                 variable.append(option[13])
             if option[14]:
                 if option[14].isdigit():
-                    if int(option[14]) > 0:
+                    if int(option[14]) >= 0:
                         update += ", reserve = ? "
                         variable.append(option[14])
                 else:

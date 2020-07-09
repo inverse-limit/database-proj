@@ -322,7 +322,7 @@
         </column>
         <column>
          <property name="text">
-          <string>月销量</string>
+          <string>销量</string>
          </property>
         </column>
         <column>

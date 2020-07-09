@@ -540,7 +540,7 @@ class Database:
                 condition += "u_nickname like ? and "
                 variable.append('%' + option[0] + '%')
         if option[5] == '非会员':
-            condition += "(vip_status < getdate() or vip_status = NULL) and "
+            condition += "(vip_status < getdate() or vip_status is NULL) and "
         if option[5] == '会员':
             condition += "vip_status >= getdate() and "
         if option[5] == '作家用户':

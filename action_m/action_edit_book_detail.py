@@ -1,7 +1,9 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
+from PyQt5.QtCore import Qt, QDate
 from ui.ui_edit_book_detail import *
+import datetime
 
 
 class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
@@ -14,6 +16,7 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
         self.pushButton_cancel.clicked.connect(self.close)
         self.pushButton_upload.clicked.connect(self.upload_cover)
         self.comboBox_class1.activated[str].connect(self.get_class2)
+        self.dateEdit_pressdate.setDate(QDate.currentDate())
         self.book_id = None
 
     def put_in_class1(self):
@@ -42,7 +45,7 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
                 self.lineEdit_translator.setText(self.row[1].author_name)
             self.lineEdit_press.setText(self.row[0].press_name)
             self.lineEdit_ISBN.setText(self.row[0].book_id)
-            self.lineEdit_pressdate.setText(self.row[0].pressdate)
+            self.dateEdit_pressdate.setDate(datetime.datetime.strptime(self.row[0].pressdate, '%Y-%m-%d'))
             self.lineEdit_version.setText(str(self.row[0].versions))
             self.lineEdit_price.setText(str(self.row[0].s_price))
             self.lineEdit_vip_price.setText(str(self.row[0].discount))
@@ -79,7 +82,7 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
         option = [self.lineEdit_book_name.text(), self.lineEdit_author.text(), self.lineEdit_translator.text(),
                   self.lineEdit_press.text(), self.comboBox_class1.currentText(), self.comboBox_class2.currentText(),
                   self.lineEdit_class1.text(), self.lineEdit_class2.text(), self.lineEdit_ISBN.text(),
-                  self.lineEdit_pressdate.text(), self.lineEdit_version.text(), self.lineEdit_price.text(),
+                  str(self.dateEdit_pressdate.date().toPyDate()), self.lineEdit_version.text(), self.lineEdit_price.text(),
                   self.lineEdit_vip_price.text(), self.intro.toPlainText(), self.lineEdit_stock.text()]
         if self.book_id:
             check = self.database.update_book(self.book_id, option)

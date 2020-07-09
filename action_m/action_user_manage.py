@@ -51,7 +51,10 @@ class user_manage(QtWidgets.QWidget, Ui_user_manage):
             if self.row[i].vip_status is None:
                 sta = '非会员'
             elif self.row[i].vip_status >= date :
-                sta = '会员有效期至 ' + str(self.row[i].vip_status)
+                if str(self.row[i].vip_status) > '9990-01-01':
+                    sta = '作家用户'
+                else:
+                    sta = '会员有效期至 ' + str(self.row[i].vip_status)
             else:
                 sta = '非会员'
             item = QTableWidgetItem(sta)  # 封装内容 QTableWidgetItem(这里必须是字符串!)

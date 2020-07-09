@@ -1,6 +1,7 @@
 # 数据库类会在controller.py里初始化，然后每个action文件里的类都会有self.database属性就是controller里初始化的数据库对象
 import pyodbc
 import datetime
+import time
 
 class Database:
     def __init__(self):
@@ -31,7 +32,7 @@ class Database:
                         return 9
                     else:
                         cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vip_status)"
-                                       " values(?,?,?,?,?,?,?, dateadd(yy,50,getdate()))",
+                                       " values(?,?,?,?,?,?,?, '9999-01-01')",
                                        max1, account, pswd, name, telephone, email, invit)
                         max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()
                         if max0:
@@ -48,9 +49,9 @@ class Database:
                 else:
                     return 1  # 邀请码不存在
             else:
-                cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum)"
-                               " values(?,?,?,?,?,?,?)",
-                               max1, account, pswd, name, telephone, email, invit)
+                cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email)"
+                               " values(?,?,?,?,?,?)",
+                               max1, account, pswd, name, telephone, email)
                 max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()
                 if max0:
                     cursor.execute("delete from users where u_telephone = '00000000000' ")
@@ -89,6 +90,8 @@ class Database:
                              account, pswd).fetchone()
         if row:
             data[5] = '会员日期至' + str(row.vip_status)
+            if str(row.vip_status) > '9990-01-01':
+                data[5] = '作家用户'
         else:
             data[5] = '非会员'
         return data
@@ -523,7 +526,7 @@ class Database:
         if option[5] == '会员':
             condition += "vip_status >= getdate() and "
         if option[5] == '作家用户':
-            condition += "u_invtnum != NULL and "
+            condition += "u_invtnum != 'NULL' and "
         condition += "u_re_time >= ? and u_re_time <= ? "
         variable.append(option[3])
         variable.append(option[4])

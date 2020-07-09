@@ -21,6 +21,8 @@ class statistic(QWidget):
         series = QLineSeries()
         for i in range(len(category)):
             series.append(i,totals[i])
+        if len(category) == 1:
+            series.append(0, 0)
 
         return series, category
 

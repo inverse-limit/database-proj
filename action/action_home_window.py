@@ -313,7 +313,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         """
         if self.row:
             n = len(self.row)
-            print(math.ceil(n / 6))
+            # print(math.ceil(n / 6))
             if self.lineEdit_pagejump.text().isdigit():
                 if int(self.lineEdit_pagejump.text()) > 0 and int(self.lineEdit_pagejump.text()) <= math.ceil(n/6):
                     self.tableWidget.setRowCount(0)  # 使用这行代码清空当前表格

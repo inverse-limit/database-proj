@@ -49,6 +49,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         """
         TODO:和home一样
         """
+        self.comboBox_class1.clear()
         listt = self.database.home_class()
         self.comboBox_class1.addItems(listt)
 

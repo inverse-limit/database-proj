@@ -124,6 +124,7 @@ class Controller2:
         self.detail_search.close()
 
     def refresh_manage(self):
+        self.manage.put_in_data()
         self.manage.refresh_current_page()
         self.edit_book_detail.close()
 
@@ -135,6 +136,8 @@ class Controller2:
         self.order_manage = order_manage()
         self.order_manage.database = self.database
         self.order_manage.lineEdit_search.setText(self.m_user_profile.u_account.text())
+        self.order_manage.switch_order_detail.connect(self.order_detail)
+        self.order_manage.switch_stat.connect(self.show_stat)
         self.order_manage.show()
         self.order_manage.search()
 

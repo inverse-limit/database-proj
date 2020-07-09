@@ -34,8 +34,9 @@ class statistic(QWidget):
         if all_total:
             series = QPieSeries()
             for i in range(len(totals)):
-                word = (classes[i] + ' %.2f' % (totals[i]))
-                series.append(word, totals[i])
+                if totals[i]:
+                    word = (classes[i] + ' %.2f' % (totals[i]))
+                    series.append(word, totals[i])
         else:
             series = QPieSeries()
             series.append('无销售', 1)

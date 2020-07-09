@@ -428,10 +428,10 @@ class Database:
             variable.append(option[1])
         if option[2]:
             if option[3]:
-                condition += "a.book_name like ? "
+                condition += "a.book_name like ? and "
                 variable.append('%' + option[2] + '%')
             if option[4]:
-                condition += "c.author_name like ? "
+                condition += "c.author_name like ? and "
                 variable.append('%' + option[2] + '%')
         if filter == '已上架':
             condition += "on_sale = 'on' and "

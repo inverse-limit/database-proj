@@ -107,6 +107,14 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
             QtWidgets.QMessageBox.about(self, '提示', '版本号不是整数或为负！')
         if check == 10:
             QtWidgets.QMessageBox.about(self, '提示', '库存不是整数或为负！')
+        if check == 11:
+            QtWidgets.QMessageBox.about(self, '提示', '单价不是浮点数！')
+        if check == 12:
+            QtWidgets.QMessageBox.about(self, '提示', '单价小于0！')
+        if check == 13:
+            QtWidgets.QMessageBox.about(self, '提示', '会员价不是浮点数！')
+        if check == 14:
+            QtWidgets.QMessageBox.about(self, '提示', '会员价小于0或大于单价！')
         if check == -1:
             QtWidgets.QMessageBox.about(self, '提示', '保存成功！')
             self.switch_save.emit()

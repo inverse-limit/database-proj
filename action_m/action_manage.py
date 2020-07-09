@@ -140,7 +140,7 @@ class manage(QtWidgets.QMainWindow, Ui_manage):
         self.label_all_page.setText("共" + str(self.page_all) + "页")
         self.label_current_page.setText("第" + str(self.page_now) + "页")
         if self.tableWidget.rowCount() == 0:
-            QtWidgets.QMessageBox.about(self, '提示', '没有符合条件的已上架图书！')
+            QtWidgets.QMessageBox.about(self, '提示', '没有符合条件的图书！')
 
     def detail_search(self, search_option):
         """

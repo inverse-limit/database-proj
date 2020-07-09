@@ -191,8 +191,7 @@ class Database:
 
     def home_detail_search(self, option, sort):
         cursor = self.cnxn.cursor()
-        select = "select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, a.reserve, a.on_sale, p.s_price, " \
-                 "p.discount, a.mon_sell, a.graph " \
+        select = "select distinct a.book_id, p.s_price, a.mon_sell "\
                  "from book a inner join class b on a.book_id=b.book_id " \
                  "inner join author_book c on a.book_id = c.book_id " \
                  "inner join press d on a.press_id = d.press_id " \
@@ -226,8 +225,7 @@ class Database:
                 condition += "reserve > 0 and "
             else:
                 condition += "reserve = 0 and "
-            condition += "at = 'a' "
-            condition += "and on_sale = 'on' "
+            condition += " on_sale = 'on' "
             if sort == '价格升序':
                 condition += 'order by p.s_price asc'
             if sort == '价格降序':
@@ -237,7 +235,19 @@ class Database:
             if sort == '销量降序':
                 condition += 'order by a.mon_sell desc'
             row = cursor.execute(select + condition, variable).fetchall()
-            return row
+            n = len(row)
+            listt = []
+            for i in range(n):
+                 select = "select a.book_id, a.book_name, c.author_name, b.class1 as c, d.press_name, a.reserve, a.on_sale, p.s_price, " \
+                          "p.discount, a.mon_sell, a.graph " \
+                          "from book a inner join class b on a.book_id=b.book_id " \
+                          "inner join author_book c on a.book_id = c.book_id " \
+                          "inner join press d on a.press_id = d.press_id " \
+                          "inner join price p on a.book_id = p.book_id "
+                 book = cursor.execute(select + "where a.book_id = ? and at = 'a'",row[i].book_id).fetchone()
+                 listt.append(book)
+            return listt
+
 
     def book_detail_putin(self, book_id):
         cursor = self.cnxn.cursor()
@@ -441,8 +451,7 @@ class Database:
 
     def manage_detail_search(self, option, filter, sort):
         cursor = self.cnxn.cursor()
-        select = "select a.book_id, a.book_name, c.author_name, b.class1 as cl, d.press_name, a.reserve, a.on_sale, p.s_price, " \
-                 "p.discount, a.mon_sell, a.graph "\
+        select = "select distinct a.book_id, p.s_price, a.mon_sell " \
                  "from book a inner join class b on a.book_id=b.book_id " \
                  "inner join author_book c on a.book_id = c.book_id " \
                  "inner join press d on a.press_id = d.press_id " \
@@ -472,15 +481,14 @@ class Database:
             variable.append(option[6])
             condition += "p.s_price <= ? and "
             variable.append(option[7])
-            if option[8] == '有货':
-                condition += "reserve > 0 and "
-            else:
-                condition += "reserve = 0 and "
             if filter == '已上架':
                 condition += "on_sale = 'on' and "
             if filter == '未上架':
                 condition += "on_sale = 'off' and "
-            condition += "at = 'a' "
+            if option[8] == '有货':
+                condition += "reserve > 0  "
+            else:
+                condition += "reserve = 0  "
             if sort == '价格升序':
                 condition += 'order by p.s_price asc'
             if sort == '价格降序':
@@ -490,7 +498,18 @@ class Database:
             if sort == '销量降序':
                 condition += 'order by a.mon_sell desc'
             row = cursor.execute(select + condition, variable).fetchall()
-            return row
+            n = len(row)
+            listt = []
+            for i in range(n):
+                select = "select a.book_id, a.book_name, c.author_name, b.class1 as cl, d.press_name, a.reserve, a.on_sale, p.s_price, " \
+                         "p.discount, a.mon_sell, a.graph " \
+                         "from book a inner join class b on a.book_id=b.book_id " \
+                         "inner join author_book c on a.book_id = c.book_id " \
+                         "inner join press d on a.press_id = d.press_id " \
+                         "inner join price p on a.book_id = p.book_id "
+                book = cursor.execute(select + "where a.book_id = ? and at = 'a'", row[i].book_id).fetchone()
+                listt.append(book)
+            return listt
 
     def manage_on_off_de_book(self, blist, sta):
         cursor = self.cnxn.cursor()

@@ -104,7 +104,7 @@ class Ui_register_window(object):
         _translate = QtCore.QCoreApplication.translate
         register_window.setWindowTitle(_translate("register_window", "注册"))
         self.u_account_label.setText(_translate("register_window", "用户名"))
-        self.u_account.setPlaceholderText(_translate("register_window", "不超过10位的汉字、字母、数字"))
+        self.u_account.setPlaceholderText(_translate("register_window", "不超过10个字节的汉字、字母、数字"))
         self.u_pswd_label.setText(_translate("register_window", "密码"))
         self.u_pswd.setPlaceholderText(_translate("register_window", "8到10位的字母或数字"))
         self.check_pswd_label.setText(_translate("register_window", "重复密码"))
@@ -112,6 +112,6 @@ class Ui_register_window(object):
         self.u_telephone_label.setText(_translate("register_window", "电话"))
         self.u_email_label.setText(_translate("register_window", "邮箱"))
         self.invite_label.setText(_translate("register_window", "邀请码"))
-        self.invite.setPlaceholderText(_translate("register_window", "可选，用于验证平台签约作家"))
+        self.invite.setPlaceholderText(_translate("register_window", "可选，用于平台邀请的客户"))
         self.pushButton_accept.setText(_translate("register_window", "确认"))
         self.pushButton_cancel.setText(_translate("register_window", "取消"))

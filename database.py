@@ -27,9 +27,8 @@ class Database:
                 max0 = cursor.execute("select invtnum from author_book where invtnum = ?", invit).fetchone()
                 if max0:
                     max0 = cursor.execute("select * from users where u_invtnum = ?", invit).fetchone()
-                    print(max0)
                     if max0:
-                        return 1
+                        return 9
                     else:
                         cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum, vip_status)"
                                        " values(?,?,?,?,?,?,?, '9999-01-01')",
@@ -49,9 +48,9 @@ class Database:
                 else:
                     return 1  # 邀请码不存在
             else:
-                cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email,u_invtnum)"
-                               " values(?,?,?,?,?,?,?)",
-                               max1, account, pswd, name, telephone, email, invit)
+                cursor.execute("insert into users(u_id,u_account,u_pswd,u_name,u_telephone,u_email)"
+                               " values(?,?,?,?,?,?)",
+                               max1, account, pswd, name, telephone, email)
                 max0 = cursor.execute("select * from users where u_telephone='00000000000'").fetchone()
                 if max0:
                     cursor.execute("delete from users where u_telephone = '00000000000' ")
@@ -90,6 +89,8 @@ class Database:
                              account, pswd).fetchone()
         if row:
             data[5] = '会员日期至' + str(row.vip_status)
+            if str(row.vip_status) > '9990-01-01':
+                data[5] = '作家用户'
         else:
             data[5] = '非会员'
         return data
@@ -136,6 +137,7 @@ class Database:
                 condition += "c.author_name like ? and "
                 variable.append('%' + option[2] + '%')
         condition += "at = 'a' "
+        condition += "and on_sale = 'on' "
         if sort == '价格升序':
             condition += 'order by p.s_price asc'
         if sort == '价格降序':
@@ -150,16 +152,18 @@ class Database:
 
     def user_accept(self, account, nickname, name, telephone, email, address1, address2):
         cursor = self.cnxn.cursor()
-        row = cursor.execute("update users set u_nickname = ?, u_name = ?, u_telephone = ?, u_email = ?,"
-                             "u_address1 = ?, u_address2 = ? where u_id = 1", nickname, name, telephone,
-                             email, address1, address2)
+        cursor.execute("update users set u_nickname = ?, u_name = ?, u_telephone = ?, u_email = ?,"
+                       "u_address1 = ?, u_address2 = ? where u_id = 1", nickname, name, telephone,
+                       email, address1, address2)
+        cursor.commit()
         check = cursor.execute("select * from users where u_telephone = '00000000000'").fetchone()
         if check:
             cursor.execute("update users set u_telephone = ?, u_email = ? where u_id = 1", '11111111111', '1@f.c')
             cursor.commit()
             return 0  # 电话不符合格式
         else:
-            check = cursor.execute("select * from users where u_email = '111111'").fetchone()
+            check = cursor.execute("select * from users where u_email = '11111'").fetchone()
+            cursor.commit()
             if check:
                 cursor.execute("update users set u_telephone = ?, u_email = ? where u_id = 1", '11111111111', '1@f.c')
                 cursor.commit()
@@ -225,6 +229,7 @@ class Database:
             else:
                 condition += "reserve = 0 and "
             condition += "at = 'a' "
+            condition += "and on_sale = 'on' "
             if sort == '价格升序':
                 condition += 'order by p.s_price asc'
             if sort == '价格降序':
@@ -274,14 +279,14 @@ class Database:
                                  "inner join author_book c on a.book_id = c.book_id "
                                  "inner join price p on a.book_id = p.book_id "
                                  "inner join users u on u.u_id = a.u_id "
-                                 "where u.u_account = ?", account).fetchall()
+                                 "where u.u_account = ? and at = 'a' ", account).fetchall()
         else:
             row = cursor.execute("select a.cart_id, b.book_name, c.author_name, p.discount as pr, a.number, b.book_id, b.graph "
                                  "from cart a inner join book b on a.book_id = b.book_id "
                                  "inner join author_book c on a.book_id = c.book_id "
                                  "inner join price p on a.book_id = p.book_id "
                                  "inner join users u on u.u_id = a.u_id "
-                                 "where u.u_account = ?", account).fetchall()
+                                 "where u.u_account = ? and at = 'a' ", account).fetchall()
         return row
 
     def cart_changenum(self, id, num, vip):
@@ -371,6 +376,7 @@ class Database:
             cursor.commit()
             cursor.execute("update book set reserve = reserve - ? where book_id = ?",
                            odata[i].number, odata[i].book_id)
+            cursor.commit()
 
     def add_cart(self, bid, account, vip):
         cursor = self.cnxn.cursor()
@@ -538,7 +544,7 @@ class Database:
     def m_order_manage_search(self, option):
         cursor = self.cnxn.cursor()
         select = "select * from users a inner join sell b on a.u_id = b.u_id "\
-                 "inner join sell_book c on b.sell_id = c.sell_id " \
+                 "inner join sell_book c on b.sell_id = c.sell_id "\
                  "inner join book d on c.book_id = d.book_id "
         condition = "where "
         variable = []
@@ -680,7 +686,7 @@ class Database:
                             max1 = max0.m + 1
                         else:
                             max1 = 1
-                        cursor.execute("insert into author_book values(?,?,?,'t')", max1, option[2], bid)
+                        cursor.execute("insert into author_book(ab_id, author_name, book_id, at) values(?,?,?,'t')", max1, option[2], bid)
                 else:
                     row = cursor.execute("select * from author_book where book_id = ? and at = 't'",
                                          bid).fetchone()
@@ -831,40 +837,50 @@ class Database:
         else:
             return 0
 
+    def getEveryDay(self, begin_date, end_date):
+        date_list = []
+        begin_date = datetime.datetime.strptime(begin_date, "%Y-%m-%d")
+        end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+        while begin_date <= end_date:
+            date_str = begin_date.strftime("%Y-%m-%d")
+            date_list.append(date_str)
+            begin_date += datetime.timedelta(days=1)
+        return date_list
+
+    def stat_1(self, day1, day2):
+        cursor = self.cnxn.cursor()
+        datelist = self.getEveryDay(day1, day2)
+        totals = []
+        for i in range(len(datelist)):
+            # 如果不是字符串，row里面的参数加str()
+            total = 0
+            row = cursor.execute("select * from sell where s_date = ?", str(datelist[i])).fetchall()
+            k = len(row)
+            for j in range(k):
+                total += float(row[j].total_price)
+            totals.append(total)
+        return totals, datelist
+
+    def stat_2(self, day1, day2):
+        cursor = self.cnxn.cursor()
+        listt = self.home_class()  # listt[0] == '...'
+        n = len(listt)
+        classes = []  # 所有大类
+        totals = []
+        for i in range(1, n):
+            classes.append(listt[i])
+            total = 0
+            row = cursor.execute("select * from sell s inner join sell_book sb on s.sell_id = sb.sell_id "
+                                 "inner join class c on sb.book_id = c.book_id "
+                                 "where s.s_date >= ? and s.s_date <= ? and c.class1 = ? ",
+                                 day1, day2, listt[i]).fetchall()
+            k = len(row)
+            for j in range(0, k):
+                total += float(row[j].total_price)
+            totals.append(total)
+        return totals, classes
+
     def u_an(self, uid):
         cursor = self.cnxn.cursor()
         row = cursor.execute("select * from users where u_id = ? ", uid).fetchone()
         return row
-'''
-    def stat_1(self, day1, day2):
-        cursor = self.cnxn.cursor()
-        n = 0  # n是day1 和 day2差的天数
-        totals = []
-        dates = []
-        for i in range(0, n+1):
-            dates.append()  # 从day1开始第i天的日期
-                            # 如果不是字符串，row里面的参数加str()
-            total = 0
-            row = cursor("select * from sell where s_date = ?", str(dates[i])).fetchall()
-            k = len(row)
-            for j in range(0, k):
-                total += row.total_price
-            totals.append(total)
-        return [totals, dates]
-
-    def stat_2(self, day1, day2):
-        cursor = self.cnxn.cursor()
-        listt = self.home_class() #listt[0] == '...'
-        n = len[listt]
-        classes = []  # 所有大类
-        totals = []
-        for i in range(1,n):
-            classes.append(listt[i])
-            total = 0
-            row = cursor.execute("select * from sell where s_date >= ? and s_date <= ? and class1 = ?",
-                                 day1, day2, listt[i]).fetchall()
-            k = len(row)
-            for j in range (0, k):
-                total += row.total_price
-            totals.append(total)
-        return [totals, classes]'''

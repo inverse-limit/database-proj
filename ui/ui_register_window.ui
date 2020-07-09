@@ -32,7 +32,7 @@
         <string/>
        </property>
        <property name="placeholderText">
-        <string>不超过10位的汉字、字母、数字</string>
+        <string>不超过10个字节的汉字、字母、数字</string>
        </property>
       </widget>
      </item>
@@ -143,7 +143,7 @@
         <string/>
        </property>
        <property name="placeholderText">
-        <string>可选，用于验证平台签约作家</string>
+        <string>可选，用于平台邀请的客户</string>
        </property>
       </widget>
      </item>

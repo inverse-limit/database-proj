@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from ui.ui_user_manage import *
 from PyQt5.QtWidgets import QTableWidgetItem
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDate
 import time
 
 
@@ -13,8 +13,10 @@ class user_manage(QtWidgets.QWidget, Ui_user_manage):
     def __init__(self, parent=None):
         super(user_manage, self).__init__(parent)
         self.setupUi(self)
-        self.comboBox_vip_status.addItems(['非会员','会员','作家用户'])
+        self.comboBox_vip_status.addItems(['全部','非会员','会员','作家用户'])
         self.pushButton_search.clicked.connect(self.search)
+        self.dateEdit_date1.setDate(QDate.currentDate())
+        self.dateEdit_date2.setDate(QDate.currentDate())
 
     def search(self):
         """
@@ -48,8 +50,11 @@ class user_manage(QtWidgets.QWidget, Ui_user_manage):
 
             if self.row[i].vip_status is None:
                 sta = '非会员'
-            elif self.row[i].vip_status >= date:
-                sta = '会员有效期至 ' + str(self.row[i].vip_status)
+            elif self.row[i].vip_status >= date :
+                if str(self.row[i].vip_status) > '9990-01-01':
+                    sta = '作家用户'
+                else:
+                    sta = '会员有效期至 ' + str(self.row[i].vip_status)
             else:
                 sta = '非会员'
             item = QTableWidgetItem(sta)  # 封装内容 QTableWidgetItem(这里必须是字符串!)

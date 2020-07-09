@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from PyQt5.QtWidgets import QTableWidgetItem
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDate
 from ui.ui_order_manage import *
 
 
@@ -16,6 +16,8 @@ class order_manage(QtWidgets.QWidget, Ui_order_manage):
         self.pushButton_search.clicked.connect(self.search)
         self.pushButton_stat.clicked.connect(self.stat)
         self.order_id = 'order_id'  # 测试
+        self.dateEdit_date1.setDate(QDate.currentDate())
+        self.dateEdit_date2.setDate(QDate.currentDate())
 
     def search(self):
         """
@@ -76,5 +78,5 @@ class order_manage(QtWidgets.QWidget, Ui_order_manage):
         """
         TODO:看一下action_stat界面里的函数，把那边需要的数据存到self.data里，它会自动传到action_stat里
         """
-        self.data = None
+        self.data = (str(self.dateEdit_date1.date().toPyDate()), str(self.dateEdit_date2.date().toPyDate()))
         self.switch_stat.emit()

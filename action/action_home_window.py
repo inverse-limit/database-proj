@@ -36,6 +36,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         self.user_data = 1  # 用户信息，这里改没有用处，它是从login和edit_user_profile传过来的
         self.search_option = None  # 查询条件
         self.cart_content = None  # 购物车信息
+        self.pushButton_contact.hide()
 
     def put_in_data(self):
         """
@@ -312,7 +313,7 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
         """
         if self.row:
             n = len(self.row)
-            print(math.ceil(n / 6))
+            # print(math.ceil(n / 6))
             if self.lineEdit_pagejump.text().isdigit():
                 if int(self.lineEdit_pagejump.text()) > 0 and int(self.lineEdit_pagejump.text()) <= math.ceil(n/6):
                     self.tableWidget.setRowCount(0)  # 使用这行代码清空当前表格

@@ -105,7 +105,7 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
             QtWidgets.QMessageBox.about(self, '提示', 'ISBN已存在！')
         if check == -1:
             QtWidgets.QMessageBox.about(self, '提示', '保存成功！')
-        self.switch_save.emit()
+            self.switch_save.emit()
 
     def upload_cover(self):
         img = QtWidgets.QFileDialog.getOpenFileName(self, '打开文件', './', '图像文件 (*.jpg *.png)')[0]  # 选取文件 返回文件路径

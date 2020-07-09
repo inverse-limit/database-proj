@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QLineEdit
 from PyQt5.QtWidgets import QTableWidgetItem
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QDate
 from ui.ui_user_order import *
 
 
@@ -14,6 +14,8 @@ class user_order(QtWidgets.QWidget, Ui_user_order):
         self.setupUi(self)
         self.pushButton_search.clicked.connect(self.search)
         self.order_id = None
+        self.dateEdit_date1.setDate(QDate.currentDate())
+        self.dateEdit_date2.setDate(QDate.currentDate())
 
     def put_in_data(self, user_data):
         """

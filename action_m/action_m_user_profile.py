@@ -23,8 +23,12 @@ class m_user_profile(QtWidgets.QWidget, Ui_m_user_profile):
         row = self.database.m_user_profile(user_id)
         self.user_id = user_id
         date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        if row.vip_status >= date:
+        if row.vip_status is None:
+            sta = '非会员'
+        elif row.vip_status >= date:
             sta = '会员有效期至 ' + str(row.vip_status)
+            if str(row.vip_status) > '9990-01-01':
+                sta = '作家用户'
         else:
             sta = '非会员'
         self.u_account.setText(row.u_account)

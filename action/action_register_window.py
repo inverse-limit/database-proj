@@ -31,6 +31,8 @@ class register_window(QDialog, Ui_register_window):
                                                 self.check_pswd.text())
         if check == 0:
             QtWidgets.QMessageBox.about(self, '提示', '用户名已存在！')
+        if check == 9:
+            QtWidgets.QMessageBox.about(self, '提示', '邀请码已被使用！')
         if check == 6:
             QtWidgets.QMessageBox.about(self, '提示', '用户名过长！')
         if check == 5:

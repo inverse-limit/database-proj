@@ -675,13 +675,22 @@ class Database:
                 return 5  # 未填写出版日期
             if option[10] is None:
                 return 6  # 未填写版本号
+            if option[10].isdigit():
+                if int(option[10]) < 1:
+                    return 9
+            else:
+                return 9
             variable = [option[0], press_id, option[9], option[10]]
             if option[13]:
                 update += ", intro = ? "
                 variable.append(option[13])
             if option[14]:
-                update += ", reserve = ? "
-                variable.append(option[14])
+                if option[14].isdigit():
+                    if int(option[14]) >= 0:
+                        update += ", reserve = ? "
+                        variable.append(option[14])
+                else:
+                    return 10
             else:
                 update += ", reserve = 0 "
             variable.append(bid)
@@ -706,8 +715,7 @@ class Database:
                     row = cursor.execute("select * from author_book where book_id = ? and at = 't'",
                                          bid).fetchone()
                     if row:
-                        cursor.execute("delete from author_book where author_name = ? and book_id = ? "
-                                       "and at = 't'", option[2])
+                        cursor.execute("delete from author_book where ab_id = ? ", row.ab_id)
                 if option[6]:
                     if option[7]:
                         cursor.execute("update class set class1 = ?, subclass = ? where book_id = ?", option[6], option[7], bid)

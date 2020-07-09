@@ -105,7 +105,11 @@ class edit_book_detail(QtWidgets.QWidget, Ui_edit_book_detail):
         if check == 7:
             QtWidgets.QMessageBox.about(self, '提示', 'ISBN已存在！')
         if check == 8:
-            QtWidgets.QMessageBox.about(self, '提示', 'ISBN已存在！')
+            QtWidgets.QMessageBox.about(self, '提示', '请为书籍创建分类！')
+        if check == 9:
+            QtWidgets.QMessageBox.about(self, '提示', '版本号不是整数或为负！')
+        if check == 10:
+            QtWidgets.QMessageBox.about(self, '提示', '库存不是整数或为负！')
         if check == -1:
             QtWidgets.QMessageBox.about(self, '提示', '保存成功！')
             self.switch_save.emit()

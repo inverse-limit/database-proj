@@ -46,7 +46,11 @@ class user_profile(QtWidgets.QWidget, Ui_user_profile):
         self.switch_edit_profile.emit()
 
     def buy_vip(self):
-        self.switch_buy_vip.emit()
+        print(self.vip_status)
+        if self.vip_status.text() == '作家用户':
+            QtWidgets.QMessageBox.about(self, '提示', '您已是作家用户，无需开通会员！')
+        else:
+            self.switch_buy_vip.emit()
 
     def logout(self):
         reply = QtWidgets.QMessageBox.question(self, '退出登录', '确认要退出登录吗',

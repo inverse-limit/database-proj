@@ -135,6 +135,8 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
             self.tableWidget.setItem(i, 7, item7)
         self.label_all_page.setText("共" + str(math.ceil(n/6)) + "页")
         self.label_current_page.setText("第" + str(self.page_now) + "页")
+        if self.tableWidget.rowCount() == 0:
+            QtWidgets.QMessageBox.about(self, '提示', '没有符合条件的图书！')
 
     def detail_search(self, search_option):
         """
@@ -187,6 +189,8 @@ class home_window(QtWidgets.QMainWindow, Ui_home_window):
             self.tableWidget.setItem(i, 7, item7)
         self.label_all_page.setText("共" + str(math.ceil(n/6)) + "页")
         self.label_current_page.setText("第" + str(self.page_now) + "页")
+        if self.tableWidget.rowCount() == 0:
+            QtWidgets.QMessageBox.about(self, '提示', '没有符合条件的图书！')
 
     def refresh_sort(self, text):
         """

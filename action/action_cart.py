@@ -290,6 +290,8 @@ class confirm_order(QDialog, Ui_confirm_order):
         name = self.database.isorder(self.order_content)
         if name:
             QtWidgets.QMessageBox.about(self, '提示', '书籍 《' + name + '》 没有足够的库存！')
+        elif not self.textBrowser.toPlainText():
+            QtWidgets.QMessageBox.about(self, '提示', '请输入地址！')
         else:
             self.database.order_ok(self.user_data, self.order_content)
             QtWidgets.QMessageBox.information(self, '确认订单', '支付成功')

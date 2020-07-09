@@ -20,7 +20,6 @@ class book_detail(QtWidgets.QWidget, Ui_book_detail):
              填到界面里，并且存到self.book_id里
         """
         infor = self.database.book_detail_putin(book_id)
-        print(infor)
         self.book_name.setText(infor[0])
         self.author.setText(infor[1])
         self.press.setText(infor[2])

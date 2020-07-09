@@ -110,6 +110,7 @@ class Ui_register_window(object):
         self.check_pswd_label.setText(_translate("register_window", "重复密码"))
         self.u_name_label.setText(_translate("register_window", "姓名"))
         self.u_telephone_label.setText(_translate("register_window", "电话"))
+        self.u_telephone.setPlaceholderText(_translate("register_window", "11位数字"))
         self.u_email_label.setText(_translate("register_window", "邮箱"))
         self.invite_label.setText(_translate("register_window", "邀请码"))
         self.invite.setPlaceholderText(_translate("register_window", "可选，用于平台邀请的客户"))

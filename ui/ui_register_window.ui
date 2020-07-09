@@ -110,7 +110,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="u_telephone"/>
+      <widget class="QLineEdit" name="u_telephone">
+       <property name="placeholderText">
+        <string>11位数字</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

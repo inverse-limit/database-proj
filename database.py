@@ -534,8 +534,8 @@ class Database:
         variable = []
         if option[0]:
             if option[1]:
-                condition += "u_account = ? and "
-                variable.append(option[0])
+                condition += "u_account like ? and "
+                variable.append('%' + option[0] + '%')
             if option[2]:
                 condition += "u_nickname like ? and "
                 variable.append('%' + option[0] + '%')
@@ -565,11 +565,11 @@ class Database:
         variable = []
         if option[0]:
             if option[1]:
-                condition += "u_account = ? and "
-                variable.append(option[0])
+                condition += "u_account like ? and "
+                variable.append('%' + option[0] + '%')
             if option[2]:
-                condition += "u_nickname = ? and "
-                variable.append(option[0])
+                condition += "u_nickname like ? and "
+                variable.append('%' + option[0] + '%')
         condition += "s_date >= ? and s_date <= ? order by b.sell_id"
         variable.append(option[3])
         variable.append(option[4])

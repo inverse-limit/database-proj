@@ -375,6 +375,7 @@ class Database:
             cursor.commit()
             cursor.execute("update book set reserve = reserve - ? where book_id = ?",
                            odata[i].number, odata[i].book_id)
+            cursor.commit()
 
     def add_cart(self, bid, account, vip):
         cursor = self.cnxn.cursor()
